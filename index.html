@@ -40,6 +40,7 @@
   --blue-50:#E9F0FE;
   --on-blue:#FFFFFF;
   --ok:#0E7C4A;
+  --glass:rgb(255 255 255 / .93);
 
   --r:6px;
   --r-lg:10px;
@@ -81,6 +82,7 @@
     --blue-50:#132039;
     --on-blue:#06101F;
     --ok:#3CBE83;
+    --glass:rgb(17 26 40 / .9);
     --shadow:0 1px 2px rgb(0 0 0 / .5), 0 10px 28px -16px rgb(0 0 0 / .7);
     --shadow-lg:0 2px 4px rgb(0 0 0 / .5), 0 18px 44px -20px rgb(0 0 0 / .8);
   }
@@ -104,6 +106,7 @@
   --blue-50:#132039;
   --on-blue:#06101F;
   --ok:#3CBE83;
+  --glass:rgb(17 26 40 / .9);
   --shadow:0 1px 2px rgb(0 0 0 / .5), 0 10px 28px -16px rgb(0 0 0 / .7);
   --shadow-lg:0 2px 4px rgb(0 0 0 / .5), 0 18px 44px -20px rgb(0 0 0 / .8);
 }
@@ -272,6 +275,7 @@ section{padding-block:var(--sec)}
    hero
    ========================================================== */
 .hero{
+  overflow:hidden;
   background:
     linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 100%);
   border-bottom:1px solid var(--line);
@@ -289,34 +293,49 @@ section{padding-block:var(--sec)}
 .hero__points li{display:flex;align-items:center;gap:8px;font-size:var(--fs-sm);color:var(--muted)}
 .hero__points .icon{width:17px;height:17px;color:var(--ok)}
 
-.quotecard{
-  background:var(--surface);border:1px solid var(--line);
-  border-radius:var(--r-lg);box-shadow:var(--shadow-lg);overflow:hidden;
+/* hero composition: a portrait framed by floating status cards */
+.heroart{position:relative;width:100%;max-width:520px;margin-inline:auto;--out:8%}
+.heroart__frame{
+  position:relative;aspect-ratio:4/5;border-radius:18px;overflow:hidden;
+  background:linear-gradient(160deg,var(--navy-2),var(--navy));
+  box-shadow:var(--shadow-lg);
 }
-.quotecard__head{
-  background:var(--navy);color:var(--on-navy-strong);
-  padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px;
+.heroart__frame img{width:100%;height:100%;object-fit:cover}
+
+.floatcard{
+  position:absolute;z-index:2;
+  background:var(--glass);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  border:1px solid var(--line);border-radius:13px;
+  padding:clamp(11px,2.4vw,15px) clamp(12px,2.6vw,17px);
+  box-shadow:0 3px 10px rgb(10 20 40 / .1), 0 20px 44px -20px rgb(10 20 40 / .42);
 }
-.quotecard__head h2{font-size:1rem;font-weight:600;letter-spacing:-.01em}
-.quotecard__head span{
-  font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--on-navy);
-  border:1px solid var(--navy-line);padding:.3em .55em;border-radius:3px;
+.floatcard b{display:block;font-size:clamp(.8rem,.72rem + .3vw,.94rem);font-weight:600;line-height:1.28;letter-spacing:-.008em}
+.floatcard p{font-size:clamp(.72rem,.66rem + .22vw,.82rem);color:var(--muted);line-height:1.4;margin-top:3px}
+.floatcard__row{display:flex;gap:11px;align-items:flex-start}
+.floatcard__tile{
+  width:clamp(30px,6vw,38px);height:clamp(30px,6vw,38px);flex:0 0 auto;
+  border-radius:9px;background:var(--blue);color:#fff;display:grid;place-items:center;
 }
-.quotecard__body{padding:6px 22px 20px}
-.qrow{
-  display:flex;justify-content:space-between;align-items:baseline;gap:16px;
-  padding:13px 0;border-bottom:1px solid var(--line);font-size:var(--fs-sm);
+.floatcard__tile .icon{width:52%;height:52%}
+
+.fc-pay{top:2%;right:calc(-1 * var(--out));width:min(68%,300px)}
+.fc-form{left:calc(-1 * var(--out));top:41%;width:min(60%,250px)}
+.fc-bank{right:calc(-1 * var(--out) / 2);bottom:9%;width:min(64%,268px)}
+
+.flags{display:flex;gap:7px;margin-top:9px}
+.flag{width:25px;height:17px;border-radius:2px;overflow:hidden;box-shadow:0 0 0 1px rgb(10 20 40 / .12)}
+.banktiles{display:flex;gap:7px;margin-top:10px}
+.banktile{
+  width:clamp(26px,5.4vw,31px);height:clamp(26px,5.4vw,31px);flex:0 0 auto;
+  border-radius:8px;background:var(--surface-2);border:1px solid var(--line);
+  color:var(--muted);display:grid;place-items:center;
 }
-.qrow:last-of-type{border-bottom:0}
-.qrow dt{color:var(--muted)}
-.qrow dd{margin:0;font-weight:600;text-align:right}
-.quotecard__foot{
-  border-top:1px solid var(--line);background:var(--surface-2);
-  padding:16px 22px;display:flex;align-items:center;gap:12px;
-}
-.quotecard__foot .icon{color:var(--blue)}
-.quotecard__foot p{font-size:var(--fs-xs);color:var(--muted)}
+.banktile .icon{width:56%;height:56%}
+
+@media (max-width:1100px){.heroart{--out:4%}}
+@media (max-width:980px){.heroart{max-width:460px}}
+@media (max-width:560px){.heroart{--out:0%}}
 
 /* ==========================================================
    trust strip
@@ -557,7 +576,22 @@ footer.site .wrap{padding-block:clamp(44px,5vw,72px) 26px}
 <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6v20h12V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></symbol>
 <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 20v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="3.2"/><path d="M22 20v-2a4 4 0 00-3-3.9"/></symbol>
 <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></symbol>
+<symbol id="i-card" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2.5"/><path d="M2 10h20M6 15h4"/></symbol>
+<symbol id="i-wallet" viewBox="0 0 24 24"><path d="M3 7a2 2 0 012-2h13v4"/><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2v-7H5a2 2 0 01-2-2z"/><path d="M17 13h.01"/></symbol>
 <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 119.5 4a6.8 6.8 0 0010.5 10.5z"/></symbol>
+<symbol id="f-us" viewBox="0 0 24 16">
+  <rect width="24" height="16" fill="#FFFFFF"/>
+  <g fill="#B22234"><rect width="24" height="1.23"/><rect y="2.46" width="24" height="1.23"/><rect y="4.92" width="24" height="1.23"/><rect y="7.38" width="24" height="1.23"/><rect y="9.85" width="24" height="1.23"/><rect y="12.31" width="24" height="1.23"/><rect y="14.77" width="24" height="1.23"/></g>
+  <rect width="10.2" height="8.6" fill="#3C3B6E"/>
+  <g fill="#FFFFFF"><circle cx="1.9" cy="1.6" r=".62"/><circle cx="5.1" cy="1.6" r=".62"/><circle cx="8.3" cy="1.6" r=".62"/><circle cx="3.5" cy="3.4" r=".62"/><circle cx="6.7" cy="3.4" r=".62"/><circle cx="1.9" cy="5.2" r=".62"/><circle cx="5.1" cy="5.2" r=".62"/><circle cx="8.3" cy="5.2" r=".62"/><circle cx="3.5" cy="7" r=".62"/><circle cx="6.7" cy="7" r=".62"/></g>
+</symbol>
+<symbol id="f-uk" viewBox="0 0 24 16">
+  <rect width="24" height="16" fill="#012169"/>
+  <path d="M0 0L24 16M24 0L0 16" stroke="#FFFFFF" stroke-width="3.4"/>
+  <path d="M0 0L24 16M24 0L0 16" stroke="#C8102E" stroke-width="2"/>
+  <path d="M12 0V16M0 8H24" stroke="#FFFFFF" stroke-width="5.4"/>
+  <path d="M12 0V16M0 8H24" stroke="#C8102E" stroke-width="3.2"/>
+</symbol>
 </defs></svg>
 
 <div class="utility">
@@ -613,6 +647,7 @@ footer.site .wrap{padding-block:clamp(44px,5vw,72px) 26px}
         <ul class="hero__points">
           <li><svg class="icon"><use href="#i-check"/></svg> Non-resident founders welcome</li>
           <li><svg class="icon"><use href="#i-check"/></svg> Fixed fees, quoted up front</li>
+          <li><svg class="icon"><use href="#i-check"/></svg> UK formed in 24 hours, US in 1&ndash;10 days</li>
           <li><svg class="icon"><use href="#i-check"/></svg> Filings tracked, not forgotten</li>
         </ul>
         <div class="hero__cta">
@@ -621,24 +656,38 @@ footer.site .wrap{padding-block:clamp(44px,5vw,72px) 26px}
         </div>
       </div>
 
-      <div class="quotecard rise" data-d="120">
-        <div class="quotecard__head">
-          <h2>Engagement summary</h2>
-          <span>UK / US</span>
+      <div class="heroart rise" data-d="120">
+        <div class="heroart__frame">
+          <img src="assets/hero.svg" width="800" height="1000" alt="A founder working at a laptop after incorporating with WEBMOSH">
         </div>
-        <div class="quotecard__body">
-          <dl>
-            <div class="qrow"><dt>Entity types</dt><dd>Ltd, LLC, C-Corp</dd></div>
-            <div class="qrow"><dt>UK incorporation</dt><dd>Same day &ndash; 24 hrs</dd></div>
-            <div class="qrow"><dt>US incorporation</dt><dd>1&ndash;10 business days</dd></div>
-            <div class="qrow"><dt>Registered office / agent</dt><dd>Included</dd></div>
-            <div class="qrow"><dt>Website &amp; hosting</dt><dd>Built, hosted, maintained</dd></div>
-            <div class="qrow"><dt>Ongoing</dt><dd>Taxes, SEO, uptime</dd></div>
-          </dl>
+
+        <div class="floatcard fc-pay">
+          <div class="floatcard__row">
+            <span class="floatcard__tile"><svg class="icon"><use href="#i-card"/></svg></span>
+            <span>
+              <b>Payment received</b>
+              <p>$4,500 from Acme Inc. settled to your business account.</p>
+            </span>
+          </div>
         </div>
-        <div class="quotecard__foot">
-          <svg class="icon"><use href="#i-shield"/></svg>
-          <p>Statutory accounts and federal returns are filed with licensed accountants in each jurisdiction.</p>
+
+        <div class="floatcard fc-form">
+          <b>US &amp; UK company formation</b>
+          <p>100% remote setup</p>
+          <div class="flags">
+            <svg class="flag" aria-label="United States"><use href="#f-us"/></svg>
+            <svg class="flag" aria-label="United Kingdom"><use href="#f-uk"/></svg>
+          </div>
+        </div>
+
+        <div class="floatcard fc-bank">
+          <b>Global business banking</b>
+          <div class="banktiles">
+            <span class="banktile"><svg class="icon"><use href="#i-globe"/></svg></span>
+            <span class="banktile"><svg class="icon"><use href="#i-wallet"/></svg></span>
+            <span class="banktile"><svg class="icon"><use href="#i-bank"/></svg></span>
+            <span class="banktile"><svg class="icon"><use href="#i-card"/></svg></span>
+          </div>
         </div>
       </div>
     </div>

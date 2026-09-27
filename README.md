@@ -42,6 +42,22 @@ These are placeholders in `index.html` — search for each string and replace it
 | Office hours | `Mon–Fri, 09:00–18:00 GMT` | contact section |
 | Uptime claim | `99.9%` | commitments band |
 | Domain | `https://webmosh.com` | `robots.txt`, `sitemap.xml` |
+| Hero photograph | `assets/hero.svg` placeholder | hero section — see below |
+
+### The hero photograph
+
+The hero is a 4:5 portrait framed by three floating cards. `assets/hero.svg` is a placeholder that says so on the image itself — replace it with a real photograph:
+
+```bash
+# drop your photo in, then point the tag at it
+cp ~/Downloads/founder.jpg assets/hero.jpg
+```
+
+Then in `index.html` change the `src` to `assets/hero.jpg` and update the `alt` text to describe the actual photograph. Crop to 4:5 (e.g. 1200×1500) and keep it under ~300 KB; the frame uses `object-fit: cover`, so anything close to portrait will fill correctly.
+
+Images are served with a 7-day revalidated cache rather than a permanent one, because these filenames are not content-hashed. If you replace a photo and want every visitor to see it immediately, give the new file a new name (`hero-2.jpg`) and update the `src` — that is the reliable way to bust a cache on a static site.
+
+**The card tiles are deliberately generic.** The "Global business banking" card and the payment card use neutral glyphs rather than the Stripe, Wise, Mercury or Revolut logos. Swap in real brand assets only if you are comfortable doing so — reproducing a company's logo can imply a partnership or endorsement you do not have, and most of those brands publish trademark guidelines covering exactly this use. The `$4,500 from Acme Inc.` line is an illustrative mock-up, in the same way the reference design uses one.
 
 **The contact form has no backend yet.** It validates in the browser, then hands the enquiry to the visitor's mail client via `mailto:`. To make it a real form, point it at a handler — Formspree, Coolify-hosted service, or your own endpoint — and replace the `window.location.href = "mailto:…"` block in the script at the bottom of `index.html`.
 
