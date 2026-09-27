@@ -536,31 +536,77 @@ section{padding-block:var(--sec);position:relative;scroll-margin-top:24px}
 }
 
 /* ==========================================================
-   comparison
+   pricing — jurisdiction switch and package cards
    ========================================================== */
-.tablecard{
-  background:var(--panel);border:1px solid var(--stroke);border-radius:var(--r-lg);overflow:hidden;
-  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+.switchwrap{display:flex;justify-content:center;margin-bottom:clamp(28px,3.4vw,44px)}
+.switch{
+  display:inline-flex;gap:4px;padding:5px;
+  border:1px solid var(--stroke);border-radius:var(--r-pill);
+  background:var(--panel);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
 }
-.tablescroll{overflow-x:auto}
-table.cmp{width:100%;min-width:740px;border-collapse:collapse;font-size:var(--fs-sm)}
-table.cmp th,table.cmp td{text-align:left;padding:16px clamp(13px,1.5vw,22px);vertical-align:top}
-table.cmp thead th{
-  font-family:"IBM Plex Mono",monospace;font-size:.7rem;font-weight:500;
-  letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
-  border-bottom:1px solid var(--stroke);white-space:nowrap;
+.switch__btn{
+  display:inline-flex;align-items:center;gap:9px;
+  font-family:inherit;font-size:var(--fs-sm);font-weight:600;color:var(--muted);
+  padding:.66em 1.25em;border:0;border-radius:var(--r-pill);background:transparent;
+  cursor:pointer;white-space:nowrap;
+  transition:color .22s var(--ease),background .22s var(--ease),box-shadow .22s var(--ease);
 }
-table.cmp thead th:nth-child(2){color:var(--ink)}
-table.cmp tbody tr{border-top:1px solid var(--stroke)}
-table.cmp tbody tr:first-child{border-top:0}
-table.cmp tbody th{font-weight:600;width:21%;color:var(--ink)}
-table.cmp td{color:var(--muted)}
-table.cmp td:first-of-type,table.cmp thead th:nth-child(2){background:var(--a-tint)}
-table.cmp td:first-of-type{color:var(--ink)}
-.cellmark{display:flex;align-items:flex-start;gap:9px}
-.cellmark .icon{width:17px;height:17px;margin-top:3px}
-.cellmark--yes .icon{color:var(--ok)}
-.cellmark--no .icon{color:var(--dim)}
+.switch__btn:hover{color:var(--ink)}
+.switch__btn[aria-selected="true"]{
+  color:#fff;background:linear-gradient(135deg,var(--a1),var(--a2));
+  box-shadow:0 6px 18px -8px var(--a-glow);
+}
+.switch__btn .flag{width:22px;height:15px;box-shadow:0 0 0 1px rgb(0 0 0 / .2)}
+@media (max-width:430px){
+  .switch__btn{padding:.6em .85em;font-size:var(--fs-xs);gap:7px}
+  .switch__btn .flag{width:18px;height:12px}
+}
+
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,1.6vw,22px);align-items:stretch}
+.plans[hidden]{display:none}
+@media (max-width:1000px){.plans{grid-template-columns:1fr;max-width:34rem;margin-inline:auto}}
+.plan{
+  position:relative;isolation:isolate;display:flex;flex-direction:column;
+  background:var(--panel);border:1px solid var(--stroke);border-radius:var(--r-lg);
+  padding:clamp(24px,2.4vw,32px);overflow:hidden;
+  transition:border-color .3s var(--ease),transform .3s var(--ease);
+}
+.plan::after{content:"";position:absolute;inset:0 0 auto;height:1px;pointer-events:none;background:linear-gradient(90deg,transparent,var(--sheen),transparent);opacity:.5}
+.plan:hover{border-color:var(--stroke-2);transform:translateY(-3px)}
+.plan--featured{border-color:transparent;background:var(--panel-2)}
+.plan--featured::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;z-index:-1;
+  background:linear-gradient(150deg,var(--a1),var(--a2));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  mask-composite:exclude;
+}
+.plan__flag{
+  position:absolute;top:0;right:clamp(20px,2.2vw,28px);
+  font-family:"IBM Plex Mono",monospace;font-size:.64rem;letter-spacing:.11em;text-transform:uppercase;
+  color:#fff;background:linear-gradient(135deg,var(--a1),var(--a2));
+  padding:.42em .8em;border-radius:0 0 8px 8px;
+}
+.plan__price{
+  display:block;font-size:clamp(2.1rem,1.5rem + 1.9vw,2.9rem);font-weight:600;
+  letter-spacing:-.045em;line-height:1;font-variant-numeric:tabular-nums;
+  background:linear-gradient(135deg,var(--a1),var(--a2));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--a1);
+}
+.plan__note{display:block;font-size:var(--fs-xs);color:var(--muted);margin-top:8px}
+.plan h3{font-size:1.18rem;margin-top:20px;letter-spacing:-.022em}
+.plan__list{display:grid;gap:11px;margin-top:20px;padding-top:20px;border-top:1px solid var(--stroke)}
+.plan__list li{display:flex;gap:10px;align-items:flex-start;font-size:var(--fs-sm);color:var(--muted)}
+.plan__list .icon{width:16px;height:16px;color:var(--ok);margin-top:4px;flex:0 0 auto}
+.plan__cta{margin-top:auto;padding-top:26px;display:flex}
+.plan__cta .btn{width:100%}
+.plans__foot{
+  display:flex;gap:11px;align-items:flex-start;
+  margin-top:clamp(22px,2.6vw,34px);color:var(--muted);font-size:var(--fs-xs);
+  max-width:62ch;margin-inline:auto;
+}
+.plans__foot .icon{width:15px;height:15px;margin-top:2px;color:var(--a1);flex:0 0 auto}
 
 /* ==========================================================
    faq
@@ -1036,55 +1082,145 @@ footer.site .wrap{padding-block:clamp(46px,5vw,72px) 26px}
     </div>
   </section>
 
-  <!-- ════════ COMPARE ════════ -->
-  <section id="compare">
+  <!-- ════════ PRICING ════════ -->
+  <section id="pricing">
     <div class="wrap">
-      <div class="sec-head">
-        <span class="eyebrow">The difference</span>
-        <h2>Same money. A very different year.</h2>
-        <p>Three ways to get a company online and trading. Only one of them leaves a single firm answerable for the result.</p>
+      <div class="sec-head center">
+        <span class="eyebrow">Packages</span>
+        <h2>Formation packages, priced up front</h2>
+        <p>Pick the jurisdiction, then the package. Every figure below is fixed and quoted before any work begins.</p>
       </div>
-      <div class="tablecard rise">
-        <div class="tablescroll">
-          <table class="cmp">
-            <thead>
-              <tr><th scope="col">&nbsp;</th><th scope="col">WEBMOSH</th><th scope="col">Do it yourself</th><th scope="col">Five separate vendors</th></tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">Accountability</th>
-                <td><span class="cellmark cellmark--yes"><svg class="icon"><use href="#i-check"/></svg>One firm answerable for formation, site and filings</span></td>
-                <td><span class="cellmark cellmark--no"><svg class="icon"><use href="#i-dash"/></svg>You are the only one accountable</span></td>
-                <td><span class="cellmark cellmark--no"><svg class="icon"><use href="#i-dash"/></svg>Each supplier blames the other two</span></td>
-              </tr>
-              <tr>
-                <th scope="row">Deadlines</th>
-                <td><span class="cellmark cellmark--yes"><svg class="icon"><use href="#i-check"/></svg>Tracked on a shared calendar and filed for you</span></td>
-                <td><span class="cellmark cellmark--no"><svg class="icon"><use href="#i-dash"/></svg>Discovered after the penalty notice</span></td>
-                <td><span class="cellmark cellmark--no"><svg class="icon"><use href="#i-dash"/></svg>Assumed to be someone else&rsquo;s job</span></td>
-              </tr>
-              <tr>
-                <th scope="row">Website ownership</th>
-                <td><span class="cellmark cellmark--yes"><svg class="icon"><use href="#i-check"/></svg>Yours: logins, documentation, exportable, no lock&#8209;in</span></td>
-                <td><span class="cellmark cellmark--no"><svg class="icon"><use href="#i-dash"/></svg>Built on a template you cannot extend</span></td>
-                <td><span class="cellmark cellmark--no"><svg class="icon"><use href="#i-dash"/></svg>Hostage to whoever holds the hosting</span></td>
-              </tr>
-              <tr>
-                <th scope="row">What you pay</th>
-                <td><span class="cellmark cellmark--yes"><svg class="icon"><use href="#i-check"/></svg>One monthly figure, quoted before we start</span></td>
-                <td><span class="cellmark cellmark--no"><svg class="icon"><use href="#i-dash"/></svg>Cheap until the first mistake</span></td>
-                <td><span class="cellmark cellmark--no"><svg class="icon"><use href="#i-dash"/></svg>Five invoices, five renewal surprises</span></td>
-              </tr>
-              <tr>
-                <th scope="row">Your time</th>
-                <td><span class="cellmark cellmark--yes"><svg class="icon"><use href="#i-check"/></svg>One call, one contact, one report</span></td>
-                <td><span class="cellmark cellmark--no"><svg class="icon"><use href="#i-dash"/></svg>Your evenings and weekends</span></td>
-                <td><span class="cellmark cellmark--no"><svg class="icon"><use href="#i-dash"/></svg>Coordinating suppliers instead of selling</span></td>
-              </tr>
-            </tbody>
-          </table>
+
+      <div class="switchwrap">
+        <div class="switch" role="tablist" aria-label="Choose a jurisdiction">
+          <button class="switch__btn" type="button" role="tab" id="tab-us" aria-controls="panel-us" aria-selected="true">
+            <svg class="flag" aria-hidden="true"><use href="#f-us"/></svg>United States
+          </button>
+          <button class="switch__btn" type="button" role="tab" id="tab-uk" aria-controls="panel-uk" aria-selected="false" tabindex="-1">
+            <svg class="flag" aria-hidden="true"><use href="#f-uk"/></svg>United Kingdom
+          </button>
         </div>
       </div>
+
+      <div class="plans" id="panel-us" role="tabpanel" aria-labelledby="tab-us">
+        <article class="plan rise">
+          <span class="plan__price">$149</span>
+          <span class="plan__note">+ state fee</span>
+          <h3>Starter Package</h3>
+          <ul class="plan__list">
+            <li><svg class="icon"><use href="#i-check"/></svg>Incorporation US LLC</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Articles of Organization</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Registered Agent (1 year)</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Business address with mail forwarding (1 year)</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>EIN (Employer Identification Number)</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Tax and annual compliance renewal consultancy</li>
+          </ul>
+          <div class="plan__cta"><a href="#contact" class="btn btn--outline">Get started <svg class="icon"><use href="#i-arrow"/></svg></a></div>
+        </article>
+        <article class="plan rise">
+          <span class="plan__price">$299</span>
+          <span class="plan__note">+ state fee</span>
+          <h3>Growth Package</h3>
+          <ul class="plan__list">
+            <li><svg class="icon"><use href="#i-check"/></svg>Incorporation US LLC</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Articles of Organization</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Registered Agent (1 year)</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Business address with mail forwarding (1 year)</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>EIN (Employer Identification Number)</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Tax and annual compliance renewal consultancy</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Business bank account application</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Card payment gateway (Stripe) application</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Debit card</li>
+          </ul>
+          <div class="plan__cta"><a href="#contact" class="btn btn--outline">Get started <svg class="icon"><use href="#i-arrow"/></svg></a></div>
+        </article>
+        <article class="plan plan--featured rise">
+          <span class="plan__flag">Most complete</span>
+          <span class="plan__price">$650</span>
+          <span class="plan__note">+ state fee</span>
+          <h3>Premium Package</h3>
+          <ul class="plan__list">
+            <li><svg class="icon"><use href="#i-check"/></svg>Incorporation US LLC</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Articles of Organization</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Registered Agent (1 year)</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Business address with mail forwarding (1 year)</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>EIN (Employer Identification Number)</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>ITIN application (Individual Taxpayer Identification Number)</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Tax and annual compliance renewal consultancy</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Business bank account application</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Card payment gateway (Stripe) application</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Debit card</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Business consultancy</li>
+          </ul>
+          <div class="plan__cta"><a href="#contact" class="btn btn--primary">Get started <svg class="icon"><use href="#i-arrow"/></svg></a></div>
+        </article>
+      </div>
+
+      <div class="plans" id="panel-uk" role="tabpanel" aria-labelledby="tab-uk" hidden>
+        <article class="plan rise">
+          <span class="plan__price">$239</span>
+          <span class="plan__note">+ Wise verification fee</span>
+          <h3>Basic Package</h3>
+          <ul class="plan__list">
+            <li><svg class="icon"><use href="#i-check"/></svg>Incorporation UK LTD</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>UK registered office address (1 year)</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Directors service address (1 year)</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>PSC register with Companies House</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Soft copy of incorporation certificate</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Web authentication code</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>UTR number</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>UK Wise / Payoneer business account</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Premium tax consultation</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Digital identity verification (required)</li>
+          </ul>
+          <div class="plan__cta"><a href="#contact" class="btn btn--outline">Get started <svg class="icon"><use href="#i-arrow"/></svg></a></div>
+        </article>
+        <article class="plan rise">
+          <span class="plan__price">$299</span>
+          <span class="plan__note">+ Wise verification fee</span>
+          <h3>Standard Package</h3>
+          <ul class="plan__list">
+            <li><svg class="icon"><use href="#i-check"/></svg>Incorporation UK LTD</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>UK registered office address (1 year)</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Directors service address (1 year)</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>PSC register with Companies House</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Soft copy of incorporation certificate</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Web authentication code</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>UTR number</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>UK Wise / Payoneer business account</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Business Stripe account guidance</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Premium tax consultation</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Digital identity verification (required)</li>
+          </ul>
+          <div class="plan__cta"><a href="#contact" class="btn btn--outline">Get started <svg class="icon"><use href="#i-arrow"/></svg></a></div>
+        </article>
+        <article class="plan plan--featured rise">
+          <span class="plan__flag">Most complete</span>
+          <span class="plan__price">$329</span>
+          <span class="plan__note">+ Wise verification fee</span>
+          <h3>Premium Package</h3>
+          <ul class="plan__list">
+            <li><svg class="icon"><use href="#i-check"/></svg>Incorporation UK LTD</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>UK registered office address (1 year)</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Directors service address (1 year)</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>PSC register with Companies House</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Soft copy of incorporation certificate</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Web authentication code</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>UTR number</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>UK Wise / Payoneer business account</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Business PayPal account guidance</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Business Stripe account guidance</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Premium tax consultation</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Digital identity verification (required)</li>
+          </ul>
+          <div class="plan__cta"><a href="#contact" class="btn btn--primary">Get started <svg class="icon"><use href="#i-arrow"/></svg></a></div>
+        </article>
+      </div>
+
+      <p class="plans__foot">
+        <svg class="icon"><use href="#i-target"/></svg>
+        <span>Prices are in USD and cover our work. Government charges &mdash; US state filing fees and the UK Wise verification fee &mdash; are billed separately at cost, and we confirm the exact figure for your state before you pay.</span>
+      </p>
     </div>
   </section>
 
@@ -1257,7 +1393,7 @@ footer.site .wrap{padding-block:clamp(46px,5vw,72px) 26px}
         <ul>
           <li><a href="#approach">Why WEBMOSH</a></li>
           <li><a href="#process">How we work</a></li>
-          <li><a href="#compare">Compare</a></li>
+          <li><a href="#pricing">Packages &amp; pricing</a></li>
           <li><a href="#faq">FAQ</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
@@ -1392,6 +1528,37 @@ footer.site .wrap{padding-block:clamp(46px,5vw,72px) 26px}
       });
     });
   }
+
+  /* ── jurisdiction switch ──────────────────────────────── */
+  var tabs = [].slice.call(document.querySelectorAll('[role="tab"]'));
+  function selectTab(tab) {
+    tabs.forEach(function (t) {
+      var on = t === tab;
+      t.setAttribute("aria-selected", on ? "true" : "false");
+      if (on) { t.removeAttribute("tabindex"); } else { t.setAttribute("tabindex", "-1"); }
+      var panel = el(t.getAttribute("aria-controls"));
+      if (!panel) return;
+      panel.hidden = !on;
+      /* a panel that was hidden never tripped the observer, so its cards
+         would stay invisible after switching to it */
+      if (on) {
+        Array.prototype.forEach.call(panel.querySelectorAll(".rise"), function (e) {
+          e.classList.add("in");
+        });
+      }
+    });
+  }
+  tabs.forEach(function (tab, idx) {
+    tab.addEventListener("click", function () { selectTab(tab); });
+    tab.addEventListener("keydown", function (ev) {
+      var dir = ev.key === "ArrowRight" ? 1 : ev.key === "ArrowLeft" ? -1 : 0;
+      if (!dir) return;
+      ev.preventDefault();
+      var next = tabs[(idx + dir + tabs.length) % tabs.length];
+      selectTab(next);
+      next.focus();
+    });
+  });
 
   el("yr").textContent = new Date().getFullYear();
 })();
