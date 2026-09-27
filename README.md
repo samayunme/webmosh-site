@@ -57,13 +57,21 @@ Then in `index.html` change the `src` to `assets/hero.jpg` and update the `alt` 
 
 Images are served with a 7-day revalidated cache rather than a permanent one, because these filenames are not content-hashed. If you replace a photo and want every visitor to see it immediately, give the new file a new name (`hero-2.jpg`) and update the `src` — that is the reliable way to bust a cache on a static site.
 
+### The brand marquee
+
+The "We are working on" strip loops Payoneer, Wise, React, Next.js, PayPal, Stripe and WordPress left to right, monochrome, pausing on hover and static under `prefers-reduced-motion`.
+
+The marks are [Simple Icons](https://simpleicons.org) artwork (CC0), inlined into the SVG sprite in `index.html` rather than loaded from a CDN, so the page makes no third-party request and the CSP stays closed. The trademarks themselves still belong to their owners — this is the usual "tools we work with" use, so keep the strip factual and only list platforms you genuinely build on.
+
+To change the line-up: fetch a mark with `curl -s https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/<slug>.svg`, add its path as a `<symbol id="b-<slug>">` in the sprite, then add one `<li class="logoitem">` to **each of the four** `marquee__group` lists — they must stay identical or the loop will visibly jump.
+
 **The card tiles are deliberately generic.** The "Global business banking" card and the payment card use neutral glyphs rather than the Stripe, Wise, Mercury or Revolut logos. Swap in real brand assets only if you are comfortable doing so — reproducing a company's logo can imply a partnership or endorsement you do not have, and most of those brands publish trademark guidelines covering exactly this use. The `$4,500 from Acme Inc.` line is an illustrative mock-up, in the same way the reference design uses one.
 
 **The contact form has no backend yet.** It validates in the browser, then hands the enquiry to the visitor's mail client via `mailto:`. To make it a real form, point it at a handler — Formspree, Coolify-hosted service, or your own endpoint — and replace the `window.location.href = "mailto:…"` block in the script at the bottom of `index.html`.
 
 ## What's in the page
 
-Floating glass header · hero with framed portrait and status cards · credentials strip · six vendor-gap problems · six services in a bento grid · stats panel · five-step process · comparison table · FAQ · CTA panel · contact form · footer.
+Floating glass header · hero with framed portrait and status cards · credentials strip · brand marquee · six vendor-gap problems · six services in a bento grid · stats panel · five-step process · comparison table · FAQ · CTA panel · contact form · footer.
 
 Dark-first enterprise system: `#07080D` ground, a blue-to-violet `#4D7CFE` → `#8B5CF6` accent, translucent panels over an aurora wash and a masked grid, and an inline SVG icon sprite (no icon-font dependency). The light theme is a full counterpart, not an inversion.
 
