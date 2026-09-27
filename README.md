@@ -71,11 +71,11 @@ To change the line-up: fetch a mark with `curl -s https://cdn.jsdelivr.net/npm/s
 
 ## What's in the page
 
-Floating glass header · hero with framed portrait and status cards · credentials strip · brand marquee · six vendor-gap problems · six services in a bento grid · stats panel · five-step process · comparison table · FAQ · CTA panel · contact form · footer.
+Floating glass dock (site navigation, anchored bottom centre) · hero with framed portrait and status cards · credentials strip · brand marquee · six vendor-gap problems · six services in a bento grid · stats panel · five-step process · comparison table · FAQ · CTA panel · contact form · footer.
 
 Dark-first enterprise system: `#07080D` ground, a blue-to-violet `#4D7CFE` → `#8B5CF6` accent, translucent panels over an aurora wash and a masked grid, and an inline SVG icon sprite (no icon-font dependency). The light theme is a full counterpart, not an inversion.
 
-Interaction details: the header is a fixed glass pill with a backdrop blur and a top sheen; cards carry a pointer-tracked spotlight (pointer devices only, and skipped entirely under `prefers-reduced-motion`); a fine SVG noise layer keeps large flat areas from banding.
+Interaction details: navigation is a glass pill fixed to the bottom of the viewport, with a backdrop blur and a gradient hairline ring; below 900px it collapses to the mark, the call to action and the theme switch; cards carry a pointer-tracked spotlight (pointer devices only, and skipped entirely under `prefers-reduced-motion`); a fine SVG noise layer keeps large flat areas from banding.
 
 Light and dark themes with a toggle (preference saved to `localStorage`), keyboard focus states, a skip link, `prefers-reduced-motion` support, and `ProfessionalService` JSON-LD for search engines.
 
