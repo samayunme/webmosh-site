@@ -43,6 +43,7 @@ These are placeholders in `index.html` — search for each string and replace it
 | Uptime claim | `99.9%` | commitments band |
 | Domain | `https://webmosh.com` | `robots.txt`, `sitemap.xml` |
 | Hero photograph | `assets/hero.svg` placeholder | hero section — see below |
+| Brand mark | `assets/webmosh-logo.png` (real) | hero lockup |
 
 ### The hero photograph
 
@@ -56,6 +57,12 @@ cp ~/Downloads/founder.jpg assets/hero.jpg
 Then in `index.html` change the `src` to `assets/hero.jpg` and update the `alt` text to describe the actual photograph. Crop to 4:5 (e.g. 1200×1500) and keep it under ~300 KB; the frame uses `object-fit: cover`, so anything close to portrait will fill correctly.
 
 Images are served with a 7-day revalidated cache rather than a permanent one, because these filenames are not content-hashed. If you replace a photo and want every visitor to see it immediately, give the new file a new name (`hero-2.jpg`) and update the `src` — that is the reliable way to bust a cache on a static site.
+
+### The brand mark
+
+`assets/webmosh-logo.png` is your logo with the black ground keyed out and the artwork trimmed to its bounding box (587×480, transparent), so it sits on both the dark and light themes without a black square around it. The source PNG was 2048×2048 on solid black. Brand colour is `#31B5F2`.
+
+The dock and footer still use a gradient `W` glyph rather than this mark — see the note at the end of this section.
 
 ### The brand marquee
 
