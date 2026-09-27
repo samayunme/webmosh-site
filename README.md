@@ -63,9 +63,11 @@ Images are served with a 7-day revalidated cache rather than a permanent one, be
 
 ## What's in the page
 
-Utility bar · sticky masthead · hero with engagement-summary card · credentials strip · six vendor-gap problems · six service cards · stats band · five-step process · comparison table · FAQ · CTA band · contact form · footer.
+Floating glass header · hero with framed portrait and status cards · credentials strip · six vendor-gap problems · six services in a bento grid · stats panel · five-step process · comparison table · FAQ · CTA panel · contact form · footer.
 
-Corporate visual system: IBM Plex Sans and IBM Plex Mono, navy `#0A1E3D` with a `#0F52D9` accent on cool grey surfaces, and an inline SVG icon sprite (no icon-font dependency).
+Dark-first enterprise system: `#07080D` ground, a blue-to-violet `#4D7CFE` → `#8B5CF6` accent, translucent panels over an aurora wash and a masked grid, and an inline SVG icon sprite (no icon-font dependency). The light theme is a full counterpart, not an inversion.
+
+Interaction details: the header is a fixed glass pill with a backdrop blur and a top sheen; cards carry a pointer-tracked spotlight (pointer devices only, and skipped entirely under `prefers-reduced-motion`); a fine SVG noise layer keeps large flat areas from banding.
 
 Light and dark themes with a toggle (preference saved to `localStorage`), keyboard focus states, a skip link, `prefers-reduced-motion` support, and `ProfessionalService` JSON-LD for search engines.
 
