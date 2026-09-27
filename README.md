@@ -40,7 +40,6 @@ These are placeholders in `index.html` — search for each string and replace it
 | Email | `hello@webmosh.com` | contact section, footer, form handler, JSON-LD |
 | WhatsApp | `+00 0000 000000` and `https://wa.me/` | contact section, footer |
 | Office hours | `Mon–Fri, 09:00–18:00 GMT` | contact section |
-| Founded year | `EST. 2024` | hero seal (SVG) |
 | Uptime claim | `99.9%` | commitments band |
 | Domain | `https://webmosh.com` | `robots.txt`, `sitemap.xml` |
 
@@ -48,7 +47,9 @@ These are placeholders in `index.html` — search for each string and replace it
 
 ## What's in the page
 
-Hero + engagement dossier · filings marquee · six vendor-gap problems · six services (inverted panel) · five-step process · comparison table · commitments band · seven-question FAQ · contact form · footer.
+Utility bar · sticky masthead · hero with engagement-summary card · credentials strip · six vendor-gap problems · six service cards · stats band · five-step process · comparison table · FAQ · CTA band · contact form · footer.
+
+Corporate visual system: IBM Plex Sans and IBM Plex Mono, navy `#0A1E3D` with a `#0F52D9` accent on cool grey surfaces, and an inline SVG icon sprite (no icon-font dependency).
 
 Light and dark themes with a toggle (preference saved to `localStorage`), keyboard focus states, a skip link, `prefers-reduced-motion` support, and `ProfessionalService` JSON-LD for search engines.
 
