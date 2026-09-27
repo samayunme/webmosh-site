@@ -431,9 +431,55 @@ section{padding-block:var(--sec);position:relative;scroll-margin-top:24px}
 .cardlist li{display:flex;align-items:flex-start;gap:9px;font-size:var(--fs-sm);color:var(--muted)}
 .cardlist .icon{width:16px;height:16px;color:var(--ok);margin-top:4px}
 @media (min-width:1001px){.card--wide .cardlist{grid-template-columns:1fr 1fr;column-gap:24px}}
-.card--flat{background:transparent}
-.card--flat .card__ico{background:transparent;border-color:transparent;color:var(--muted);width:auto;height:auto;margin-bottom:13px}
-.card--flat:hover{transform:none}
+/* ==========================================================
+   gap ledger — problem paired with how we close it
+   ========================================================== */
+.split{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:clamp(32px,5vw,80px);align-items:start}
+@media (max-width:980px){.split{grid-template-columns:1fr;gap:34px}}
+.split__aside{position:sticky;top:28px}
+@media (max-width:980px){.split__aside{position:static}}
+.split__aside .sec-head{margin-bottom:26px}
+.split__note{
+  display:flex;gap:12px;align-items:flex-start;
+  padding:16px 18px;border-radius:var(--r);
+  background:var(--panel);border:1px solid var(--stroke);
+}
+.split__note .icon{color:var(--a1);margin-top:2px}
+.split__note p{font-size:var(--fs-sm);color:var(--muted)}
+.split__note b{color:var(--ink);font-weight:600}
+
+.ledger{display:grid}
+.gaprow{
+  position:relative;display:grid;
+  grid-template-columns:auto minmax(0,1fr);gap:clamp(16px,2vw,26px);
+  padding:clamp(20px,2.2vw,26px) clamp(14px,1.6vw,20px);
+  border-top:1px solid var(--stroke);
+  border-radius:var(--r);
+  transition:background .3s var(--ease);
+}
+.gaprow:last-child{border-bottom:1px solid var(--stroke)}
+.gaprow::before{
+  content:"";position:absolute;left:0;top:-1px;bottom:-1px;width:2px;border-radius:2px;
+  background:linear-gradient(180deg,var(--a1),var(--a2));
+  transform:scaleY(0);transform-origin:center;
+  transition:transform .35s var(--ease);
+}
+.gaprow:hover{background:var(--panel)}
+.gaprow:hover::before{transform:scaleY(1)}
+.gaprow__n{
+  font-family:"IBM Plex Mono",monospace;font-size:.78rem;font-weight:500;
+  color:var(--dim);padding-top:.3em;font-variant-numeric:tabular-nums;
+  transition:color .3s var(--ease);
+}
+.gaprow:hover .gaprow__n{color:var(--a1)}
+.gaprow h3{font-size:1.1rem;letter-spacing:-.02em}
+.gaprow p{color:var(--muted);font-size:var(--fs-sm);margin-top:7px}
+.gaprow__fix{
+  display:flex;gap:9px;align-items:flex-start;
+  margin-top:13px;padding-top:13px;border-top:1px dashed var(--stroke);
+  font-size:var(--fs-sm);color:var(--ink);
+}
+.gaprow__fix .icon{width:16px;height:16px;color:var(--ok);margin-top:4px;flex:0 0 auto}
 
 /* ==========================================================
    stats
@@ -643,7 +689,6 @@ footer.site .wrap{padding-block:clamp(46px,5vw,72px) 26px}
 <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18 14 14 0 010-18z"/></symbol>
 <symbol id="i-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
 <symbol id="i-dash" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
-<symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5M12 16.2v.3"/></symbol>
 <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/></symbol>
 <symbol id="i-card" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2.5"/><path d="M2 10h20M6 15h4"/></symbol>
 <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M3 7a2 2 0 012-2h13v4"/><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2v-7H5a2 2 0 01-2-2z"/><path d="M17 13h.01"/></symbol>
@@ -806,44 +851,69 @@ footer.site .wrap{padding-block:clamp(46px,5vw,72px) 26px}
 
   <!-- ════════ WHY US ════════ -->
   <section id="approach">
-    <div class="wrap">
-      <div class="sec-head">
-        <span class="eyebrow">Why founders come to us</span>
-        <h2>Nothing costs a small business more than the space between vendors</h2>
-        <p>Most founders end up with a formation agent, a web designer, an SEO freelancer, a host and an accountant &mdash; five parties, none of whom talk to each other. These are the gaps we were built to close.</p>
+    <div class="wrap split">
+      <div class="split__aside">
+        <div class="sec-head" style="margin-bottom:26px">
+          <span class="eyebrow">Why founders come to us</span>
+          <h2>Nothing costs a small business more than the space between vendors</h2>
+          <p>Most founders end up with a formation agent, a web designer, an SEO freelancer, a host and an accountant &mdash; five parties, none of whom talk to each other.</p>
+        </div>
+        <div class="split__note">
+          <svg class="icon"><use href="#i-target"/></svg>
+          <p><b>These six gaps are the job.</b> Each one is work that falls between suppliers, so each one is work we take on directly.</p>
+        </div>
       </div>
-      <div class="cards">
-        <article class="card card--flat rise">
-          <div class="card__ico"><svg class="icon"><use href="#i-alert"/></svg></div>
-          <h3>The company is registered, then left alone</h3>
-          <p>Incorporation is the easy part. The confirmation statement, the registered office and the annual accounts are where the penalties live.</p>
-        </article>
-        <article class="card card--flat rise" data-d="60">
-          <div class="card__ico"><svg class="icon"><use href="#i-alert"/></svg></div>
-          <h3>The website was built by someone who left</h3>
-          <p>No handover, no documentation, an expired plugin licence and nobody who still knows the hosting password.</p>
-        </article>
-        <article class="card card--flat rise" data-d="120">
-          <div class="card__ico"><svg class="icon"><use href="#i-alert"/></svg></div>
-          <h3>Traffic arrives, revenue doesn&rsquo;t</h3>
-          <p>Rankings and impressions climb while enquiries stay flat, because nobody owns what happens after the click.</p>
-        </article>
-        <article class="card card--flat rise">
-          <div class="card__ico"><svg class="icon"><use href="#i-alert"/></svg></div>
-          <h3>Deadlines arrive by surprise</h3>
-          <p>VAT quarters, Corporation Tax, Form 5472, franchise tax. Missing one is a fine; missing several is a struck-off company.</p>
-        </article>
-        <article class="card card--flat rise" data-d="60">
-          <div class="card__ico"><svg class="icon"><use href="#i-alert"/></svg></div>
-          <h3>Nobody can tell you what you actually pay</h3>
-          <p>Five suppliers, five invoices, five renewal dates, and a total you have never once added up.</p>
-        </article>
-        <article class="card card--flat rise" data-d="120">
-          <div class="card__ico"><svg class="icon"><use href="#i-alert"/></svg></div>
-          <h3>You become the integration layer</h3>
-          <p>Every question routes through you, so the founder ends up project-managing their own suppliers instead of selling.</p>
-        </article>
-      </div>
+
+      <ol class="ledger">
+        <li class="gaprow rise">
+          <span class="gaprow__n">01</span>
+          <div>
+            <h3>The company is registered, then left alone</h3>
+            <p>Incorporation is the easy part. The confirmation statement, the registered office and the annual accounts are where the penalties live.</p>
+            <p class="gaprow__fix"><svg class="icon"><use href="#i-check"/></svg>We file the confirmation statement and annual accounts against a calendar you can see.</p>
+          </div>
+        </li>
+        <li class="gaprow rise">
+          <span class="gaprow__n">02</span>
+          <div>
+            <h3>The website was built by someone who left</h3>
+            <p>No handover, no documentation, an expired plugin licence and nobody who still knows the hosting password.</p>
+            <p class="gaprow__fix"><svg class="icon"><use href="#i-check"/></svg>Domain, logins and documentation sit in your company&rsquo;s name from the first day.</p>
+          </div>
+        </li>
+        <li class="gaprow rise">
+          <span class="gaprow__n">03</span>
+          <div>
+            <h3>Traffic arrives, revenue doesn&rsquo;t</h3>
+            <p>Rankings and impressions climb while enquiries stay flat, because nobody owns what happens after the click.</p>
+            <p class="gaprow__fix"><svg class="icon"><use href="#i-check"/></svg>One monthly report that answers a single question: what did this bring in?</p>
+          </div>
+        </li>
+        <li class="gaprow rise">
+          <span class="gaprow__n">04</span>
+          <div>
+            <h3>Deadlines arrive by surprise</h3>
+            <p>VAT quarters, Corporation Tax, Form 5472, franchise tax. Missing one is a fine; missing several is a struck-off company.</p>
+            <p class="gaprow__fix"><svg class="icon"><use href="#i-check"/></svg>Every filing date tracked and submitted for you, in both jurisdictions.</p>
+          </div>
+        </li>
+        <li class="gaprow rise">
+          <span class="gaprow__n">05</span>
+          <div>
+            <h3>Nobody can tell you what you actually pay</h3>
+            <p>Five suppliers, five invoices, five renewal dates, and a total you have never once added up.</p>
+            <p class="gaprow__fix"><svg class="icon"><use href="#i-check"/></svg>One monthly figure, quoted in writing before any work begins.</p>
+          </div>
+        </li>
+        <li class="gaprow rise">
+          <span class="gaprow__n">06</span>
+          <div>
+            <h3>You become the integration layer</h3>
+            <p>Every question routes through you, so the founder ends up project-managing their own suppliers instead of selling.</p>
+            <p class="gaprow__fix"><svg class="icon"><use href="#i-check"/></svg>One contact answerable for the company, the site and the filings.</p>
+          </div>
+        </li>
+      </ol>
     </div>
   </section>
 
