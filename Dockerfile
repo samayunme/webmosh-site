@@ -2,7 +2,8 @@
 # Coolify: set Build Pack = "Dockerfile". Nothing else to configure.
 FROM nginx:1.27-alpine
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf            /etc/nginx/conf.d/default.conf
+COPY security-headers.conf /etc/nginx/security-headers.conf
 COPY index.html robots.txt sitemap.xml /usr/share/nginx/html/
 
 EXPOSE 80

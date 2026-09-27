@@ -57,7 +57,8 @@ Light and dark themes with a toggle (preference saved to `localStorage`), keyboa
 ```
 index.html     the entire site — markup, CSS tokens, and the reveal/theme/form script
 Dockerfile     nginx:alpine image Coolify builds
-nginx.conf     caching, gzip, security headers
+nginx.conf     caching, gzip, single-page fallback
+security-headers.conf  CSP and hardening headers, included by every location
 robots.txt     update the sitemap URL when the domain is final
 sitemap.xml    update the domain when it is final
 ```
