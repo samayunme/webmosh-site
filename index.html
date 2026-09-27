@@ -377,20 +377,20 @@ section{padding-block:var(--sec);position:relative;scroll-margin-top:96px}
 .marquee:hover .marquee__track{animation-play-state:paused}
 .marquee__group{
   display:flex;align-items:center;
-  gap:clamp(38px,5.5vw,78px);padding-right:clamp(38px,5.5vw,78px);
+  gap:clamp(44px,6vw,88px);padding-right:clamp(44px,6vw,88px);
 }
 /* four identical groups: a 50% shift is exactly two of them, so the seam stays
    aligned, and the track is always wider than twice the viewport — with only
    two groups a gap slides through whenever one group is narrower than the screen */
 @keyframes drift{from{transform:translateX(-50%)}to{transform:translateX(0)}}
 .logoitem{
-  display:flex;align-items:center;gap:11px;flex:0 0 auto;
+  display:flex;align-items:center;gap:14px;flex:0 0 auto;
   color:var(--muted);opacity:.72;
   transition:opacity .25s var(--ease),color .25s var(--ease);
 }
 .logoitem:hover{opacity:1;color:var(--ink)}
-.brand{width:clamp(22px,2.4vw,27px);height:clamp(22px,2.4vw,27px);fill:currentColor;stroke:none;flex:0 0 auto}
-.logoitem span{font-size:clamp(.95rem,.9rem + .25vw,1.1rem);font-weight:600;letter-spacing:-.015em;white-space:nowrap}
+.brand{width:clamp(30px,3.3vw,40px);height:clamp(30px,3.3vw,40px);fill:currentColor;stroke:none;flex:0 0 auto}
+.logoitem span{font-size:clamp(1.12rem,1rem + .45vw,1.45rem);font-weight:600;letter-spacing:-.018em;white-space:nowrap}
 @media (prefers-reduced-motion:reduce){
   .marquee{overflow-x:auto;-webkit-mask-image:none;mask-image:none}
   .marquee__track{animation:none}
