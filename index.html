@@ -536,7 +536,7 @@ section{padding-block:var(--sec);position:relative;scroll-margin-top:24px}
 }
 
 /* ==========================================================
-   pricing — jurisdiction switch and package cards
+   pricing — jurisdiction switch and comparison matrix
    ========================================================== */
 .switchwrap{display:flex;justify-content:center;margin-bottom:clamp(28px,3.4vw,44px)}
 .switch{
@@ -563,44 +563,63 @@ section{padding-block:var(--sec);position:relative;scroll-margin-top:24px}
   .switch__btn .flag{width:18px;height:12px}
 }
 
-.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,1.6vw,22px);align-items:stretch}
-.plans[hidden]{display:none}
-@media (max-width:1000px){.plans{grid-template-columns:1fr;max-width:34rem;margin-inline:auto}}
-.plan{
-  position:relative;isolation:isolate;display:flex;flex-direction:column;
-  background:var(--panel);border:1px solid var(--stroke);border-radius:var(--r-lg);
-  padding:clamp(24px,2.4vw,32px);overflow:hidden;
-  transition:border-color .3s var(--ease),transform .3s var(--ease);
+.matrix[hidden]{display:none}
+.matrix{
+  background:var(--bg-elev);
+  border:1px solid var(--stroke);border-radius:var(--r-lg);
+  overflow:hidden;
 }
-.plan::after{content:"";position:absolute;inset:0 0 auto;height:1px;pointer-events:none;background:linear-gradient(90deg,transparent,var(--sheen),transparent);opacity:.5}
-.plan:hover{border-color:var(--stroke-2);transform:translateY(-3px)}
-.plan--featured{border-color:transparent;background:var(--panel-2)}
-.plan--featured::before{
-  content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;z-index:-1;
-  background:linear-gradient(150deg,var(--a1),var(--a2));
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
-  -webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
-  mask-composite:exclude;
+.matrix__scroll{overflow-x:auto}
+table.pt{width:100%;min-width:740px;border-collapse:collapse;text-align:left}
+table.pt th,table.pt td{padding:14px clamp(14px,1.5vw,22px);vertical-align:middle}
+
+/* package heads */
+table.pt thead th{vertical-align:bottom;border-bottom:1px solid var(--stroke)}
+table.pt thead th:not(.pt__lead){width:17%}
+.pt__lead{
+  font-family:"IBM Plex Mono",monospace;font-size:.7rem;font-weight:500;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--muted);
+  padding-bottom:20px!important;
 }
-.plan__flag{
-  position:absolute;top:0;right:clamp(20px,2.2vw,28px);
-  font-family:"IBM Plex Mono",monospace;font-size:.64rem;letter-spacing:.11em;text-transform:uppercase;
-  color:#fff;background:linear-gradient(135deg,var(--a1),var(--a2));
-  padding:.42em .8em;border-radius:0 0 8px 8px;
-}
-.plan__price{
-  display:block;font-size:clamp(2.1rem,1.5rem + 1.9vw,2.9rem);font-weight:600;
-  letter-spacing:-.045em;line-height:1;font-variant-numeric:tabular-nums;
+.pt__head{padding-top:clamp(24px,2.4vw,32px)!important;padding-bottom:20px!important;position:relative}
+.pt__price{
+  display:block;font-size:clamp(1.7rem,1.3rem + 1.3vw,2.3rem);font-weight:600;
+  letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums;
   background:linear-gradient(135deg,var(--a1),var(--a2));
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--a1);
 }
-.plan__note{display:block;font-size:var(--fs-xs);color:var(--muted);margin-top:8px}
-.plan h3{font-size:1.18rem;margin-top:20px;letter-spacing:-.022em}
-.plan__list{display:grid;gap:11px;margin-top:20px;padding-top:20px;border-top:1px solid var(--stroke)}
-.plan__list li{display:flex;gap:10px;align-items:flex-start;font-size:var(--fs-sm);color:var(--muted)}
-.plan__list .icon{width:16px;height:16px;color:var(--ok);margin-top:4px;flex:0 0 auto}
-.plan__cta{margin-top:auto;padding-top:26px;display:flex}
-.plan__cta .btn{width:100%}
+.pt__fee{display:block;font-size:var(--fs-xs);color:var(--muted);margin-top:7px;font-weight:400}
+.pt__name{display:block;font-size:1.02rem;font-weight:600;color:var(--ink);margin-top:14px;letter-spacing:-.018em}
+.pt__flag{
+  position:absolute;top:0;left:clamp(14px,1.5vw,22px);
+  font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.11em;text-transform:uppercase;
+  color:#fff;background:linear-gradient(135deg,var(--a1),var(--a2));
+  padding:.4em .7em;border-radius:0 0 7px 7px;
+}
+
+/* feature rows */
+table.pt tbody tr{border-top:1px solid var(--stroke);transition:background .2s var(--ease)}
+table.pt tbody tr:hover{background:var(--panel)}
+table.pt tbody th{
+  font-weight:500;font-size:var(--fs-sm);color:var(--ink);
+  position:sticky;left:0;background:var(--bg-elev);z-index:1;
+  min-width:250px;
+}
+table.pt tbody tr:hover th{background:var(--bg-elev)}
+.pt__mark{display:inline-flex}
+.pt__mark .icon{width:19px;height:19px}
+.pt__yes .icon{color:var(--ok)}
+.pt__no .icon{color:var(--dim);opacity:.55}
+
+/* the column that carries every line */
+.is-feat{background:var(--a-tint)}
+table.pt tbody tr:hover .is-feat{background:var(--a-tint)}
+
+table.pt tfoot td{padding-top:22px;padding-bottom:clamp(24px,2.4vw,30px);border-top:1px solid var(--stroke)}
+table.pt tfoot .btn{width:100%}
+
+.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
 .plans__foot{
   display:flex;gap:11px;align-items:flex-start;
   margin-top:clamp(22px,2.6vw,34px);color:var(--muted);font-size:var(--fs-xs);
@@ -1102,119 +1121,79 @@ footer.site .wrap{padding-block:clamp(46px,5vw,72px) 26px}
         </div>
       </div>
 
-      <div class="plans" id="panel-us" role="tabpanel" aria-labelledby="tab-us">
-        <article class="plan rise">
-          <span class="plan__price">$149</span>
-          <span class="plan__note">+ state fee</span>
-          <h3>Starter Package</h3>
-          <ul class="plan__list">
-            <li><svg class="icon"><use href="#i-check"/></svg>Incorporation US LLC</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Articles of Organization</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Registered Agent (1 year)</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Business address with mail forwarding (1 year)</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>EIN (Employer Identification Number)</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Tax and annual compliance renewal consultancy</li>
-          </ul>
-          <div class="plan__cta"><a href="#contact" class="btn btn--outline">Get started <svg class="icon"><use href="#i-arrow"/></svg></a></div>
-        </article>
-        <article class="plan rise">
-          <span class="plan__price">$299</span>
-          <span class="plan__note">+ state fee</span>
-          <h3>Growth Package</h3>
-          <ul class="plan__list">
-            <li><svg class="icon"><use href="#i-check"/></svg>Incorporation US LLC</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Articles of Organization</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Registered Agent (1 year)</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Business address with mail forwarding (1 year)</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>EIN (Employer Identification Number)</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Tax and annual compliance renewal consultancy</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Business bank account application</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Card payment gateway (Stripe) application</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Debit card</li>
-          </ul>
-          <div class="plan__cta"><a href="#contact" class="btn btn--outline">Get started <svg class="icon"><use href="#i-arrow"/></svg></a></div>
-        </article>
-        <article class="plan plan--featured rise">
-          <span class="plan__flag">Most complete</span>
-          <span class="plan__price">$650</span>
-          <span class="plan__note">+ state fee</span>
-          <h3>Premium Package</h3>
-          <ul class="plan__list">
-            <li><svg class="icon"><use href="#i-check"/></svg>Incorporation US LLC</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Articles of Organization</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Registered Agent (1 year)</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Business address with mail forwarding (1 year)</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>EIN (Employer Identification Number)</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>ITIN application (Individual Taxpayer Identification Number)</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Tax and annual compliance renewal consultancy</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Business bank account application</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Card payment gateway (Stripe) application</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Debit card</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Business consultancy</li>
-          </ul>
-          <div class="plan__cta"><a href="#contact" class="btn btn--primary">Get started <svg class="icon"><use href="#i-arrow"/></svg></a></div>
-        </article>
+      <div class="matrix" id="panel-us" role="tabpanel" aria-labelledby="tab-us">
+        <div class="matrix__scroll">
+          <table class="pt">
+            <caption class="sr">What each package includes</caption>
+            <thead>
+              <tr>
+                <th scope="col" class="pt__lead">What&rsquo;s included</th>
+            <th scope="col" class="pt__head"><span class="pt__price">$149</span><span class="pt__fee">+ state fee</span><span class="pt__name">Starter Package</span></th>
+            <th scope="col" class="pt__head"><span class="pt__price">$299</span><span class="pt__fee">+ state fee</span><span class="pt__name">Growth Package</span></th>
+            <th scope="col" class="pt__head is-feat"><span class="pt__flag">Most complete</span><span class="pt__price">$650</span><span class="pt__fee">+ state fee</span><span class="pt__name">Premium Package</span></th>
+              </tr>
+            </thead>
+            <tbody>
+          <tr><th scope="row">Incorporation US LLC</th><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td class="is-feat"><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td></tr>
+          <tr><th scope="row">Articles of Organization</th><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td class="is-feat"><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td></tr>
+          <tr><th scope="row">Registered Agent (1 year)</th><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td class="is-feat"><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td></tr>
+          <tr><th scope="row">Business address with mail forwarding (1 year)</th><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td class="is-feat"><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td></tr>
+          <tr><th scope="row">EIN (Employer Identification Number)</th><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td class="is-feat"><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td></tr>
+          <tr><th scope="row">Tax and annual compliance renewal consultancy</th><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td class="is-feat"><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td></tr>
+          <tr><th scope="row">Business bank account application</th><td><span class="pt__mark pt__no"><svg class="icon" aria-hidden="true"><use href="#i-dash"/></svg><span class="sr">Not included</span></span></td><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td class="is-feat"><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td></tr>
+          <tr><th scope="row">Card payment gateway (Stripe) application</th><td><span class="pt__mark pt__no"><svg class="icon" aria-hidden="true"><use href="#i-dash"/></svg><span class="sr">Not included</span></span></td><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td class="is-feat"><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td></tr>
+          <tr><th scope="row">Debit card</th><td><span class="pt__mark pt__no"><svg class="icon" aria-hidden="true"><use href="#i-dash"/></svg><span class="sr">Not included</span></span></td><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td class="is-feat"><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td></tr>
+          <tr><th scope="row">ITIN application (Individual Taxpayer Identification Number)</th><td><span class="pt__mark pt__no"><svg class="icon" aria-hidden="true"><use href="#i-dash"/></svg><span class="sr">Not included</span></span></td><td><span class="pt__mark pt__no"><svg class="icon" aria-hidden="true"><use href="#i-dash"/></svg><span class="sr">Not included</span></span></td><td class="is-feat"><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td></tr>
+          <tr><th scope="row">Business consultancy</th><td><span class="pt__mark pt__no"><svg class="icon" aria-hidden="true"><use href="#i-dash"/></svg><span class="sr">Not included</span></span></td><td><span class="pt__mark pt__no"><svg class="icon" aria-hidden="true"><use href="#i-dash"/></svg><span class="sr">Not included</span></span></td><td class="is-feat"><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td></tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td></td>
+            <td><a href="#contact" class="btn btn--outline">Get started <svg class="icon"><use href="#i-arrow"/></svg></a></td>
+            <td><a href="#contact" class="btn btn--outline">Get started <svg class="icon"><use href="#i-arrow"/></svg></a></td>
+            <td class="is-feat"><a href="#contact" class="btn btn--primary">Get started <svg class="icon"><use href="#i-arrow"/></svg></a></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
       </div>
 
-      <div class="plans" id="panel-uk" role="tabpanel" aria-labelledby="tab-uk" hidden>
-        <article class="plan rise">
-          <span class="plan__price">$239</span>
-          <span class="plan__note">+ Wise verification fee</span>
-          <h3>Basic Package</h3>
-          <ul class="plan__list">
-            <li><svg class="icon"><use href="#i-check"/></svg>Incorporation UK LTD</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>UK registered office address (1 year)</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Directors service address (1 year)</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>PSC register with Companies House</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Soft copy of incorporation certificate</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Web authentication code</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>UTR number</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>UK Wise / Payoneer business account</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Premium tax consultation</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Digital identity verification (required)</li>
-          </ul>
-          <div class="plan__cta"><a href="#contact" class="btn btn--outline">Get started <svg class="icon"><use href="#i-arrow"/></svg></a></div>
-        </article>
-        <article class="plan rise">
-          <span class="plan__price">$299</span>
-          <span class="plan__note">+ Wise verification fee</span>
-          <h3>Standard Package</h3>
-          <ul class="plan__list">
-            <li><svg class="icon"><use href="#i-check"/></svg>Incorporation UK LTD</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>UK registered office address (1 year)</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Directors service address (1 year)</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>PSC register with Companies House</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Soft copy of incorporation certificate</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Web authentication code</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>UTR number</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>UK Wise / Payoneer business account</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Business Stripe account guidance</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Premium tax consultation</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Digital identity verification (required)</li>
-          </ul>
-          <div class="plan__cta"><a href="#contact" class="btn btn--outline">Get started <svg class="icon"><use href="#i-arrow"/></svg></a></div>
-        </article>
-        <article class="plan plan--featured rise">
-          <span class="plan__flag">Most complete</span>
-          <span class="plan__price">$329</span>
-          <span class="plan__note">+ Wise verification fee</span>
-          <h3>Premium Package</h3>
-          <ul class="plan__list">
-            <li><svg class="icon"><use href="#i-check"/></svg>Incorporation UK LTD</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>UK registered office address (1 year)</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Directors service address (1 year)</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>PSC register with Companies House</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Soft copy of incorporation certificate</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Web authentication code</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>UTR number</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>UK Wise / Payoneer business account</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Business PayPal account guidance</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Business Stripe account guidance</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Premium tax consultation</li>
-            <li><svg class="icon"><use href="#i-check"/></svg>Digital identity verification (required)</li>
-          </ul>
-          <div class="plan__cta"><a href="#contact" class="btn btn--primary">Get started <svg class="icon"><use href="#i-arrow"/></svg></a></div>
-        </article>
+      <div class="matrix" id="panel-uk" role="tabpanel" aria-labelledby="tab-uk" hidden>
+        <div class="matrix__scroll">
+          <table class="pt">
+            <caption class="sr">What each package includes</caption>
+            <thead>
+              <tr>
+                <th scope="col" class="pt__lead">What&rsquo;s included</th>
+            <th scope="col" class="pt__head"><span class="pt__price">$239</span><span class="pt__fee">+ Wise verification fee</span><span class="pt__name">Basic Package</span></th>
+            <th scope="col" class="pt__head"><span class="pt__price">$299</span><span class="pt__fee">+ Wise verification fee</span><span class="pt__name">Standard Package</span></th>
+            <th scope="col" class="pt__head is-feat"><span class="pt__flag">Most complete</span><span class="pt__price">$329</span><span class="pt__fee">+ Wise verification fee</span><span class="pt__name">Premium Package</span></th>
+              </tr>
+            </thead>
+            <tbody>
+          <tr><th scope="row">Incorporation UK LTD</th><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td class="is-feat"><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td></tr>
+          <tr><th scope="row">UK registered office address (1 year)</th><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td class="is-feat"><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td></tr>
+          <tr><th scope="row">Directors service address (1 year)</th><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td class="is-feat"><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td></tr>
+          <tr><th scope="row">PSC register with Companies House</th><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td class="is-feat"><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td></tr>
+          <tr><th scope="row">Soft copy of incorporation certificate</th><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td class="is-feat"><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td></tr>
+          <tr><th scope="row">Web authentication code</th><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td class="is-feat"><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td></tr>
+          <tr><th scope="row">UTR number</th><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td class="is-feat"><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td></tr>
+          <tr><th scope="row">UK Wise / Payoneer business account</th><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td class="is-feat"><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td></tr>
+          <tr><th scope="row">Premium tax consultation</th><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td class="is-feat"><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td></tr>
+          <tr><th scope="row">Digital identity verification (required)</th><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td class="is-feat"><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td></tr>
+          <tr><th scope="row">Business Stripe account guidance</th><td><span class="pt__mark pt__no"><svg class="icon" aria-hidden="true"><use href="#i-dash"/></svg><span class="sr">Not included</span></span></td><td><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td><td class="is-feat"><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td></tr>
+          <tr><th scope="row">Business PayPal account guidance</th><td><span class="pt__mark pt__no"><svg class="icon" aria-hidden="true"><use href="#i-dash"/></svg><span class="sr">Not included</span></span></td><td><span class="pt__mark pt__no"><svg class="icon" aria-hidden="true"><use href="#i-dash"/></svg><span class="sr">Not included</span></span></td><td class="is-feat"><span class="pt__mark pt__yes"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span class="sr">Included</span></span></td></tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td></td>
+            <td><a href="#contact" class="btn btn--outline">Get started <svg class="icon"><use href="#i-arrow"/></svg></a></td>
+            <td><a href="#contact" class="btn btn--outline">Get started <svg class="icon"><use href="#i-arrow"/></svg></a></td>
+            <td class="is-feat"><a href="#contact" class="btn btn--primary">Get started <svg class="icon"><use href="#i-arrow"/></svg></a></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
       </div>
 
       <p class="plans__foot">
