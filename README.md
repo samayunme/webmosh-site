@@ -64,6 +64,8 @@ Images are served with a 7-day revalidated cache rather than a permanent one, be
 
 The dock and footer still use a gradient `W` glyph rather than this mark — see the note at the end of this section.
 
+Favicons are generated from that same mark: `favicon.ico` plus transparent PNGs at 16/32/192/512, and a 180px `apple-touch-icon` on a `#07080D` ground — iOS composites home-screen icons onto white, so that one cannot be transparent. To regenerate after a logo change, rerun the Pillow snippet in the commit that added them.
+
 ### The brand marquee
 
 The "We are working on" strip loops Payoneer, Wise, React, Next.js, PayPal, Stripe and WordPress left to right, monochrome, pausing on hover and static under `prefers-reduced-motion`.
