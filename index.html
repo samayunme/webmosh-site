@@ -259,12 +259,69 @@ section{padding-block:var(--sec);position:relative;scroll-margin-top:24px}
 .marklogo{width:auto;display:block}
 .dock__mark .marklogo{height:34px}
 .docknav{display:flex;align-items:center;gap:clamp(2px,.6vw,8px)}
-.docknav a:not(.btn){
+.docknav > a:not(.btn){
   font-size:1rem;font-weight:500;color:var(--muted);
   padding:11px clamp(10px,1.1vw,16px);border-radius:12px;white-space:nowrap;
   transition:color .18s var(--ease),background .18s var(--ease);
 }
-.docknav a:not(.btn):hover{color:var(--ink);background:var(--panel-2)}
+.docknav > a:not(.btn):hover,.docknav__trigger:hover{color:var(--ink);background:var(--panel-2)}
+
+/* ── services mega menu, opening upward out of the dock ── */
+.hasmenu{position:relative}
+.docknav__trigger{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:inherit;font-size:1rem;font-weight:500;color:var(--muted);
+  padding:11px clamp(10px,1.1vw,16px);border:0;border-radius:12px;background:transparent;
+  cursor:pointer;white-space:nowrap;
+  transition:color .18s var(--ease),background .18s var(--ease);
+}
+.docknav__trigger .icon{width:14px;height:14px;transform:rotate(180deg);transition:transform .22s var(--ease)}
+.docknav__trigger[aria-expanded="true"]{color:var(--ink);background:var(--panel-2)}
+.docknav__trigger[aria-expanded="true"] .icon{transform:rotate(0deg)}
+
+.submenu{
+  position:absolute;bottom:calc(100% + 14px);left:-20px;z-index:5;
+  width:min(880px,calc(100vw - 48px));
+  background:var(--bg-elev);border:1px solid var(--stroke);border-radius:18px;
+  box-shadow:var(--shadow-lg);
+  padding:clamp(20px,2vw,28px);
+  opacity:0;visibility:hidden;transform:translateY(8px);
+  transition:opacity .22s var(--ease),transform .22s var(--ease),visibility .22s;
+}
+.submenu.is-open{opacity:1;visibility:visible;transform:none}
+/* caret pointing back down at the trigger */
+.submenu::after{
+  content:"";position:absolute;top:100%;left:52px;
+  width:16px;height:16px;margin-top:-8px;transform:rotate(45deg);
+  background:var(--bg-elev);border-right:1px solid var(--stroke);border-bottom:1px solid var(--stroke);
+  border-bottom-right-radius:3px;
+}
+@media (max-width:1060px){
+  .submenu{left:50%;transform:translateX(-50%) translateY(8px)}
+  .submenu.is-open{transform:translateX(-50%)}
+  .submenu::after{left:50%;margin-left:-8px}
+}
+.submenu__grid{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:clamp(16px,2vw,30px);align-items:start;
+}
+@media (max-width:1060px){.submenu__grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* these columns are <section> elements, which pick up the global
+   section{padding-block:var(--sec)} rule — ~95px top and bottom each */
+.subcol{padding-block:0}
+.subcol h4{
+  font-family:"IBM Plex Mono",monospace;font-size:.64rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--dim);font-weight:500;
+  padding-bottom:12px;margin-bottom:4px;border-bottom:1px solid var(--stroke);
+}
+.subcol a{
+  display:block;padding:10px 10px 11px;margin-inline:-10px;border-radius:10px;
+  transition:background .16s var(--ease);
+}
+.subcol a:hover{background:var(--panel-2)}
+.subcol a b{display:block;font-size:.925rem;font-weight:600;color:var(--ink);letter-spacing:-.012em}
+.subcol a span{display:block;font-size:.8rem;color:var(--muted);margin-top:3px;line-height:1.4}
+@media (prefers-reduced-motion:reduce){.submenu{transition:none}}
 .btn--dock{margin-inline:clamp(2px,.6vw,8px);padding:.85em 1.35em;border-radius:13px;font-size:1rem}
 .iconbtn{
   width:44px;height:44px;display:grid;place-items:center;flex:0 0 auto;
@@ -275,7 +332,7 @@ section{padding-block:var(--sec);position:relative;scroll-margin-top:24px}
 
 /* below this the pill keeps the mark, the call to action and the theme switch */
 @media (max-width:900px){
-  .docknav a:not(.btn){display:none}
+  .docknav > a:not(.btn),.hasmenu{display:none}
   .dock__pill{gap:9px;height:70px}
   .btn--dock{margin-inline:0}
 }
@@ -893,7 +950,38 @@ footer.site .wrap{padding-block:clamp(46px,5vw,72px) 26px}
       <img class="marklogo" src="assets/webmosh-logo.png" width="587" height="480" alt="">
     </a>
     <nav class="docknav" aria-label="Primary">
-      <a href="#services">Services</a>
+      <div class="hasmenu">
+        <button class="docknav__trigger" type="button" id="svcTrigger"
+                aria-expanded="false" aria-controls="svcMenu" aria-haspopup="true">
+          Services <svg class="icon"><use href="#i-chev"/></svg>
+        </button>
+        <!-- none of these service pages exist yet -->
+        <div class="submenu" id="svcMenu" role="menu" aria-labelledby="svcTrigger">
+          <div class="submenu__grid">
+          <section class="subcol">
+            <h4>Development</h4>
+            <a href="/services/wordpress-development" role="menuitem"><b>WordPress Development</b><span>Themes, plugins and WooCommerce builds.</span></a>
+            <a href="/services/custom-website" role="menuitem"><b>Custom Website</b><span>Designed and hand-built for your business.</span></a>
+            <a href="/services/web-applications" role="menuitem"><b>Web Applications</b><span>Portals, dashboards and internal tools.</span></a>
+          </section>
+          <section class="subcol">
+            <h4>Formation</h4>
+            <a href="/services/us-llc" role="menuitem"><b>US LLC</b><span>Delaware, Wyoming or your state of choice.</span></a>
+            <a href="/services/uk-ltd" role="menuitem"><b>UK LTD</b><span>Incorporated through Companies House.</span></a>
+          </section>
+          <section class="subcol">
+            <h4>Growth</h4>
+            <a href="/services/marketing" role="menuitem"><b>Marketing</b><span>Paid search, social and email that report in revenue.</span></a>
+            <a href="/services/seo" role="menuitem"><b>SEO</b><span>Technical and local search, built to rank.</span></a>
+          </section>
+          <section class="subcol">
+            <h4>Finance</h4>
+            <a href="/services/tax-return" role="menuitem"><b>Tax Return</b><span>Filed with licensed accountants in each jurisdiction.</span></a>
+            <a href="/services/bookkeeping" role="menuitem"><b>Bookkeeping</b><span>Monthly books, VAT and year-end ready.</span></a>
+          </section>
+          </div>
+        </div>
+      </div>
       <!-- /about and /login have no page yet -->
       <a href="/about">About Us</a>
       <a href="#contact" class="btn btn--primary btn--dock">
@@ -1694,6 +1782,32 @@ footer.site .wrap{padding-block:clamp(46px,5vw,72px) 26px}
       });
     });
   }
+
+  /* ── services mega menu ───────────────────────────────── */
+  var svcT = el("svcTrigger"), svcM = el("svcMenu");
+  var svcWrap = svcT.parentNode, hoverOK = window.matchMedia("(hover: hover)").matches, shutTimer;
+  function openSvc(on) {
+    svcM.classList.toggle("is-open", on);
+    svcT.setAttribute("aria-expanded", on ? "true" : "false");
+  }
+  svcT.addEventListener("click", function () {
+    openSvc(svcT.getAttribute("aria-expanded") !== "true");
+  });
+  if (hoverOK) {
+    svcWrap.addEventListener("pointerenter", function () { clearTimeout(shutTimer); openSvc(true); });
+    svcWrap.addEventListener("pointerleave", function () {
+      shutTimer = setTimeout(function () { openSvc(false); }, 160);
+    });
+  }
+  document.addEventListener("keydown", function (ev) {
+    if (ev.key === "Escape" && svcT.getAttribute("aria-expanded") === "true") {
+      openSvc(false);
+      svcT.focus();
+    }
+  });
+  document.addEventListener("click", function (ev) {
+    if (!svcWrap.contains(ev.target)) openSvc(false);
+  });
 
   /* ── jurisdiction switch ──────────────────────────────── */
   var tabs = [].slice.call(document.querySelectorAll('[role="tab"]'));

@@ -80,7 +80,7 @@ To change the line-up: fetch a mark with `curl -s https://cdn.jsdelivr.net/npm/s
 
 ## What's in the page
 
-Floating glass dock (site navigation, anchored bottom centre) · hero with framed portrait and status cards · brand marquee · six vendor-gap problems · six services in a bento grid · stack diagram (tool wall, hub and what each stage produces) · five-step process · package comparison matrix with a US/UK switch · FAQ · CTA panel · contact form · footer.
+Floating glass dock (site navigation, anchored bottom centre, with a Services mega menu opening upward) · hero with framed portrait and status cards · brand marquee · six vendor-gap problems · six services in a bento grid · stack diagram (tool wall, hub and what each stage produces) · five-step process · package comparison matrix with a US/UK switch · FAQ · CTA panel · contact form · footer.
 
 Dark-first enterprise system: `#07080D` ground, a blue-to-violet `#4D7CFE` → `#8B5CF6` accent, translucent panels over an aurora wash and a masked grid, and an inline SVG icon sprite (no icon-font dependency). The light theme is a full counterpart, not an inversion.
 
