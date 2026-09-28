@@ -33,14 +33,12 @@
   --grid:rgb(255 255 255 / .04);
   --ink:#EDF1F8;
   --muted:#99A2B8;
-  --dim:#69melhor;
   --dim:#6A7288;
   --a1:#4D7CFE;
   --a2:#8B5CF6;
   --a-tint:rgb(77 124 254 / .13);
   --a-glow:rgb(77 124 254 / .34);
   --a2-glow:rgb(139 92 246 / .26);
-  --on-accent:#FFFFFF;
   --ok:#3ECF8E;
   --glass:rgb(11 13 21 / .66);
   --brand:#31B5F2;
@@ -51,6 +49,7 @@
   --hub-halo:rgb(49 181 242 / .38);
   --hub-inner:rgb(160 220 255 / .34);
   --hub-bloom:rgb(150 218 255 / .5);
+  --trunk:rgb(208 240 255 / .95);
   --glass-brd:rgb(255 255 255 / .1);
   --sheen:rgb(255 255 255 / .22);
   --shadow:0 1px 2px rgb(0 0 0 / .4), 0 12px 32px -14px rgb(0 0 0 / .7);
@@ -99,6 +98,7 @@
     --hub-halo:rgb(49 181 242 / .3);
     --hub-inner:rgb(255 255 255 / .75);
     --hub-bloom:rgb(49 181 242 / .36);
+    --trunk:rgb(10 116 176 / .95);
     --glass-brd:rgb(12 22 48 / .09);
     --sheen:rgb(255 255 255 / .9);
     --shadow:0 1px 2px rgb(12 22 48 / .05), 0 12px 30px -14px rgb(12 22 48 / .22);
@@ -131,6 +131,7 @@
   --hub-halo:rgb(49 181 242 / .3);
   --hub-inner:rgb(255 255 255 / .75);
   --hub-bloom:rgb(49 181 242 / .36);
+  --trunk:rgb(10 116 176 / .95);
   --glass-brd:rgb(12 22 48 / .09);
   --sheen:rgb(255 255 255 / .9);
   --shadow:0 1px 2px rgb(12 22 48 / .05), 0 12px 30px -14px rgb(12 22 48 / .22);
@@ -1179,18 +1180,21 @@ footer.site .wrap{padding-block:clamp(46px,5vw,72px) 26px}
       <div class="flow">
         <svg class="flowline" viewBox="0 0 1200 204" preserveAspectRatio="none" aria-hidden="true" focusable="false">
           <g fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke" stroke-linecap="round">
-            <path d="M144 198 V150 Q144 132 162 132 H582 Q600 132 600 114 V6"/>
+            <path d="M144 198 V150 Q144 132 162 132 H582 Q600 132 600 114"/>
             <path d="M1056 198 V150 Q1056 132 1038 132 H618 Q600 132 600 114"/>
             <path d="M448 198 V150 Q448 132 466 132"/>
             <path d="M752 198 V150 Q752 132 734 132"/>
           </g>
+          <g fill="none" stroke="var(--trunk)" stroke-width="3" vector-effect="non-scaling-stroke" stroke-linecap="round">
+            <path d="M600 114 V6"/>
+          </g>
           <g fill="currentColor">
-            <circle cx="600" cy="6" r="3.6"/>
             <circle cx="144" cy="198" r="3.6"/>
             <circle cx="448" cy="198" r="3.6"/>
             <circle cx="752" cy="198" r="3.6"/>
             <circle cx="1056" cy="198" r="3.6"/>
           </g>
+          <circle cx="600" cy="6" r="4.2" fill="var(--trunk)"/>
         </svg>
         <div class="phases">
         <article class="phase rise">
