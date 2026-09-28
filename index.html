@@ -46,9 +46,11 @@
   --brand:#31B5F2;
   --hub-core:rgb(255 255 255 / .14);
   --hub-edge:rgb(49 181 242 / .05);
-  --hub-ring:rgb(125 208 250 / .8);
+  --hub-ring:rgb(125 208 250 / .95);
+  --hub-ring-0:rgb(125 208 250 / 0);
   --hub-halo:rgb(49 181 242 / .38);
   --hub-inner:rgb(160 220 255 / .34);
+  --hub-bloom:rgb(150 218 255 / .5);
   --glass-brd:rgb(255 255 255 / .1);
   --sheen:rgb(255 255 255 / .22);
   --shadow:0 1px 2px rgb(0 0 0 / .4), 0 12px 32px -14px rgb(0 0 0 / .7);
@@ -92,15 +94,19 @@
   --brand:#1596D6;
   --hub-core:rgb(255 255 255 / .62);
   --hub-edge:rgb(49 181 242 / .1);
-  --hub-ring:rgb(21 150 214 / .6);
+  --hub-ring:rgb(21 150 214 / .85);
+  --hub-ring-0:rgb(21 150 214 / 0);
   --hub-halo:rgb(49 181 242 / .3);
   --hub-inner:rgb(255 255 255 / .75);
+  --hub-bloom:rgb(49 181 242 / .36);
     --brand:#1596D6;
     --hub-core:rgb(255 255 255 / .62);
     --hub-edge:rgb(49 181 242 / .1);
-    --hub-ring:rgb(21 150 214 / .6);
+    --hub-ring:rgb(21 150 214 / .85);
+    --hub-ring-0:rgb(21 150 214 / 0);
     --hub-halo:rgb(49 181 242 / .3);
     --hub-inner:rgb(255 255 255 / .75);
+    --hub-bloom:rgb(49 181 242 / .36);
     --glass-brd:rgb(12 22 48 / .09);
     --sheen:rgb(255 255 255 / .9);
     --shadow:0 1px 2px rgb(12 22 48 / .05), 0 12px 30px -14px rgb(12 22 48 / .22);
@@ -128,9 +134,11 @@
   --brand:#1596D6;
   --hub-core:rgb(255 255 255 / .62);
   --hub-edge:rgb(49 181 242 / .1);
-  --hub-ring:rgb(21 150 214 / .6);
+  --hub-ring:rgb(21 150 214 / .85);
+  --hub-ring-0:rgb(21 150 214 / 0);
   --hub-halo:rgb(49 181 242 / .3);
   --hub-inner:rgb(255 255 255 / .75);
+  --hub-bloom:rgb(49 181 242 / .36);
   --glass-brd:rgb(12 22 48 / .09);
   --sheen:rgb(255 255 255 / .9);
   --shadow:0 1px 2px rgb(12 22 48 / .05), 0 12px 30px -14px rgb(12 22 48 / .22);
@@ -536,12 +544,31 @@ section{padding-block:var(--sec);position:relative;scroll-margin-top:24px}
   position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;
   width:clamp(124px,13vw,172px);height:clamp(124px,13vw,172px);border-radius:50%;
   display:grid;place-items:center;
-  /* frosted, not opaque — the tool wall stays visible through it */
-  background:radial-gradient(circle at 50% 42%,var(--hub-core),var(--hub-edge) 78%);
+  /* frosted, not opaque — the tool wall stays visible through it.
+     The lower half carries the light, so the bloom sits at the bottom. */
+  background:
+    radial-gradient(80% 66% at 50% 104%,var(--hub-bloom),transparent 74%),
+    radial-gradient(circle at 50% 44%,var(--hub-core),var(--hub-edge) 78%);
   -webkit-backdrop-filter:blur(7px) saturate(175%);
   backdrop-filter:blur(7px) saturate(175%);
-  border:1px solid var(--hub-ring);
-  box-shadow:0 0 52px -6px var(--hub-halo), inset 0 0 46px -10px var(--hub-inner);
+  box-shadow:0 14px 52px -8px var(--hub-halo);
+}
+/* only the bottom of the circle is drawn, and it fades out at both ends */
+.hub::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  padding:1px;
+  background:conic-gradient(
+    from 0deg,
+    var(--hub-ring-0) 96deg,
+    var(--hub-ring) 146deg,
+    var(--hub-ring) 214deg,
+    var(--hub-ring-0) 264deg
+  );
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  mask-composite:exclude;
+  filter:drop-shadow(0 0 7px var(--hub-halo));
 }
 .hub img{width:42%;height:auto}
 
