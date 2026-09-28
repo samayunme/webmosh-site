@@ -110,20 +110,25 @@ pages render correctly when opened straight from disk. Root-absolute asset
 paths resolve to your filesystem root under `file://` and the page loads with
 no styling at all.
 
-Navigation links are root-absolute (`/about`, `/#contact`) because that is what
-the deployed site needs, so they will not resolve from `file://`. To click
-through the site locally:
+Navigation links are **relative and carry the extension** (`about.html`,
+`index.html#contact`). That resolves everywhere — opened straight from disk,
+from any static server, and from nginx — so double-clicking `index.html` gives
+you a site you can actually click through.
+
+Each page still declares a `<link rel="canonical">` pointing at its clean URL
+(`/`, `/about`), and nginx serves both spellings, so search engines index one
+address per page even though the links carry `.html`.
+
+`serve.py` is there for checking the clean URLs behave as they will in
+production:
 
 ```bash
 python3 serve.py                # then open http://localhost:8000
 ```
 
-**Use `serve.py`, not `python3 -m http.server`.** The stock server returns files
-verbatim, so `/about` 404s there while the deployed site serves `about.html` for
-it. `serve.py` mirrors the `try_files` chain in `nginx.conf` — `$uri`,
-`$uri.html`, `$uri/`, then `/index.html` — so local preview matches production,
-including the fallback that makes unbuilt paths like `/login` render the
-homepage rather than 404.
+It mirrors the `try_files` chain in `nginx.conf` — `$uri`, `$uri.html`, `$uri/`,
+then `/index.html`. Note that `python3 -m http.server` does **not**: it returns
+files verbatim, so `/about` 404s there.
 
 A page in a subfolder (`services/seo.html`) must use `../assets/…` — relative
 paths resolve against the page's directory.
