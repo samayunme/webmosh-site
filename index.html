@@ -518,27 +518,21 @@ section{padding-block:var(--sec);position:relative;scroll-margin-top:24px}
 }
 .hub img{width:48%;height:auto}
 
-/* orthogonal connectors from the hub down to the cards */
+/* connector: one stroke with rounded elbows and lit end points.
+   x positions are the card centres for a 4-column grid in a 1200-unit box,
+   so the drops land on the cards at any width the diagram is shown at. */
 .flow{position:relative}
-.flow__trunk{width:1px;height:clamp(26px,3vw,42px);margin-inline:auto;background:linear-gradient(180deg,rgb(77 124 254 / .1),rgb(77 124 254 / .55))}
-/* cells carry the grid gap, so each segment overhangs by half of it to
-   keep the horizontal rail unbroken */
-.flow__rail{
-  --g:clamp(13px,1.4vw,18px);
-  display:grid;grid-template-columns:repeat(4,1fr);gap:var(--g);
-  height:clamp(22px,2.4vw,34px);
+.flowline{
+  display:block;width:100%;height:clamp(60px,6.2vw,94px);
+  color:var(--a1);
+  filter:drop-shadow(0 0 5px rgb(77 124 254 / .5)) drop-shadow(0 0 15px rgb(77 124 254 / .3));
 }
-.flow__cell{position:relative}
-.flow__cell::before{content:"";position:absolute;top:0;height:1px;background:rgb(77 124 254 / .55)}
-.flow__cell:nth-child(1)::before{left:50%;right:calc(var(--g) / -2)}
-.flow__cell:nth-child(2)::before,.flow__cell:nth-child(3)::before{left:calc(var(--g) / -2);right:calc(var(--g) / -2)}
-.flow__cell:nth-child(4)::before{left:calc(var(--g) / -2);right:50%}
-.flow__cell::after{content:"";position:absolute;top:0;bottom:0;left:50%;width:1px;background:linear-gradient(180deg,rgb(77 124 254 / .55),rgb(77 124 254 / .18))}
+@media (max-width:1040px){.flowline{display:none}}
 
 .phases{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(13px,1.4vw,18px)}
 @media (max-width:1040px){.phases{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:620px){.phases{grid-template-columns:1fr}}
-@media (max-width:1040px){.flow__trunk,.flow__rail{display:none}.flow{padding-top:clamp(26px,3vw,40px)}}
+@media (max-width:1040px){.flow{padding-top:clamp(26px,3vw,40px)}}
 .phase{
   position:relative;isolation:isolate;display:flex;flex-direction:column;
   background:var(--panel);border:1px solid var(--stroke);border-radius:var(--r-lg);
@@ -1134,11 +1128,21 @@ footer.site .wrap{padding-block:clamp(46px,5vw,72px) 26px}
       </div>
 
       <div class="flow">
-        <div class="flow__trunk" aria-hidden="true"></div>
-        <div class="flow__rail" aria-hidden="true">
-          <span class="flow__cell"></span><span class="flow__cell"></span>
-          <span class="flow__cell"></span><span class="flow__cell"></span>
-        </div>
+        <svg class="flowline" viewBox="0 0 1200 112" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <g fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke" stroke-linecap="round">
+            <path d="M144 106 V58 Q144 40 162 40 H582 Q600 40 600 22 V7"/>
+            <path d="M1056 106 V58 Q1056 40 1038 40 H618 Q600 40 600 22"/>
+            <path d="M448 106 V58 Q448 40 466 40"/>
+            <path d="M752 106 V58 Q752 40 734 40"/>
+          </g>
+          <g fill="currentColor">
+            <circle cx="600" cy="7" r="3.6"/>
+            <circle cx="144" cy="106" r="3.6"/>
+            <circle cx="448" cy="106" r="3.6"/>
+            <circle cx="752" cy="106" r="3.6"/>
+            <circle cx="1056" cy="106" r="3.6"/>
+          </g>
+        </svg>
         <div class="phases">
         <article class="phase rise">
           <h3>Form &amp; register</h3>
