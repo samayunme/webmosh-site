@@ -537,7 +537,7 @@ section{padding-block:var(--sec);position:relative;scroll-margin-top:24px}
 /* the hub sits over the wall and pulls the eye to the centre */
 .hub{
   position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;
-  width:clamp(124px,13vw,172px);height:clamp(124px,13vw,172px);border-radius:50%;
+  width:clamp(152px,16vw,212px);height:clamp(152px,16vw,212px);border-radius:50%;
   display:grid;place-items:center;
   /* frosted, not opaque — the tool wall stays visible through it.
      The lower half carries the light, so the bloom sits at the bottom. */
@@ -565,14 +565,14 @@ section{padding-block:var(--sec);position:relative;scroll-margin-top:24px}
   mask-composite:exclude;
   filter:drop-shadow(0 0 7px var(--hub-halo));
 }
-.hub img{width:54%;height:auto}
+.hub img{width:44%;height:auto}
 
 /* connector: one stroke with rounded elbows and lit end points.
    x positions are the card centres for a 4-column grid in a 1200-unit box,
    so the drops land on the cards at any width the diagram is shown at. */
 .flow{position:relative}
 .flowline{
-  display:block;width:100%;height:clamp(60px,6.2vw,94px);
+  display:block;width:100%;height:clamp(84px,8.4vw,126px);
   color:var(--brand);
   filter:drop-shadow(0 0 5px var(--hub-halo)) drop-shadow(0 0 16px var(--hub-halo));
 }
@@ -1177,19 +1177,19 @@ footer.site .wrap{padding-block:clamp(46px,5vw,72px) 26px}
       </div>
 
       <div class="flow">
-        <svg class="flowline" viewBox="0 0 1200 112" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <svg class="flowline" viewBox="0 0 1200 150" preserveAspectRatio="none" aria-hidden="true" focusable="false">
           <g fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke" stroke-linecap="round">
-            <path d="M144 106 V58 Q144 40 162 40 H582 Q600 40 600 22 V7"/>
-            <path d="M1056 106 V58 Q1056 40 1038 40 H618 Q600 40 600 22"/>
-            <path d="M448 106 V58 Q448 40 466 40"/>
-            <path d="M752 106 V58 Q752 40 734 40"/>
+            <path d="M144 144 V96 Q144 78 162 78 H582 Q600 78 600 60 V6"/>
+            <path d="M1056 144 V96 Q1056 78 1038 78 H618 Q600 78 600 60"/>
+            <path d="M448 144 V96 Q448 78 466 78"/>
+            <path d="M752 144 V96 Q752 78 734 78"/>
           </g>
           <g fill="currentColor">
-            <circle cx="600" cy="7" r="3.6"/>
-            <circle cx="144" cy="106" r="3.6"/>
-            <circle cx="448" cy="106" r="3.6"/>
-            <circle cx="752" cy="106" r="3.6"/>
-            <circle cx="1056" cy="106" r="3.6"/>
+            <circle cx="600" cy="6" r="3.6"/>
+            <circle cx="144" cy="144" r="3.6"/>
+            <circle cx="448" cy="144" r="3.6"/>
+            <circle cx="752" cy="144" r="3.6"/>
+            <circle cx="1056" cy="144" r="3.6"/>
           </g>
         </svg>
         <div class="phases">
