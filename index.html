@@ -556,6 +556,24 @@ section{padding-block:var(--sec);position:relative;scroll-margin-top:24px}
 }
 /* stop-color must come from CSS: var() is ignored in SVG presentation attributes */
 .flowline stop{stop-color:var(--trunk)}
+/* the dash sits off the path at rest, sweeps through, then waits out the cycle.
+   Branches hold until the trunk pulse has arrived, so the four reach their
+   cards together. */
+.flowline .pulse path{animation:pulseBranch 3.4s linear infinite}
+.flowline .pulse .pulse--trunk{animation-name:pulseTrunk}
+@keyframes pulseTrunk{
+  0%{stroke-dashoffset:88}
+  26%{stroke-dashoffset:212}
+  100%{stroke-dashoffset:212}
+}
+@keyframes pulseBranch{
+  0%,22%{stroke-dashoffset:88}
+  70%{stroke-dashoffset:212}
+  100%{stroke-dashoffset:212}
+}
+@media (prefers-reduced-motion:reduce){
+  .flowline .pulse{display:none}
+}
 @media (max-width:1040px){.flowline{display:none}}
 
 .phases{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(13px,1.4vw,18px)}
@@ -1175,6 +1193,17 @@ footer.site .wrap{padding-block:clamp(46px,5vw,72px) 26px}
           </g>
           <g fill="none" stroke="url(#trunkFade)" stroke-width="3" vector-effect="non-scaling-stroke" stroke-linecap="round">
             <path d="M600 114 V2"/>
+          </g>
+          <!-- pulse layer: every path is authored card-end first, so a rising
+               dash-offset carries the dash from its far end toward its start —
+               down the trunk, then outward and down into each card -->
+          <g class="pulse" fill="none" stroke="var(--trunk)" vector-effect="non-scaling-stroke"
+             stroke-linecap="round" pathLength="100" stroke-dasharray="12 188">
+            <path class="pulse--trunk" d="M600 114 V2" stroke-width="3" pathLength="100"/>
+            <path d="M144 198 V150 Q144 132 162 132 H582 Q600 132 600 114" stroke-width="2.4" pathLength="100"/>
+            <path d="M1056 198 V150 Q1056 132 1038 132 H618 Q600 132 600 114" stroke-width="2.4" pathLength="100"/>
+            <path d="M448 198 V150 Q448 132 466 132" stroke-width="2.4" pathLength="100"/>
+            <path d="M752 198 V150 Q752 132 734 132" stroke-width="2.4" pathLength="100"/>
           </g>
           <g fill="currentColor">
             <circle cx="144" cy="198" r="3.6"/>
