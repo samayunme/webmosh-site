@@ -823,7 +823,10 @@ details.q .a p + p{margin-top:.8em}
 /* ==========================================================
    contact
    ========================================================== */
-.contact__grid{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1fr);gap:clamp(30px,4vw,58px)}
+.contact__grid{
+  display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1fr);
+  gap:clamp(30px,4vw,58px);align-items:start;
+}
 @media (max-width:920px){.contact__grid{grid-template-columns:1fr}}
 .contact__list{margin-top:28px;display:grid}
 .cline{display:flex;align-items:center;gap:13px;padding:15px 0;border-bottom:1px solid var(--stroke)}

@@ -93,6 +93,7 @@ The page always opens dark — the system colour-scheme preference is deliberate
 ```
 index.html             homepage
 about.html             /about
+contact.html           /contact
 assets/site.css        the whole design system, shared by every page
 assets/site.js         theme, menus, reveals, form — shared by every page
 assets/                logo, favicons, hero placeholder
