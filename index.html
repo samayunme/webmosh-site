@@ -43,6 +43,12 @@
   --on-accent:#FFFFFF;
   --ok:#3ECF8E;
   --glass:rgb(11 13 21 / .66);
+  --brand:#31B5F2;
+  --hub-core:rgb(255 255 255 / .14);
+  --hub-edge:rgb(49 181 242 / .05);
+  --hub-ring:rgb(125 208 250 / .8);
+  --hub-halo:rgb(49 181 242 / .38);
+  --hub-inner:rgb(160 220 255 / .34);
   --glass-brd:rgb(255 255 255 / .1);
   --sheen:rgb(255 255 255 / .22);
   --shadow:0 1px 2px rgb(0 0 0 / .4), 0 12px 32px -14px rgb(0 0 0 / .7);
@@ -83,6 +89,18 @@
     --a2-glow:rgb(124 58 237 / .16);
     --ok:#0E9F6E;
     --glass:rgb(255 255 255 / .72);
+  --brand:#1596D6;
+  --hub-core:rgb(255 255 255 / .62);
+  --hub-edge:rgb(49 181 242 / .1);
+  --hub-ring:rgb(21 150 214 / .6);
+  --hub-halo:rgb(49 181 242 / .3);
+  --hub-inner:rgb(255 255 255 / .75);
+    --brand:#1596D6;
+    --hub-core:rgb(255 255 255 / .62);
+    --hub-edge:rgb(49 181 242 / .1);
+    --hub-ring:rgb(21 150 214 / .6);
+    --hub-halo:rgb(49 181 242 / .3);
+    --hub-inner:rgb(255 255 255 / .75);
     --glass-brd:rgb(12 22 48 / .09);
     --sheen:rgb(255 255 255 / .9);
     --shadow:0 1px 2px rgb(12 22 48 / .05), 0 12px 30px -14px rgb(12 22 48 / .22);
@@ -107,6 +125,12 @@
   --a2-glow:rgb(124 58 237 / .16);
   --ok:#0E9F6E;
   --glass:rgb(255 255 255 / .72);
+  --brand:#1596D6;
+  --hub-core:rgb(255 255 255 / .62);
+  --hub-edge:rgb(49 181 242 / .1);
+  --hub-ring:rgb(21 150 214 / .6);
+  --hub-halo:rgb(49 181 242 / .3);
+  --hub-inner:rgb(255 255 255 / .75);
   --glass-brd:rgb(12 22 48 / .09);
   --sheen:rgb(255 255 255 / .9);
   --shadow:0 1px 2px rgb(12 22 48 / .05), 0 12px 30px -14px rgb(12 22 48 / .22);
@@ -510,13 +534,16 @@ section{padding-block:var(--sec);position:relative;scroll-margin-top:24px}
 /* the hub sits over the wall and pulls the eye to the centre */
 .hub{
   position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;
-  width:clamp(86px,9vw,112px);height:clamp(86px,9vw,112px);border-radius:50%;
+  width:clamp(124px,13vw,172px);height:clamp(124px,13vw,172px);border-radius:50%;
   display:grid;place-items:center;
-  background:radial-gradient(circle,var(--bg-elev) 46%,rgb(77 124 254 / .16) 100%);
-  border:1px solid rgb(77 124 254 / .5);
-  box-shadow:0 0 42px 18px var(--bg), 0 0 80px -4px var(--a-glow), inset 0 0 28px -8px var(--a-glow);
+  /* frosted, not opaque — the tool wall stays visible through it */
+  background:radial-gradient(circle at 50% 42%,var(--hub-core),var(--hub-edge) 78%);
+  -webkit-backdrop-filter:blur(7px) saturate(175%);
+  backdrop-filter:blur(7px) saturate(175%);
+  border:1px solid var(--hub-ring);
+  box-shadow:0 0 52px -6px var(--hub-halo), inset 0 0 46px -10px var(--hub-inner);
 }
-.hub img{width:48%;height:auto}
+.hub img{width:42%;height:auto}
 
 /* connector: one stroke with rounded elbows and lit end points.
    x positions are the card centres for a 4-column grid in a 1200-unit box,
