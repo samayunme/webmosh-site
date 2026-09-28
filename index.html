@@ -71,6 +71,8 @@
   --fs-xs:.8125rem;
 
   --ease:cubic-bezier(.22,1,.36,1);
+  --a1-0:rgb(77 124 254 / 0);
+  --a2-0:rgb(139 92 246 / 0);
 }
 @media (prefers-color-scheme:light){
   :root:not([data-theme="dark"]){
@@ -105,6 +107,8 @@
     --shadow:0 1px 2px rgb(12 22 48 / .05), 0 12px 30px -14px rgb(12 22 48 / .22);
     --shadow-lg:0 2px 6px rgb(12 22 48 / .06), 0 28px 60px -26px rgb(12 22 48 / .3);
   }
+    --a1-0:rgb(45 91 255 / 0);
+    --a2-0:rgb(124 58 237 / 0);
 }
 :root[data-theme="light"]{
   --bg:#FAFBFE;
@@ -137,6 +141,8 @@
   --sheen:rgb(255 255 255 / .9);
   --shadow:0 1px 2px rgb(12 22 48 / .05), 0 12px 30px -14px rgb(12 22 48 / .22);
   --shadow-lg:0 2px 6px rgb(12 22 48 / .06), 0 28px 60px -26px rgb(12 22 48 / .3);
+  --a1-0:rgb(45 91 255 / 0);
+  --a2-0:rgb(124 58 237 / 0);
 }
 
 /* ==========================================================
@@ -259,14 +265,26 @@ section{padding-block:var(--sec);position:relative;scroll-margin-top:24px}
   box-shadow:var(--shadow-lg), inset 0 1px 0 rgb(255 255 255 / .07);
 }
 /* gradient hairline ring, drawn in the border box only */
+/* the lit arc travels around the pill; @property makes the angle animatable,
+   and without it the gradient still renders, just held still */
+@property --ring-angle{syntax:"<angle>";initial-value:0deg;inherits:false}
 .dock__pill::before{
   content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;
-  background:linear-gradient(115deg,transparent 18%,var(--a1) 44%,var(--a2) 62%,transparent 84%);
+  background:conic-gradient(from var(--ring-angle),
+    var(--a1-0) 0deg,
+    var(--a1) 30deg,
+    var(--a2) 62deg,
+    var(--a2-0) 96deg,
+    var(--a2-0) 360deg);
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
   -webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
   mask-composite:exclude;
-  opacity:.6;
+  opacity:1;
+  filter:drop-shadow(0 0 4px var(--a-glow));
+  animation:ringtravel 5.5s linear infinite;
 }
+@keyframes ringtravel{to{--ring-angle:360deg}}
+@media (prefers-reduced-motion:reduce){.dock__pill::before{animation:none}}
 /* the light it casts on the page beneath */
 .dock::after{
   content:"";position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);
