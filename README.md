@@ -82,7 +82,7 @@ To change the line-up: fetch a mark with `curl -s https://cdn.jsdelivr.net/npm/s
 
 Floating glass dock (site navigation, anchored bottom centre) · hero with framed portrait and status cards · brand marquee · six vendor-gap problems · six services in a bento grid · stack diagram (tool wall, hub and what each stage produces) · five-step process · package comparison matrix with a US/UK switch · FAQ · CTA panel · contact form · footer.
 
-Dark-first enterprise system: `#07080D` ground, a blue-to-violet `#4D7CFE` → `#8B5CF6` accent, translucent panels over an aurora wash and a masked grid, and an inline SVG icon sprite (no icon-font dependency). The light theme is a full counterpart, not an inversion.
+Dark-first enterprise system: `#07080D` ground, a cyan accent drawn from the logo — `#4CC7FB` → `#1B86DC` on dark, deepened to `#0A72AE` → `#08578F` on light so link and button text still clears 4.5:1 — translucent panels over an aurora wash and a masked grid, and an inline SVG icon sprite (no icon-font dependency). The light theme is a full counterpart, not an inversion.
 
 Interaction details: navigation is a glass pill fixed to the bottom of the viewport, with a backdrop blur and a gradient hairline ring; below 900px it collapses to the mark, the call to action and the theme switch; cards carry a pointer-tracked spotlight (pointer devices only, and skipped entirely under `prefers-reduced-motion`); a fine SVG noise layer keeps large flat areas from banding.
 
