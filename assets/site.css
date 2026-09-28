@@ -51,6 +51,7 @@
   --ease:cubic-bezier(.22,1,.36,1);
   --a1-0:rgb(77 124 254 / 0);
   --a2-0:rgb(139 92 246 / 0);
+  --stroke-0:rgb(255 255 255 / 0);
 }
 :root[data-theme="light"]{
   --bg:#FAFBFE;
@@ -85,6 +86,7 @@
   --shadow-lg:0 2px 6px rgb(12 22 48 / .06), 0 28px 60px -26px rgb(12 22 48 / .3);
   --a1-0:rgb(45 91 255 / 0);
   --a2-0:rgb(124 58 237 / 0);
+  --stroke-0:rgb(12 22 48 / 0);
 }
 
 /* ==========================================================
@@ -414,7 +416,16 @@ section{padding-block:var(--sec);position:relative;scroll-margin-top:24px}
 /* ==========================================================
    brand marquee
    ========================================================== */
-.logos{padding-block:clamp(44px,5vw,76px);border-bottom:1px solid var(--stroke)}
+.logos{padding-block:clamp(44px,5vw,76px);position:relative}
+/* the divider fades out at both ends rather than cutting the full width */
+.logos::after{
+  content:"";position:absolute;inset:auto 0 0;height:1px;pointer-events:none;
+  background:linear-gradient(90deg,
+    var(--stroke-0),
+    var(--stroke) 22%,
+    var(--stroke) 78%,
+    var(--stroke-0));
+}
 .logos__title{display:flex;justify-content:center;margin-bottom:clamp(26px,3vw,40px)}
 .marquee{
   overflow:hidden;
