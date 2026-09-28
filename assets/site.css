@@ -207,11 +207,18 @@ section{padding-block:var(--sec);position:relative;scroll-margin-top:24px}
   box-shadow:var(--shadow-lg), inset 0 1px 0 rgb(255 255 255 / .07);
 }
 /* gradient hairline ring, drawn in the border box only */
-/* the lit arc travels around the pill; @property makes the angle animatable,
-   and without it the gradient still renders, just held still */
+/* ── travelling border beam ──────────────────────────────
+   A lit arc runs around the border box. @property is what makes the
+   angle interpolate; without it the gradient still renders, held still.
+   Zero-alpha stops are accent-coloured, not `transparent`, which would
+   interpolate through black and grey the trailing edge. */
 @property --ring-angle{syntax:"<angle>";initial-value:0deg;inherits:false}
-.dock__pill::before{
+.dock__pill::before,
+.ctapanel::after,
+.formcard::after,
+.phase::after{
   content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;
+  height:auto;
   background:conic-gradient(from var(--ring-angle),
     var(--a1-0) 0deg,
     var(--a1) 30deg,
@@ -225,8 +232,16 @@ section{padding-block:var(--sec);position:relative;scroll-margin-top:24px}
   filter:drop-shadow(0 0 4px var(--a-glow));
   animation:ringtravel 5.5s linear infinite;
 }
+/* the four stage cards run out of phase with each other */
+.phase:nth-child(2)::after{animation-delay:-1.4s}
+.phase:nth-child(3)::after{animation-delay:-2.8s}
+.phase:nth-child(4)::after{animation-delay:-4.2s}
+.ctapanel::after{animation-duration:7s}
+.formcard::after{animation-duration:6.5s}
 @keyframes ringtravel{to{--ring-angle:360deg}}
-@media (prefers-reduced-motion:reduce){.dock__pill::before{animation:none}}
+@media (prefers-reduced-motion:reduce){
+  .dock__pill::before,.ctapanel::after,.formcard::after,.phase::after{animation:none}
+}
 /* the light it casts on the page beneath */
 .dock::after{
   content:"";position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);
@@ -625,7 +640,6 @@ section{padding-block:var(--sec);position:relative;scroll-margin-top:24px}
   padding:clamp(20px,2vw,26px);overflow:hidden;
   transition:border-color .3s var(--ease);
 }
-.phase::after{content:"";position:absolute;inset:0 0 auto;height:1px;pointer-events:none;background:linear-gradient(90deg,transparent,var(--sheen),transparent);opacity:.45}
 .phase:hover{border-color:var(--stroke-2)}
 .phase h3{font-size:1.08rem;letter-spacing:-.02em}
 .phase__tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
@@ -801,7 +815,6 @@ details.q .a p + p{margin-top:.8em}
   content:"";position:absolute;width:640px;height:360px;left:50%;top:-200px;transform:translateX(-50%);
   background:radial-gradient(circle,var(--a-glow),transparent 68%);filter:blur(56px);pointer-events:none;
 }
-.ctapanel::after{content:"";position:absolute;inset:0 0 auto;height:1px;background:linear-gradient(90deg,transparent,var(--sheen),transparent)}
 .ctapanel > *{position:relative;z-index:1}
 .ctapanel h2{max-width:22ch}
 .ctapanel p{color:var(--muted);margin-top:12px;max-width:44ch;font-size:var(--fs-sm)}
@@ -824,7 +837,6 @@ details.q .a p + p{margin-top:.8em}
   padding:clamp(22px,2.6vw,32px);
   -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
 }
-.formcard::after{content:"";position:absolute;inset:0 0 auto;height:1px;background:linear-gradient(90deg,transparent,var(--sheen),transparent)}
 .formgrid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
 @media (max-width:620px){.formgrid{grid-template-columns:1fr}}
 .field{display:flex;flex-direction:column;gap:7px;margin-bottom:15px}
