@@ -91,10 +91,26 @@ The page always opens dark — the system colour-scheme preference is deliberate
 ## Structure
 
 ```
-index.html     the entire site — markup, CSS tokens, and the reveal/theme/form script
-Dockerfile     nginx:alpine image Coolify builds
-nginx.conf     caching, gzip, single-page fallback
+index.html             homepage
+about.html             /about
+assets/site.css        the whole design system, shared by every page
+assets/site.js         theme, menus, reveals, form — shared by every page
+assets/                logo, favicons, hero placeholder
+Dockerfile             nginx:alpine image Coolify builds
+nginx.conf             caching, gzip, extensionless URLs, single-page fallback
 security-headers.conf  CSP and hardening headers, included by every location
-robots.txt     update the sitemap URL when the domain is final
-sitemap.xml    update the domain when it is final
+robots.txt             update the sitemap URL when the domain is final
+sitemap.xml            add each new page here
 ```
+
+### Adding a page
+
+`nginx.conf` resolves `$uri.html`, so `about.html` serves at `/about` and
+`services/seo.html` would serve at `/services/seo` — no redirect, no folder
+per page. To add one: copy `about.html`, change the `<title>`, description and
+`<main>`, mark the current item in the dock with `aria-current="page"`, add the
+file to the `COPY` line in the `Dockerfile`, and add the URL to `sitemap.xml`.
+
+The head, icon sprite, dock and footer are duplicated per page — a static site
+has no includes. Keep them in step, or move to a generator if the page count
+grows. The CSS and JS are shared, so design changes are made once.
