@@ -103,6 +103,24 @@ robots.txt             update the sitemap URL when the domain is final
 sitemap.xml            add each new page here
 ```
 
+### Previewing locally
+
+Asset paths are **relative** (`assets/site.css`, not `/assets/site.css`) so the
+pages render correctly when opened straight from disk. Root-absolute asset
+paths resolve to your filesystem root under `file://` and the page loads with
+no styling at all.
+
+Navigation links are root-absolute (`/about`, `/#contact`) because that is what
+the deployed site needs, so they will not resolve from `file://`. To click
+through the site locally, serve the folder instead:
+
+```bash
+python3 -m http.server 8000     # then open http://localhost:8000
+```
+
+A page in a subfolder (`services/seo.html`) must use `../assets/…` — relative
+paths resolve against the page's directory.
+
 ### Adding a page
 
 `nginx.conf` resolves `$uri.html`, so `about.html` serves at `/about` and
