@@ -137,6 +137,12 @@ section{padding-block:var(--sec);position:relative;scroll-margin-top:24px}
 .glow::before,.glow::after{content:"";position:absolute;border-radius:50%;filter:blur(72px)}
 .glow::before{width:min(760px,90vw);height:440px;left:50%;top:-190px;transform:translateX(-58%);background:radial-gradient(circle,var(--a-glow),transparent 68%)}
 .glow::after{width:min(560px,80vw);height:400px;right:-120px;top:60px;background:radial-gradient(circle,var(--a2-glow),transparent 68%)}
+/* .stack clips this blur at its own top edge, which reads as a hard band
+   just under the marquee divider — fade it in so the two meet smoothly */
+.stack .glow{
+  -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 240px);
+  mask-image:linear-gradient(180deg,transparent 0,#000 240px);
+}
 .gridlines{
   position:absolute;inset:0;z-index:0;pointer-events:none;
   background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
