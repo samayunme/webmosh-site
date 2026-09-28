@@ -86,7 +86,7 @@ Dark-first enterprise system: `#07080D` ground, a blue-to-violet `#4D7CFE` → `
 
 Interaction details: navigation is a glass pill fixed to the bottom of the viewport, with a backdrop blur and a lit arc that travels around its hairline border on a 5.5s loop; below 900px it collapses to the mark, the call to action and the theme switch; cards carry a pointer-tracked spotlight (pointer devices only, and skipped entirely under `prefers-reduced-motion`); a fine SVG noise layer keeps large flat areas from banding.
 
-Light and dark themes with a toggle (preference saved to `localStorage`), keyboard focus states, a skip link, `prefers-reduced-motion` support, and `ProfessionalService` JSON-LD for search engines.
+The page always opens dark — the system colour-scheme preference is deliberately ignored — with a toggle to light whose choice is saved to `localStorage`, keyboard focus states, a skip link, `prefers-reduced-motion` support, and `ProfessionalService` JSON-LD for search engines.
 
 ## Structure
 

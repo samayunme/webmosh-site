@@ -10,8 +10,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
 <title>WEBMOSH</title>
 <meta name="description" content="WEBMOSH forms your UK or US company, builds and hosts your business website, and keeps your marketing, optimization and business taxes running — one firm, one invoice.">
-<meta name="theme-color" content="#07080D" media="(prefers-color-scheme: dark)">
-<meta name="theme-color" content="#FAFBFE" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#07080D" id="themeColor">
 <meta property="og:title" content="WEBMOSH">
 <meta property="og:description" content="UK & US company formation, business websites and hosting, marketing, optimization and business taxes — all in one place you can trust.">
 <meta property="og:type" content="website">
@@ -73,42 +72,6 @@
   --ease:cubic-bezier(.22,1,.36,1);
   --a1-0:rgb(77 124 254 / 0);
   --a2-0:rgb(139 92 246 / 0);
-}
-@media (prefers-color-scheme:light){
-  :root:not([data-theme="dark"]){
-    --bg:#FAFBFE;
-    --bg-elev:#FFFFFF;
-    --panel:rgb(255 255 255 / .8);
-    --panel-2:#FFFFFF;
-    --stroke:rgb(12 22 48 / .1);
-    --stroke-2:rgb(12 22 48 / .2);
-    --grid:rgb(12 22 48 / .05);
-    --ink:#0A0F1E;
-    --muted:#525C75;
-    --dim:#7A8397;
-    --a1:#2D5BFF;
-    --a2:#7C3AED;
-    --a-tint:rgb(45 91 255 / .08);
-    --a-glow:rgb(45 91 255 / .2);
-    --a2-glow:rgb(124 58 237 / .16);
-    --ok:#0E9F6E;
-    --glass:rgb(255 255 255 / .72);
-    --brand:#1596D6;
-    --hub-core:rgb(255 255 255 / .62);
-    --hub-edge:rgb(49 181 242 / .1);
-    --hub-ring:rgb(21 150 214 / .85);
-    --hub-ring-0:rgb(21 150 214 / 0);
-    --hub-halo:rgb(49 181 242 / .3);
-    --hub-inner:rgb(255 255 255 / .75);
-    --hub-bloom:rgb(49 181 242 / .36);
-    --trunk:rgb(10 116 176 / .95);
-    --glass-brd:rgb(12 22 48 / .09);
-    --sheen:rgb(255 255 255 / .9);
-    --shadow:0 1px 2px rgb(12 22 48 / .05), 0 12px 30px -14px rgb(12 22 48 / .22);
-    --shadow-lg:0 2px 6px rgb(12 22 48 / .06), 0 28px 60px -26px rgb(12 22 48 / .3);
-  }
-    --a1-0:rgb(45 91 255 / 0);
-    --a2-0:rgb(124 58 237 / 0);
 }
 :root[data-theme="light"]{
   --bg:#FAFBFE;
@@ -321,17 +284,12 @@ section{padding-block:var(--sec);position:relative;scroll-margin-top:24px}
   .cta-long{display:none}
   .cta-short{display:inline}
 }
-.ico-sun{display:none}
-@media (prefers-color-scheme:light){
-  :root:not([data-theme="dark"]) .ico-moon{display:block}
-  :root:not([data-theme="dark"]) .ico-sun{display:none}
-}
+/* the page is dark unless explicitly stamped light, so the sun is the
+   default offer and the moon appears only in the light theme */
 .ico-moon{display:none}
 .ico-sun{display:block}
 :root[data-theme="light"] .ico-moon{display:block}
 :root[data-theme="light"] .ico-sun{display:none}
-:root[data-theme="dark"] .ico-moon{display:none}
-:root[data-theme="dark"] .ico-sun{display:block}
 
 /* ==========================================================
    motion
@@ -1618,11 +1576,17 @@ footer.site .wrap{padding-block:clamp(46px,5vw,72px) 26px}
     var saved = localStorage.getItem("wm-theme");
     if (saved === "dark" || saved === "light") root.setAttribute("data-theme", saved);
   } catch (e) {}
+  /* dark is the default: the system preference is deliberately ignored */
+  var meta = el("themeColor");
+  var paint = function (mode) {
+    if (meta) meta.setAttribute("content", mode === "light" ? "#FAFBFE" : "#07080D");
+  };
+  paint(root.getAttribute("data-theme") || "dark");
   el("themeBtn").addEventListener("click", function () {
-    var sysDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    var cur = root.getAttribute("data-theme") || (sysDark ? "dark" : "light");
+    var cur = root.getAttribute("data-theme") || "dark";
     var next = cur === "dark" ? "light" : "dark";
     root.setAttribute("data-theme", next);
+    paint(next);
     try { localStorage.setItem("wm-theme", next); } catch (e) {}
   });
 
