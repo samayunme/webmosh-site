@@ -91,14 +91,6 @@
     --a2-glow:rgb(124 58 237 / .16);
     --ok:#0E9F6E;
     --glass:rgb(255 255 255 / .72);
-  --brand:#1596D6;
-  --hub-core:rgb(255 255 255 / .62);
-  --hub-edge:rgb(49 181 242 / .1);
-  --hub-ring:rgb(21 150 214 / .85);
-  --hub-ring-0:rgb(21 150 214 / 0);
-  --hub-halo:rgb(49 181 242 / .3);
-  --hub-inner:rgb(255 255 255 / .75);
-  --hub-bloom:rgb(49 181 242 / .36);
     --brand:#1596D6;
     --hub-core:rgb(255 255 255 / .62);
     --hub-edge:rgb(49 181 242 / .1);
@@ -578,8 +570,8 @@ section{padding-block:var(--sec);position:relative;scroll-margin-top:24px}
 .flow{position:relative}
 .flowline{
   display:block;width:100%;height:clamp(60px,6.2vw,94px);
-  color:var(--a1);
-  filter:drop-shadow(0 0 5px rgb(77 124 254 / .5)) drop-shadow(0 0 15px rgb(77 124 254 / .3));
+  color:var(--brand);
+  filter:drop-shadow(0 0 5px var(--hub-halo)) drop-shadow(0 0 16px var(--hub-halo));
 }
 @media (max-width:1040px){.flowline{display:none}}
 
