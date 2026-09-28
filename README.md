@@ -112,11 +112,18 @@ no styling at all.
 
 Navigation links are root-absolute (`/about`, `/#contact`) because that is what
 the deployed site needs, so they will not resolve from `file://`. To click
-through the site locally, serve the folder instead:
+through the site locally:
 
 ```bash
-python3 -m http.server 8000     # then open http://localhost:8000
+python3 serve.py                # then open http://localhost:8000
 ```
+
+**Use `serve.py`, not `python3 -m http.server`.** The stock server returns files
+verbatim, so `/about` 404s there while the deployed site serves `about.html` for
+it. `serve.py` mirrors the `try_files` chain in `nginx.conf` — `$uri`,
+`$uri.html`, `$uri/`, then `/index.html` — so local preview matches production,
+including the fallback that makes unbuilt paths like `/login` render the
+homepage rather than 404.
 
 A page in a subfolder (`services/seo.html`) must use `../assets/…` — relative
 paths resolve against the page's directory.
