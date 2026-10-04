@@ -98,30 +98,70 @@
     });
   }
 
-  /* ── services mega menu ───────────────────────────────── */
-  var svcT = el("svcTrigger"), svcM = el("svcMenu");
-  var svcWrap = svcT.parentNode, hoverOK = window.matchMedia("(hover: hover)").matches, shutTimer;
-  function openSvc(on) {
-    svcM.classList.toggle("is-open", on);
-    svcT.setAttribute("aria-expanded", on ? "true" : "false");
-  }
-  svcT.addEventListener("click", function () {
-    openSvc(svcT.getAttribute("aria-expanded") !== "true");
-  });
-  if (hoverOK) {
-    svcWrap.addEventListener("pointerenter", function () { clearTimeout(shutTimer); openSvc(true); });
-    svcWrap.addEventListener("pointerleave", function () {
-      shutTimer = setTimeout(function () { openSvc(false); }, 160);
+  /* ── dock menus ────────────────────────────────────────
+     Two panels share this: the services mega menu, and the
+     hamburger beside the theme switch that carries About,
+     Contact and Login on small screens. Opening one closes
+     the other, so they can never overlap. */
+  /* hover-to-open is for a real mouse on the wide layout only. A tap fires
+     pointerenter and then click, which opened the panel and shut it again
+     in the same gesture. Both queries are read live so a resize behaves. */
+  var fineHover = window.matchMedia("(hover: hover) and (pointer: fine)");
+  var mobileDock = window.matchMedia("(max-width: 900px)");
+  function hoverDrives() { return fineHover.matches && !mobileDock.matches; }
+  var menus = [];
+
+  function wireMenu(triggerId, menuId, hoverable) {
+    var t = el(triggerId), m = el(menuId);
+    if (!t || !m) return null;
+    var wrap = t.parentNode, shutTimer, hoverOpenedAt = 0;
+    var api = {
+      trigger: t,
+      wrap: wrap,
+      open: function (on) {
+        if (on) menus.forEach(function (o) { if (o !== api) o.open(false); });
+        m.classList.toggle("is-open", on);
+        t.setAttribute("aria-expanded", on ? "true" : "false");
+      },
+      isOpen: function () { return t.getAttribute("aria-expanded") === "true"; }
+    };
+    t.addEventListener("click", function (ev) {
+      ev.stopPropagation();
+      /* a hover that opened this a moment ago must not be undone by the
+         click arriving from the same tap */
+      if (api.isOpen() && Date.now() - hoverOpenedAt < 600) return;
+      api.open(!api.isOpen());
     });
-  }
-  document.addEventListener("keydown", function (ev) {
-    if (ev.key === "Escape" && svcT.getAttribute("aria-expanded") === "true") {
-      openSvc(false);
-      svcT.focus();
+    if (hoverable) {
+      wrap.addEventListener("pointerenter", function (ev) {
+        if (!hoverDrives()) return;
+        if (ev.pointerType && ev.pointerType !== "mouse") return;
+        clearTimeout(shutTimer);
+        hoverOpenedAt = Date.now();
+        api.open(true);
+      });
+      wrap.addEventListener("pointerleave", function () {
+        if (!hoverDrives()) return;
+        shutTimer = setTimeout(function () { api.open(false); }, 160);
+      });
     }
+    menus.push(api);
+    return api;
+  }
+
+  wireMenu("svcTrigger", "svcMenu", true);
+  wireMenu("navTrigger", "navMenu", false);
+
+  document.addEventListener("keydown", function (ev) {
+    if (ev.key !== "Escape") return;
+    menus.forEach(function (o) {
+      if (o.isOpen()) { o.open(false); o.trigger.focus(); }
+    });
   });
   document.addEventListener("click", function (ev) {
-    if (!svcWrap.contains(ev.target)) openSvc(false);
+    menus.forEach(function (o) {
+      if (!o.wrap.contains(ev.target)) o.open(false);
+    });
   });
 
   /* ── jurisdiction switch ──────────────────────────────── */

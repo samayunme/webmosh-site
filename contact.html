@@ -33,59 +33,78 @@
 <symbol id="i-mail" viewBox="0 0 24 24"><path d="M3 5h18v14H3zM3 6l9 6.5L21 6"/></symbol>
 <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 01-11.6 7.1L3 21l1.9-6.4A8 8 0 1121 12z"/></symbol>
 <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5.2l3.2 1.9"/></symbol>
+<symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+<symbol id="i-grid" viewBox="0 0 24 24"><path d="M4 4h6.5v6.5H4zM13.5 4H20v6.5h-6.5zM4 13.5h6.5V20H4zM13.5 13.5H20V20h-6.5z"/></symbol>
 </defs></svg>
 
 <header class="dock" id="dock">
   <div class="dock__pill">
-    <a href="index.html" class="dock__mark" aria-label="WEBMOSH — back to top">
+    <a href="/" class="dock__mark" aria-label="WEBMOSH — back to top">
       <img class="marklogo" src="assets/webmosh-logo.png" width="587" height="480" alt="">
     </a>
     <nav class="docknav" aria-label="Primary">
       <div class="hasmenu">
         <button class="docknav__trigger" type="button" id="svcTrigger"
-                aria-expanded="false" aria-controls="svcMenu" aria-haspopup="true">
-          Services <svg class="icon"><use href="#i-chev"/></svg>
+                aria-expanded="false" aria-controls="svcMenu" aria-haspopup="true" aria-label="Menu">
+          <span class="nav-long">Services</span>
+          <svg class="icon nav-chev"><use href="#i-chev"/></svg>
+          <svg class="icon nav-grid"><use href="#i-grid"/></svg>
         </button>
         <!-- none of these service pages exist yet -->
         <div class="submenu" id="svcMenu" role="menu" aria-labelledby="svcTrigger">
           <div class="submenu__grid">
           <section class="subcol">
             <h4>Development</h4>
-            <a href="services/wordpress-development.html" role="menuitem"><b>WordPress Development</b><span>Themes, plugins and WooCommerce builds.</span></a>
-            <a href="services/custom-website.html" role="menuitem"><b>Custom Website</b><span>Designed and hand-built for your business.</span></a>
-            <a href="services/web-applications.html" role="menuitem"><b>Web Applications</b><span>Portals, dashboards and internal tools.</span></a>
+            <a href="services/wordpress-development" role="menuitem"><b>WordPress Development</b><span>Themes, plugins and WooCommerce builds.</span></a>
+            <a href="services/custom-website" role="menuitem"><b>Custom Website</b><span>Designed and hand-built for your business.</span></a>
+            <a href="services/web-applications" role="menuitem"><b>Web Applications</b><span>Portals, dashboards and internal tools.</span></a>
           </section>
           <section class="subcol">
             <h4>Formation</h4>
-            <a href="services/us-llc.html" role="menuitem"><b>US LLC</b><span>Delaware, Wyoming or your state of choice.</span></a>
-            <a href="services/uk-ltd.html" role="menuitem"><b>UK LTD</b><span>Incorporated through Companies House.</span></a>
+            <a href="services/us-llc" role="menuitem"><b>US LLC</b><span>Delaware, Wyoming or your state of choice.</span></a>
+            <a href="services/uk-ltd" role="menuitem"><b>UK LTD</b><span>Incorporated through Companies House.</span></a>
           </section>
           <section class="subcol">
             <h4>Growth</h4>
-            <a href="services/marketing.html" role="menuitem"><b>Marketing</b><span>Paid search, social and email that report in revenue.</span></a>
-            <a href="services/seo.html" role="menuitem"><b>SEO</b><span>Technical and local search, built to rank.</span></a>
+            <a href="services/marketing" role="menuitem"><b>Marketing</b><span>Paid search, social and email that report in revenue.</span></a>
+            <a href="services/seo" role="menuitem"><b>SEO</b><span>Technical and local search, built to rank.</span></a>
           </section>
           <section class="subcol">
             <h4>Finance</h4>
-            <a href="services/tax-return.html" role="menuitem"><b>Tax Return</b><span>Filed with licensed accountants in each jurisdiction.</span></a>
-            <a href="services/bookkeeping.html" role="menuitem"><b>Bookkeeping</b><span>Monthly books, VAT and year-end ready.</span></a>
+            <a href="services/tax-return" role="menuitem"><b>Tax Return</b><span>Filed with licensed accountants in each jurisdiction.</span></a>
+            <a href="services/bookkeeping" role="menuitem"><b>Bookkeeping</b><span>Monthly books, VAT and year-end ready.</span></a>
           </section>
           </div>
         </div>
       </div>
-      <!-- /about and /login have no page yet -->
-      <a href="about.html">About Us</a>
-      <a href="contact.html" class="btn btn--primary btn--dock">
+      <a href="about">About Us</a>
+      <a href="https://app.webmosh.com" target="_blank" rel="noopener" class="btn btn--primary btn--dock">
         <span class="cta-long">Let&rsquo;s Start</span><span class="cta-short">Start</span>
         <svg class="icon"><use href="#i-arrow"/></svg>
       </a>
-      <a href="contact.html" aria-current="page">Contact</a>
-      <a href="login.html">Login</a>
+      <a href="contact" aria-current="page">Contact</a>
+      <a href="https://app.webmosh.com" target="_blank" rel="noopener">Login</a>
     </nav>
     <button class="iconbtn" id="themeBtn" type="button" aria-label="Switch colour theme">
       <svg class="icon ico-moon"><use href="#i-moon"/></svg>
       <svg class="icon ico-sun"><use href="#i-sun"/></svg>
     </button>
+    <div class="hasmenu hasmenu--nav">
+      <button class="iconbtn docknav__burger" type="button" id="navTrigger"
+              aria-expanded="false" aria-controls="navMenu" aria-haspopup="true" aria-label="Menu">
+        <svg class="icon"><use href="#i-menu"/></svg>
+      </button>
+      <div class="submenu submenu--nav" id="navMenu" role="menu" aria-labelledby="navTrigger">
+        <div class="submenu__grid">
+          <section class="subcol">
+            <h4>Company</h4>
+            <a href="about" role="menuitem"><b>About Us</b><span>Who we are and how we work.</span></a>
+            <a href="contact" role="menuitem"><b>Contact</b><span>Tell us what you are building.</span></a>
+            <a href="https://app.webmosh.com" target="_blank" rel="noopener" role="menuitem"><b>Login</b><span>Open the WEBMOSH app.</span></a>
+          </section>
+        </div>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -100,8 +119,8 @@
         <span class="eyebrow">Contact</span>
         <h1 style="margin-top:18px">Tell us what <span class="grad">you&rsquo;re building.</span></h1>
         <p style="margin-top:20px;font-size:var(--fs-lead);color:var(--muted);max-width:42rem">
-          One message is enough to start. You will hear back within one business day with a plan, a
-          jurisdiction recommendation and a figure &mdash; no obligation, and no drip campaign afterwards.
+          One message is enough to start. Within a business day you will have a plan, a jurisdiction
+          recommendation and a figure back. No obligation, and no drip campaign afterwards.
         </p>
       </div>
     </div>
@@ -113,8 +132,9 @@
       <div class="rise">
         <span class="eyebrow">Reach us directly</span>
         <div class="contact__list" style="margin-top:22px">
-          <div class="cline"><svg class="icon"><use href="#i-mail"/></svg><span><b>Email</b><a href="mailto:hello@webmosh.com">hello@webmosh.com</a></span></div>
-          <div class="cline"><svg class="icon"><use href="#i-chat"/></svg><span><b>WhatsApp</b><a href="https://wa.me/">+00 0000 000000</a></span></div>
+          <div class="cline"><svg class="icon"><use href="#i-mail"/></svg><span><b>Email</b><a href="mailto:info@webmosh.com">info@webmosh.com</a></span></div>
+          <div class="cline"><svg class="icon"><use href="#i-chat"/></svg><span><b>WhatsApp</b><a href="https://wa.me/8801608534154" target="_blank" rel="noopener">+880 1608 534154</a></span></div>
+          <div class="cline"><svg class="icon"><use href="#i-clock"/></svg><span><b>Phone</b><a href="tel:+8801608534154">+880 1608 534154</a></span></div>
           <div class="cline"><svg class="icon"><use href="#i-clock"/></svg><span><b>Office hours</b><span>Mon&ndash;Fri, 09:00&ndash;18:00 GMT</span></span></div>
           <div class="cline"><svg class="icon"><use href="#i-check"/></svg><span><b>Response time</b><span>Within one business day</span></span></div>
         </div>
@@ -132,15 +152,16 @@
             <span class="gaprow__n">02</span>
             <div>
               <h3>You get a written proposal</h3>
-              <p>The jurisdiction and structure we would choose, what it covers, and a fixed figure &mdash; with
-                government charges named separately at cost.</p>
+              <p>The jurisdiction and structure we would choose, what the work covers, and a fixed figure.
+                Government charges are named separately, at cost, so you can see which part is ours.</p>
             </div>
           </li>
           <li class="gaprow rise">
             <span class="gaprow__n">03</span>
             <div>
               <h3>Nothing starts until you approve it</h3>
-              <p>If the answer is no, that is the end of it. We do not add you to a mailing list.</p>
+              <p>If the answer is no, that is the end of it. You will not hear from us again unless you
+                write first.</p>
             </div>
           </li>
         </ol>
@@ -206,7 +227,8 @@
 
 <footer class="site">
   <div class="wrap">
-    <div class="foot">
+
+    <div class="foot__head">
       <div class="foot__brand">
         <div class="logo">
           <img class="marklogo" src="assets/webmosh-logo.png" width="587" height="480" alt="">
@@ -214,40 +236,82 @@
         </div>
         <p>Marketing, optimization, UK &amp; US company formation, business taxes, business website &amp; hosting &mdash; all in one place you can trust.</p>
       </div>
-      <div>
-        <h4>Services</h4>
+      <dl class="foot__contact">
+        <div>
+          <dt>Email</dt>
+          <dd><a href="mailto:info@webmosh.com">info@webmosh.com</a></dd>
+        </div>
+        <div>
+          <dt>Phone</dt>
+          <dd><a href="tel:+8801608534154">+880 1608 534154</a></dd>
+        </div>
+        <div>
+          <dt>WhatsApp</dt>
+          <dd><a href="https://wa.me/8801608534154" target="_blank" rel="noopener">+880 1608 534154</a></dd>
+        </div>
+        <div>
+          <dt>Hours</dt>
+          <dd>Mon&ndash;Fri, 09:00&ndash;18:00 GMT</dd>
+        </div>
+      </dl>
+    </div>
+
+    <nav class="foot__nav" aria-label="Footer">
+      <div class="foot__col">
+        <h4>Development</h4>
         <ul>
-          <li><a href="index.html#services">Company formation</a></li>
-          <li><a href="index.html#services">Business taxes</a></li>
-          <li><a href="index.html#services">Website &amp; development</a></li>
-          <li><a href="index.html#services">Hosting &amp; care</a></li>
-          <li><a href="index.html#services">Marketing</a></li>
-          <li><a href="index.html#services">Optimization</a></li>
+          <li><a href="services/wordpress-development">WordPress Development</a></li>
+          <li><a href="services/custom-website">Custom Website</a></li>
+          <li><a href="services/web-applications">Web Applications</a></li>
         </ul>
       </div>
-      <div>
+      <div class="foot__col">
+        <h4>Formation</h4>
+        <ul>
+          <li><a href="services/us-llc">US LLC</a></li>
+          <li><a href="services/uk-ltd">UK LTD</a></li>
+        </ul>
+      </div>
+      <div class="foot__col">
+        <h4>Growth</h4>
+        <ul>
+          <li><a href="services/marketing">Marketing</a></li>
+          <li><a href="services/seo">SEO</a></li>
+        </ul>
+      </div>
+      <div class="foot__col">
+        <h4>Finance</h4>
+        <ul>
+          <li><a href="services/tax-return">Tax Return</a></li>
+          <li><a href="services/bookkeeping">Bookkeeping</a></li>
+        </ul>
+      </div>
+      <div class="foot__col">
         <h4>Company</h4>
         <ul>
-          <li><a href="index.html#approach">Why WEBMOSH</a></li>
-          <li><a href="index.html#process">How we work</a></li>
-          <li><a href="index.html#pricing">Packages &amp; pricing</a></li>
-          <li><a href="index.html#faq">FAQ</a></li>
-          <li><a href="contact.html">Contact</a></li>
+          <li><a href="about">About Us</a></li>
+          <li><a href="/#pricing">Packages &amp; pricing</a></li>
+          <li><a href="/#faq">FAQ</a></li>
+          <li><a href="contact">Contact</a></li>
+          <li><a href="https://app.webmosh.com" target="_blank" rel="noopener">Login</a></li>
         </ul>
       </div>
-      <div>
-        <h4>Contact</h4>
-        <ul>
-          <li><a href="mailto:hello@webmosh.com">hello@webmosh.com</a></li>
-          <li><a href="https://wa.me/">WhatsApp</a></li>
-          <li>Mon&ndash;Fri, 09:00&ndash;18:00 GMT</li>
-        </ul>
-      </div>
-    </div>
+    </nav>
+
+
     <div class="legal">
-      <span>&copy; <span id="yr">2026</span> WEBMOSH. All rights reserved.</span>
-      <p>WEBMOSH is not a law firm or a licensed tax adviser. Statutory accounts and tax returns are prepared and filed with licensed accountants in the relevant jurisdiction.</p>
+      <p class="legal__note">WEBMOSH is not a law firm and is not a licensed tax adviser. Everything on this website, and anything we send you by email, WhatsApp, social media or any other channel, is general information and not legal, tax or financial advice for your circumstances. Statutory accounts and tax returns are prepared and filed with licensed accountants in the relevant jurisdiction. By using this website and our services you agree to our <a href="terms">Terms &amp; Conditions</a> and <a href="privacy-policy">Privacy Policy</a>.</p>
+      <div class="legal__bar">
+        <div class="legal__links">
+          <a href="terms">Terms &amp; Conditions</a>
+          <a href="refund-policy">Refund Policy</a>
+          <a href="privacy-policy">Privacy Policy</a>
+        </div>
+        <span class="legal__copy">&copy; <span id="yr">2026</span> WEBMOSH. All rights reserved.</span>
+        <a href="#main" class="legal__top">Back to top <svg class="icon"><use href="#i-chev"/></svg></a>
+      </div>
     </div>
+
   </div>
 </footer>
 
@@ -257,7 +321,8 @@
   "@type": "ProfessionalService",
   "name": "WEBMOSH",
   "description": "Marketing, optimization, UK & US company formation, business taxes, business website & hosting — all in one place you can trust.",
-  "email": "hello@webmosh.com",
+  "email": "info@webmosh.com",
+  "telephone": "+8801608534154",
   "areaServed": ["GB", "US"],
   "knowsAbout": [
     "UK company formation",

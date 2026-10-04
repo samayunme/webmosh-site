@@ -42,21 +42,19 @@ These are placeholders in `index.html` — search for each string and replace it
 | Office hours | `Mon–Fri, 09:00–18:00 GMT` | contact section |
 | Uptime claim | `99.9%` | commitments band |
 | Domain | `https://webmosh.com` | `robots.txt`, `sitemap.xml` |
-| Hero photograph | `assets/hero.svg` placeholder | hero section — see below |
 | Brand mark | `assets/webmosh-logo.png` (real) | hero lockup |
 
-### The hero photograph
+### The hero globe
 
-The hero is a 4:5 portrait framed by three floating cards. `assets/hero.svg` is a placeholder that says so on the image itself — replace it with a real photograph:
+The hero art is a WebGL globe (`assets/globe.js`) drawn by
+[cobe](https://github.com/shuding/cobe), vendored into `assets/cobe.js` — MIT,
+no dependencies, 13KB. It is vendored rather than loaded from a CDN because the
+CSP allows scripts from `'self'` only and the page makes no third-party
+requests.
 
-```bash
-# drop your photo in, then point the tag at it
-cp ~/Downloads/founder.jpg assets/hero.jpg
-```
-
-Then in `index.html` change the `src` to `assets/hero.jpg` and update the `alt` text to describe the actual photograph. Crop to 4:5 (e.g. 1200×1500) and keep it under ~300 KB; the frame uses `object-fit: cover`, so anything close to portrait will fill correctly.
-
-Images are served with a 7-day revalidated cache rather than a permanent one, because these filenames are not content-hashed. If you replace a photo and want every visitor to see it immediately, give the new file a new name (`hero-2.jpg`) and update the `src` — that is the reliable way to bust a cache on a static site.
+It marks London and Wilmington, Delaware, recolours itself when the theme
+toggles, stops rendering when scrolled out of view, and does not spin under
+`prefers-reduced-motion`.
 
 ### The brand mark
 

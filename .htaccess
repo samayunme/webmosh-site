@@ -1,0 +1,76 @@
+# WEBMOSH — Apache / cPanel configuration.
+#
+# nginx.conf and the Dockerfile cover the Coolify deployment. Apache reads
+# none of that, so everything the site needs from a server is repeated here:
+# extensionless URLs, the 404 page, security headers, caching and gzip.
+
+Options -MultiViews
+DirectoryIndex index.html
+
+# ── clean URLs ───────────────────────────────────────────────────────
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # THE_REQUEST holds the browser's original request line, so these two
+  # redirects only fire for a real visit. The internal rewrite further
+  # down leaves it untouched and therefore cannot loop.
+
+  # /index.html -> /   (handled before the general rule, which would
+  # otherwise send it to /index)
+  RewriteCond %{THE_REQUEST} \s/+(?:[^?\s]*/)?index\.html[\s?] [NC]
+  RewriteRule ^(.*?)(?:^|/)index\.html$ /$1 [R=301,L,NE]
+
+  # /page.html -> /page
+  RewriteCond %{THE_REQUEST} \s/+[^?\s]*\.html[\s?] [NC]
+  RewriteRule ^(.+)\.html$ /$1 [R=301,L,NE]
+
+  # serve /page.html when the visitor asked for /page
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+  RewriteRule ^(.+?)/?$ /$1.html [L]
+</IfModule>
+
+# anything genuinely missing gets the styled page, not Apache's default
+ErrorDocument 404 /404.html
+
+# ── security headers ─────────────────────────────────────────────────
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+  # Google Fonts is the only external origin this site talks to.
+  Header always set Content-Security-Policy "default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; img-src 'self' data:; base-uri 'self'; frame-ancestors 'self'"
+
+  # the pages change on every deploy and must never be served stale
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+# ── caching ──────────────────────────────────────────────────────────
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css                "access plus 1 year"
+  ExpiresByType application/javascript  "access plus 1 year"
+  ExpiresByType font/woff2              "access plus 1 year"
+  # images keep their filenames across deploys, so a year would strand
+  # returning visitors on the old picture. A week is the honest limit.
+  ExpiresByType image/png               "access plus 1 week"
+  ExpiresByType image/jpeg              "access plus 1 week"
+  ExpiresByType image/svg+xml           "access plus 1 week"
+  ExpiresByType image/x-icon            "access plus 1 week"
+  ExpiresByType text/html               "access plus 0 seconds"
+</IfModule>
+
+# ── compression ──────────────────────────────────────────────────────
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml \
+    application/javascript application/json image/svg+xml
+</IfModule>
+
+# keep server-side config out of the browser's reach
+<FilesMatch "^(nginx\.conf|security-headers\.conf|serve\.py|Dockerfile|\.dockerignore|\.gitignore)$">
+  Require all denied
+</FilesMatch>

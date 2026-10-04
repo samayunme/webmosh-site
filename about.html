@@ -47,59 +47,78 @@
   <path d="M12 0V16M0 8H24" stroke="#FFFFFF" stroke-width="5.4"/>
   <path d="M12 0V16M0 8H24" stroke="#C8102E" stroke-width="3.2"/>
 </symbol>
+<symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+<symbol id="i-grid" viewBox="0 0 24 24"><path d="M4 4h6.5v6.5H4zM13.5 4H20v6.5h-6.5zM4 13.5h6.5V20H4zM13.5 13.5H20V20h-6.5z"/></symbol>
 </defs></svg>
 
 <header class="dock" id="dock">
   <div class="dock__pill">
-    <a href="index.html" class="dock__mark" aria-label="WEBMOSH — back to top">
+    <a href="/" class="dock__mark" aria-label="WEBMOSH — back to top">
       <img class="marklogo" src="assets/webmosh-logo.png" width="587" height="480" alt="">
     </a>
     <nav class="docknav" aria-label="Primary">
       <div class="hasmenu">
         <button class="docknav__trigger" type="button" id="svcTrigger"
-                aria-expanded="false" aria-controls="svcMenu" aria-haspopup="true">
-          Services <svg class="icon"><use href="#i-chev"/></svg>
+                aria-expanded="false" aria-controls="svcMenu" aria-haspopup="true" aria-label="Menu">
+          <span class="nav-long">Services</span>
+          <svg class="icon nav-chev"><use href="#i-chev"/></svg>
+          <svg class="icon nav-grid"><use href="#i-grid"/></svg>
         </button>
         <!-- none of these service pages exist yet -->
         <div class="submenu" id="svcMenu" role="menu" aria-labelledby="svcTrigger">
           <div class="submenu__grid">
           <section class="subcol">
             <h4>Development</h4>
-            <a href="services/wordpress-development.html" role="menuitem"><b>WordPress Development</b><span>Themes, plugins and WooCommerce builds.</span></a>
-            <a href="services/custom-website.html" role="menuitem"><b>Custom Website</b><span>Designed and hand-built for your business.</span></a>
-            <a href="services/web-applications.html" role="menuitem"><b>Web Applications</b><span>Portals, dashboards and internal tools.</span></a>
+            <a href="services/wordpress-development" role="menuitem"><b>WordPress Development</b><span>Themes, plugins and WooCommerce builds.</span></a>
+            <a href="services/custom-website" role="menuitem"><b>Custom Website</b><span>Designed and hand-built for your business.</span></a>
+            <a href="services/web-applications" role="menuitem"><b>Web Applications</b><span>Portals, dashboards and internal tools.</span></a>
           </section>
           <section class="subcol">
             <h4>Formation</h4>
-            <a href="services/us-llc.html" role="menuitem"><b>US LLC</b><span>Delaware, Wyoming or your state of choice.</span></a>
-            <a href="services/uk-ltd.html" role="menuitem"><b>UK LTD</b><span>Incorporated through Companies House.</span></a>
+            <a href="services/us-llc" role="menuitem"><b>US LLC</b><span>Delaware, Wyoming or your state of choice.</span></a>
+            <a href="services/uk-ltd" role="menuitem"><b>UK LTD</b><span>Incorporated through Companies House.</span></a>
           </section>
           <section class="subcol">
             <h4>Growth</h4>
-            <a href="services/marketing.html" role="menuitem"><b>Marketing</b><span>Paid search, social and email that report in revenue.</span></a>
-            <a href="services/seo.html" role="menuitem"><b>SEO</b><span>Technical and local search, built to rank.</span></a>
+            <a href="services/marketing" role="menuitem"><b>Marketing</b><span>Paid search, social and email that report in revenue.</span></a>
+            <a href="services/seo" role="menuitem"><b>SEO</b><span>Technical and local search, built to rank.</span></a>
           </section>
           <section class="subcol">
             <h4>Finance</h4>
-            <a href="services/tax-return.html" role="menuitem"><b>Tax Return</b><span>Filed with licensed accountants in each jurisdiction.</span></a>
-            <a href="services/bookkeeping.html" role="menuitem"><b>Bookkeeping</b><span>Monthly books, VAT and year-end ready.</span></a>
+            <a href="services/tax-return" role="menuitem"><b>Tax Return</b><span>Filed with licensed accountants in each jurisdiction.</span></a>
+            <a href="services/bookkeeping" role="menuitem"><b>Bookkeeping</b><span>Monthly books, VAT and year-end ready.</span></a>
           </section>
           </div>
         </div>
       </div>
-      <!-- /about and /login have no page yet -->
-      <a href="about.html" aria-current="page">About Us</a>
-      <a href="contact.html" class="btn btn--primary btn--dock">
+      <a href="about" aria-current="page">About Us</a>
+      <a href="https://app.webmosh.com" target="_blank" rel="noopener" class="btn btn--primary btn--dock">
         <span class="cta-long">Let&rsquo;s Start</span><span class="cta-short">Start</span>
         <svg class="icon"><use href="#i-arrow"/></svg>
       </a>
-      <a href="contact.html">Contact</a>
-      <a href="login.html">Login</a>
+      <a href="contact">Contact</a>
+      <a href="https://app.webmosh.com" target="_blank" rel="noopener">Login</a>
     </nav>
     <button class="iconbtn" id="themeBtn" type="button" aria-label="Switch colour theme">
       <svg class="icon ico-moon"><use href="#i-moon"/></svg>
       <svg class="icon ico-sun"><use href="#i-sun"/></svg>
     </button>
+    <div class="hasmenu hasmenu--nav">
+      <button class="iconbtn docknav__burger" type="button" id="navTrigger"
+              aria-expanded="false" aria-controls="navMenu" aria-haspopup="true" aria-label="Menu">
+        <svg class="icon"><use href="#i-menu"/></svg>
+      </button>
+      <div class="submenu submenu--nav" id="navMenu" role="menu" aria-labelledby="navTrigger">
+        <div class="submenu__grid">
+          <section class="subcol">
+            <h4>Company</h4>
+            <a href="about" role="menuitem"><b>About Us</b><span>Who we are and how we work.</span></a>
+            <a href="contact" role="menuitem"><b>Contact</b><span>Tell us what you are building.</span></a>
+            <a href="https://app.webmosh.com" target="_blank" rel="noopener" role="menuitem"><b>Login</b><span>Open the WEBMOSH app.</span></a>
+          </section>
+        </div>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -114,13 +133,13 @@
         <span class="eyebrow">About WEBMOSH</span>
         <h1 style="margin-top:18px">One firm, from incorporation <span class="grad">to invoicing.</span></h1>
         <p style="margin-top:20px;font-size:var(--fs-lead);color:var(--muted);max-width:44rem">
-          Most founders assemble a company out of suppliers who never speak to each other &mdash; a formation
-          agent, a web designer, an SEO freelancer, a host and an accountant. WEBMOSH exists to be the one
-          party answerable for all of it.
+          A company gets assembled out of parts. Someone to incorporate it, someone to build the site,
+          someone to file the accounts. We started WEBMOSH so that one firm is answerable for all three,
+          and so the seams between them stop being your problem.
         </p>
         <div class="hero__cta" style="margin-top:30px">
-          <a href="contact.html" class="btn btn--primary">Talk to us <svg class="icon"><use href="#i-arrow"/></svg></a>
-          <a href="index.html#pricing" class="btn btn--outline">See packages</a>
+          <a href="contact" class="btn btn--primary">Talk to us <svg class="icon"><use href="#i-arrow"/></svg></a>
+          <a href="/#pricing" class="btn btn--outline">See packages</a>
         </div>
       </div>
     </div>
@@ -132,30 +151,30 @@
       <div class="sec-head">
         <span class="eyebrow">What we are</span>
         <h2>Three jobs most businesses buy separately</h2>
-        <p>We do all three, to one standard, on one invoice &mdash; which is the only reason the gaps between
-          them stop being your problem.</p>
+        <p>Bought separately, each supplier is right about their own piece and blind to the other two.
+          Bought together, somebody is accountable for the whole thing.</p>
       </div>
       <div class="cards">
         <article class="card card--wide rise">
           <div class="card__ico"><svg class="icon"><use href="#i-bank"/></svg></div>
           <h3>We form the company</h3>
-          <p>UK Ltd companies through Companies House, and US LLCs and C-Corps in Delaware, Wyoming or your
-            state of choice &mdash; including the registered office or agent, the EIN or UTR, and every
-            founding document.</p>
+          <p>UK Ltd companies through Companies House. US LLCs and C-Corps in Delaware, Wyoming or your
+            state of choice. The registered office or agent, the EIN or UTR, and every founding document
+            come with it.</p>
           <div class="taglist"><span class="tag">UK LTD</span><span class="tag">US LLC</span><span class="tag">C&#8209;Corp</span></div>
         </article>
         <article class="card rise" data-d="60">
           <div class="card__ico"><svg class="icon"><use href="#i-code"/></svg></div>
           <h3>We build what it runs on</h3>
-          <p>The website, the hosting, the email, the analytics &mdash; designed to sell rather than decorate,
-            and handed over with the logins and the documentation.</p>
+          <p>The website, the hosting, the email, the analytics. Designed to sell rather than decorate,
+            and handed over with the logins and the documentation rather than kept on our side.</p>
           <div class="taglist"><span class="tag">Design</span><span class="tag">Build</span><span class="tag">Hosting</span></div>
         </article>
         <article class="card rise" data-d="120">
           <div class="card__ico"><svg class="icon"><use href="#i-receipt"/></svg></div>
           <h3>We keep it compliant</h3>
-          <p>Bookkeeping, VAT, Corporation Tax, confirmation statements and US federal and state filings,
-            prepared with licensed accountants against a calendar you can see.</p>
+          <p>Bookkeeping, VAT, Corporation Tax, confirmation statements, US federal and state filings.
+            Prepared with licensed accountants, against a calendar you can see from day one.</p>
           <div class="taglist"><span class="tag">VAT</span><span class="tag">Tax</span><span class="tag">Filings</span></div>
         </article>
       </div>
@@ -169,13 +188,13 @@
         <div class="sec-head" style="margin-bottom:26px">
           <span class="eyebrow">How we work</span>
           <h2>Four commitments we would rather be held to than explain away</h2>
-          <p>None of these are difficult. They are simply what stops being true when a business is spread
-            across five suppliers.</p>
+          <p>None of these are hard to do. They are just the first things to go when a business is spread
+            across five suppliers who each own one piece of it.</p>
         </div>
         <div class="split__note">
           <svg class="icon"><use href="#i-target"/></svg>
-          <p><b>Ask us to prove any of them.</b> Every one is visible in the packages and the proposal before
-            you pay anything.</p>
+          <p><b>Hold us to any of them.</b> All four are visible in the packages and in the proposal
+            before you have paid anything.</p>
         </div>
       </div>
 
@@ -226,8 +245,8 @@
       <div class="sec-head center">
         <span class="eyebrow">Where we operate</span>
         <h2>Two jurisdictions, handled end to end</h2>
-        <p>We work with founders wherever they live. Neither structure requires you to be a resident or a
-          citizen &mdash; what it requires is an address, an agent and someone tracking the deadlines.</p>
+        <p>We work with founders wherever they live. Neither structure asks you to be a resident or a
+          citizen. What they ask for is an address, an agent, and somebody keeping track of the dates.</p>
       </div>
       <div class="cards" style="grid-template-columns:repeat(2,minmax(0,1fr))">
         <article class="card rise">
@@ -249,8 +268,8 @@
             <span class="phase__tool"><svg class="flag" aria-hidden="true"><use href="#f-us"/></svg></span>
           </div>
           <h3>United States</h3>
-          <p>LLCs and C-Corps in Delaware, Wyoming or your state of choice. Timelines vary by state, and we
-            quote the realistic range rather than the best case.</p>
+          <p>LLCs and C-Corps in Delaware, Wyoming or your state of choice. Timelines vary by state, so we
+            quote the range you should actually plan around rather than the best case.</p>
           <ul class="cardlist">
             <li><svg class="icon"><use href="#i-check"/></svg>Registered agent and business address</li>
             <li><svg class="icon"><use href="#i-check"/></svg>EIN, and ITIN support where it is needed</li>
@@ -272,12 +291,12 @@
     <div class="wrap">
       <div class="ctapanel">
         <div>
-          <h2>Tell us what you are building</h2>
-          <p>You will have a plan, a jurisdiction recommendation and a fixed quote within one business day.</p>
+          <h2>Start with a conversation</h2>
+          <p>Thirty minutes is usually enough to tell you which jurisdiction fits, what the work involves and what it costs. No obligation either way.</p>
         </div>
         <div class="ctapanel__btns">
-          <a href="contact.html" class="btn btn--primary">Request a proposal <svg class="icon"><use href="#i-arrow"/></svg></a>
-          <a href="mailto:hello@webmosh.com" class="btn btn--outline">Email us directly</a>
+          <a href="contact" class="btn btn--primary">Request a proposal <svg class="icon"><use href="#i-arrow"/></svg></a>
+          <a href="mailto:info@webmosh.com" class="btn btn--outline">Email us directly</a>
         </div>
       </div>
     </div>
@@ -286,7 +305,8 @@
 
 <footer class="site">
   <div class="wrap">
-    <div class="foot">
+
+    <div class="foot__head">
       <div class="foot__brand">
         <div class="logo">
           <img class="marklogo" src="assets/webmosh-logo.png" width="587" height="480" alt="">
@@ -294,40 +314,82 @@
         </div>
         <p>Marketing, optimization, UK &amp; US company formation, business taxes, business website &amp; hosting &mdash; all in one place you can trust.</p>
       </div>
-      <div>
-        <h4>Services</h4>
+      <dl class="foot__contact">
+        <div>
+          <dt>Email</dt>
+          <dd><a href="mailto:info@webmosh.com">info@webmosh.com</a></dd>
+        </div>
+        <div>
+          <dt>Phone</dt>
+          <dd><a href="tel:+8801608534154">+880 1608 534154</a></dd>
+        </div>
+        <div>
+          <dt>WhatsApp</dt>
+          <dd><a href="https://wa.me/8801608534154" target="_blank" rel="noopener">+880 1608 534154</a></dd>
+        </div>
+        <div>
+          <dt>Hours</dt>
+          <dd>Mon&ndash;Fri, 09:00&ndash;18:00 GMT</dd>
+        </div>
+      </dl>
+    </div>
+
+    <nav class="foot__nav" aria-label="Footer">
+      <div class="foot__col">
+        <h4>Development</h4>
         <ul>
-          <li><a href="index.html#services">Company formation</a></li>
-          <li><a href="index.html#services">Business taxes</a></li>
-          <li><a href="index.html#services">Website &amp; development</a></li>
-          <li><a href="index.html#services">Hosting &amp; care</a></li>
-          <li><a href="index.html#services">Marketing</a></li>
-          <li><a href="index.html#services">Optimization</a></li>
+          <li><a href="services/wordpress-development">WordPress Development</a></li>
+          <li><a href="services/custom-website">Custom Website</a></li>
+          <li><a href="services/web-applications">Web Applications</a></li>
         </ul>
       </div>
-      <div>
+      <div class="foot__col">
+        <h4>Formation</h4>
+        <ul>
+          <li><a href="services/us-llc">US LLC</a></li>
+          <li><a href="services/uk-ltd">UK LTD</a></li>
+        </ul>
+      </div>
+      <div class="foot__col">
+        <h4>Growth</h4>
+        <ul>
+          <li><a href="services/marketing">Marketing</a></li>
+          <li><a href="services/seo">SEO</a></li>
+        </ul>
+      </div>
+      <div class="foot__col">
+        <h4>Finance</h4>
+        <ul>
+          <li><a href="services/tax-return">Tax Return</a></li>
+          <li><a href="services/bookkeeping">Bookkeeping</a></li>
+        </ul>
+      </div>
+      <div class="foot__col">
         <h4>Company</h4>
         <ul>
-          <li><a href="index.html#approach">Why WEBMOSH</a></li>
-          <li><a href="index.html#process">How we work</a></li>
-          <li><a href="index.html#pricing">Packages &amp; pricing</a></li>
-          <li><a href="index.html#faq">FAQ</a></li>
-          <li><a href="contact.html">Contact</a></li>
+          <li><a href="about">About Us</a></li>
+          <li><a href="/#pricing">Packages &amp; pricing</a></li>
+          <li><a href="/#faq">FAQ</a></li>
+          <li><a href="contact">Contact</a></li>
+          <li><a href="https://app.webmosh.com" target="_blank" rel="noopener">Login</a></li>
         </ul>
       </div>
-      <div>
-        <h4>Contact</h4>
-        <ul>
-          <li><a href="mailto:hello@webmosh.com">hello@webmosh.com</a></li>
-          <li><a href="https://wa.me/">WhatsApp</a></li>
-          <li>Mon&ndash;Fri, 09:00&ndash;18:00 GMT</li>
-        </ul>
-      </div>
-    </div>
+    </nav>
+
+
     <div class="legal">
-      <span>&copy; <span id="yr">2026</span> WEBMOSH. All rights reserved.</span>
-      <p>WEBMOSH is not a law firm or a licensed tax adviser. Statutory accounts and tax returns are prepared and filed with licensed accountants in the relevant jurisdiction.</p>
+      <p class="legal__note">WEBMOSH is not a law firm and is not a licensed tax adviser. Everything on this website, and anything we send you by email, WhatsApp, social media or any other channel, is general information and not legal, tax or financial advice for your circumstances. Statutory accounts and tax returns are prepared and filed with licensed accountants in the relevant jurisdiction. By using this website and our services you agree to our <a href="terms">Terms &amp; Conditions</a> and <a href="privacy-policy">Privacy Policy</a>.</p>
+      <div class="legal__bar">
+        <div class="legal__links">
+          <a href="terms">Terms &amp; Conditions</a>
+          <a href="refund-policy">Refund Policy</a>
+          <a href="privacy-policy">Privacy Policy</a>
+        </div>
+        <span class="legal__copy">&copy; <span id="yr">2026</span> WEBMOSH. All rights reserved.</span>
+        <a href="#main" class="legal__top">Back to top <svg class="icon"><use href="#i-chev"/></svg></a>
+      </div>
     </div>
+
   </div>
 </footer>
 
@@ -337,7 +399,8 @@
   "@type": "ProfessionalService",
   "name": "WEBMOSH",
   "description": "Marketing, optimization, UK & US company formation, business taxes, business website & hosting — all in one place you can trust.",
-  "email": "hello@webmosh.com",
+  "email": "info@webmosh.com",
+  "telephone": "+8801608534154",
   "areaServed": ["GB", "US"],
   "knowsAbout": [
     "UK company formation",
