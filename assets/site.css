@@ -430,6 +430,8 @@ section{padding-block:var(--sec);position:relative;scroll-margin-top:24px}
   .subcol a{padding:12px 10px}
 }
 @media (max-width:420px){
+  table.pt tfoot .btn{font-size:.68rem;padding:.7em .2em}
+  table.pt tfoot .btn .icon{display:none}
   .submenu{max-height:min(56vh,460px)}
   .dock__pill{gap:6px;padding:0 8px}
 }
@@ -1325,21 +1327,6 @@ section{padding-block:var(--sec);position:relative;scroll-margin-top:24px}
    otherwise the second and third packages are simply never discovered */
 .matrix__hint{display:none}
 .matrix{position:relative}
-@media (max-width:820px){
-  .matrix__hint{
-    display:flex;align-items:center;gap:.5em;
-    padding:13px clamp(14px,4vw,20px);border-bottom:1px solid var(--stroke);
-    font-family:"IBM Plex Mono",monospace;font-size:.64rem;font-weight:500;
-    letter-spacing:.12em;text-transform:uppercase;color:var(--dim);
-  }
-  .matrix__hint .icon{width:14px;height:14px;color:var(--a1)}
-  .matrix::after{
-    content:"";position:absolute;top:0;bottom:0;right:0;width:64px;z-index:2;pointer-events:none;
-    background:linear-gradient(90deg,var(--stroke-0),var(--bg-elev) 72%);
-  }
-  table.pt tbody th{min-width:180px}
-  table.pt{min-width:620px}
-}
 table.pt{width:100%;min-width:740px;border-collapse:collapse;text-align:left}
 table.pt th,table.pt td{padding:14px clamp(14px,1.5vw,22px);vertical-align:middle}
 
@@ -1387,6 +1374,75 @@ table.pt tbody tr:hover .is-feat{background:var(--a-tint)}
 
 table.pt tfoot td{padding-top:22px;padding-bottom:clamp(24px,2.4vw,30px);border-top:1px solid var(--stroke)}
 table.pt tfoot .btn{width:100%}
+
+/* On a phone the table stopped being a table: one package fitted, the next
+   was sliced mid-word, the buttons sat off-screen to the right and the price
+   header scrolled away so you lost track of which column you were reading.
+   It re-flows into stacked rows instead — the feature, then all three
+   packages side by side under it, each labelled. No sideways scrolling. */
+@media (max-width:760px){
+  .matrix__hint{display:none}
+  .matrix__scroll{overflow-x:visible}
+  .matrix{contain:none}
+  table.pt,table.pt thead,table.pt tbody,table.pt tfoot,
+  table.pt tr,table.pt th,table.pt td{display:block}
+  /* these are block boxes now, so collapse only confuses the borders —
+     in collapse mode the row rule wins over border:0 on the cell */
+  table.pt{min-width:0;width:100%;border-collapse:separate;border-spacing:0}
+  table.pt caption{display:none}
+
+  /* the three prices become a row of heads across the top */
+  table.pt thead tr{
+    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:6px;padding:0 clamp(12px,3vw,18px) 14px;
+  }
+  table.pt thead .pt__lead{display:none}
+  table.pt thead th:not(.pt__lead){
+    width:auto;text-align:center;border-bottom:0;
+    padding:26px 6px 0!important;border-radius:12px;
+  }
+  .pt__head.is-feat{background:var(--a-tint)}
+  .pt__flag{left:50%;transform:translateX(-50%);font-size:.56rem;white-space:nowrap}
+  .pt__price{font-size:clamp(1.3rem,6vw,1.7rem)}
+  .pt__fee{font-size:.62rem;margin-top:4px}
+  .pt__name{font-size:.8rem;margin-top:8px;line-height:1.25}
+
+  /* each feature: its name, then the three marks beneath it */
+  table.pt tbody tr{
+    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:4px;padding:14px clamp(12px,3vw,18px);border-top:1px solid var(--stroke);
+  }
+  table.pt tbody tr:hover{background:none}
+  table.pt tbody th{
+    grid-column:1 / -1;position:static;min-width:0;
+    padding:0 0 11px;background:none;font-weight:600;
+  }
+  table.pt tbody td{
+    display:flex;flex-direction:column;align-items:center;gap:5px;padding:0;
+  }
+  table.pt tbody td::before{
+    content:attr(data-label);
+    font-family:"IBM Plex Mono",monospace;font-size:.56rem;font-weight:500;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--dim);
+  }
+  table.pt tbody td.is-feat{background:var(--a-tint);border-radius:9px;padding:7px 0;margin:-7px 0}
+
+  /* one button under each package, in line with the columns above, so
+     position says which is which and no label is needed */
+  table.pt tfoot tr{
+    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:6px;padding:18px clamp(12px,3vw,18px) 6px;
+  }
+  /* border-collapse pushes the row rules onto the cells once these are
+     display:block, which drew a line between each button */
+  table.pt tfoot td{padding:0;background:none;border:0}
+  table.pt tfoot td:first-child{display:none}
+  table.pt tfoot .btn{
+    width:100%;min-height:40px;white-space:nowrap;
+    font-size:.72rem;padding:.7em .3em;gap:.3em;border-radius:10px;
+  }
+  table.pt tfoot .btn .icon{width:12px;height:12px}
+}
 
 .sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 
