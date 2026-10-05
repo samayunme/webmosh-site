@@ -44,7 +44,7 @@ ErrorDocument 404 /404.html
   Header always set Content-Security-Policy "default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; img-src 'self' data:; base-uri 'self'; frame-ancestors 'self'"
 
   # the pages change on every deploy and must never be served stale
-  <FilesMatch "\.html$">
+  <FilesMatch "\.(html|css|js)$">
     Header set Cache-Control "no-cache, must-revalidate"
   </FilesMatch>
 </IfModule>
@@ -52,11 +52,16 @@ ErrorDocument 404 /404.html
 # ── caching ──────────────────────────────────────────────────────────
 <IfModule mod_expires.c>
   ExpiresActive On
-  ExpiresByType text/css                "access plus 1 year"
-  ExpiresByType application/javascript  "access plus 1 year"
+  # site.css and site.js keep the same filename on every deploy, so they must
+  # never be cached hard. A year-long cache here meant an updated stylesheet
+  # was invisible to anyone (and to Cloudflare) who had already loaded it.
+  # They revalidate instead and answer 304 when unchanged.
+  ExpiresByType text/css                "access plus 0 seconds"
+  ExpiresByType application/javascript  "access plus 0 seconds"
   ExpiresByType font/woff2              "access plus 1 year"
   # images keep their filenames across deploys, so a year would strand
   # returning visitors on the old picture. A week is the honest limit.
+  ExpiresByType image/webp              "access plus 1 week"
   ExpiresByType image/png               "access plus 1 week"
   ExpiresByType image/jpeg              "access plus 1 week"
   ExpiresByType image/svg+xml           "access plus 1 week"
@@ -71,6 +76,6 @@ ErrorDocument 404 /404.html
 </IfModule>
 
 # keep server-side config out of the browser's reach
-<FilesMatch "^(nginx\.conf|security-headers\.conf|serve\.py|Dockerfile|\.dockerignore|\.gitignore)$">
+<FilesMatch "^(nginx\.conf|security-headers\.conf|serve\.py|Dockerfile|tools-stamp-assets\.py|\.dockerignore|\.gitignore)$">
   Require all denied
 </FilesMatch>
