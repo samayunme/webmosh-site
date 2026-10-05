@@ -2,37 +2,45 @@
    WEBMOSH — dark-first enterprise system
    ========================================================== */
 :root{
-  --bg:#07080D;
-  --bg-elev:#0B0D15;
-  --panel:rgb(255 255 255 / .035);
-  --panel-2:rgb(255 255 255 / .06);
-  --stroke:rgb(255 255 255 / .09);
-  --stroke-2:rgb(255 255 255 / .17);
-  --grid:rgb(255 255 255 / .04);
-  --ink:#EDF1F8;
-  --muted:#99A2B8;
-  --dim:#6A7288;
-  --a1:#4D7CFE;
-  --a2:#8B5CF6;
-  --a-tint:rgb(77 124 254 / .13);
-  --a-glow:rgb(77 124 254 / .34);
-  --a2-glow:rgb(139 92 246 / .26);
+  --bg:#FAFBFE;
+  --bg-elev:#FFFFFF;
+  --panel:rgb(255 255 255 / .8);
+  --panel-2:#FFFFFF;
+  --stroke:rgb(12 22 48 / .1);
+  --stroke-2:rgb(12 22 48 / .2);
+  --grid:rgb(12 22 48 / .05);
+  --ink:#0A0F1E;
+  --muted:#525C75;
+  --dim:#7A8397;
+  --a1:#2D5BFF;
+  --a2:#7C3AED;
+  --a-tint:rgb(45 91 255 / .08);
+  --a-glow:rgb(45 91 255 / .2);
+  --a2-glow:rgb(124 58 237 / .16);
   --on-accent:#FFFFFF;
-  --ok:#3ECF8E;
-  --glass:rgb(11 13 21 / .66);
-  --brand:#31B5F2;
-  --hub-core:rgb(255 255 255 / .14);
-  --hub-edge:rgb(49 181 242 / .05);
-  --hub-ring:rgb(125 208 250 / .95);
-  --hub-ring-0:rgb(125 208 250 / 0);
-  --hub-halo:rgb(49 181 242 / .38);
-  --hub-inner:rgb(160 220 255 / .34);
-  --hub-bloom:rgb(150 218 255 / .5);
-  --trunk:rgb(208 240 255 / .95);
-  --glass-brd:rgb(255 255 255 / .1);
-  --sheen:rgb(255 255 255 / .22);
-  --shadow:0 1px 2px rgb(0 0 0 / .4), 0 12px 32px -14px rgb(0 0 0 / .7);
-  --shadow-lg:0 2px 6px rgb(0 0 0 / .45), 0 28px 60px -26px rgb(0 0 0 / .85);
+  --ok:#0E9F6E;
+  --glass:rgb(255 255 255 / .72);
+  /* the dock runs inverted to the page: a white bar with dark type on the
+     dark theme, a dark bar with light type on the light one. The fill has
+     to be near-opaque or the page behind it muddies the text. */
+  --nav-bg:rgb(10 14 24 / .88);
+  --nav-brd:rgb(255 255 255 / .16);
+  --nav-ink:#F2F5FA;
+  --nav-muted:#A8B1C4;
+  --nav-hover:rgb(255 255 255 / .12);
+  --brand:#1596D6;
+  --hub-core:rgb(255 255 255 / .62);
+  --hub-edge:rgb(49 181 242 / .1);
+  --hub-ring:rgb(21 150 214 / .85);
+  --hub-ring-0:rgb(21 150 214 / 0);
+  --hub-halo:rgb(49 181 242 / .3);
+  --hub-inner:rgb(255 255 255 / .75);
+  --hub-bloom:rgb(49 181 242 / .36);
+  --trunk:rgb(10 116 176 / .95);
+  --glass-brd:rgb(12 22 48 / .09);
+  --sheen:rgb(255 255 255 / .9);
+  --shadow:0 1px 2px rgb(12 22 48 / .05), 0 12px 30px -14px rgb(12 22 48 / .22);
+  --shadow-lg:0 2px 6px rgb(12 22 48 / .06), 0 28px 60px -26px rgb(12 22 48 / .3);
 
   --gutter:clamp(20px,4vw,44px);
   --maxw:1240px;
@@ -49,44 +57,49 @@
   --fs-xs:.8125rem;
 
   --ease:cubic-bezier(.22,1,.36,1);
-  --a1-0:rgb(77 124 254 / 0);
-  --a2-0:rgb(139 92 246 / 0);
-  --stroke-0:rgb(255 255 255 / 0);
-}
-:root[data-theme="light"]{
-  --bg:#FAFBFE;
-  --bg-elev:#FFFFFF;
-  --panel:rgb(255 255 255 / .8);
-  --panel-2:#FFFFFF;
-  --stroke:rgb(12 22 48 / .1);
-  --stroke-2:rgb(12 22 48 / .2);
-  --grid:rgb(12 22 48 / .05);
-  --ink:#0A0F1E;
-  --muted:#525C75;
-  --dim:#7A8397;
-  --a1:#2D5BFF;
-  --a2:#7C3AED;
-  --a-tint:rgb(45 91 255 / .08);
-  --a-glow:rgb(45 91 255 / .2);
-  --a2-glow:rgb(124 58 237 / .16);
-  --ok:#0E9F6E;
-  --glass:rgb(255 255 255 / .72);
-  --brand:#1596D6;
-  --hub-core:rgb(255 255 255 / .62);
-  --hub-edge:rgb(49 181 242 / .1);
-  --hub-ring:rgb(21 150 214 / .85);
-  --hub-ring-0:rgb(21 150 214 / 0);
-  --hub-halo:rgb(49 181 242 / .3);
-  --hub-inner:rgb(255 255 255 / .75);
-  --hub-bloom:rgb(49 181 242 / .36);
-  --trunk:rgb(10 116 176 / .95);
-  --glass-brd:rgb(12 22 48 / .09);
-  --sheen:rgb(255 255 255 / .9);
-  --shadow:0 1px 2px rgb(12 22 48 / .05), 0 12px 30px -14px rgb(12 22 48 / .22);
-  --shadow-lg:0 2px 6px rgb(12 22 48 / .06), 0 28px 60px -26px rgb(12 22 48 / .3);
   --a1-0:rgb(45 91 255 / 0);
   --a2-0:rgb(124 58 237 / 0);
   --stroke-0:rgb(12 22 48 / 0);
+}
+:root[data-theme="dark"]{
+  --bg:#07080D;
+  --bg-elev:#0B0D15;
+  --panel:rgb(255 255 255 / .035);
+  --panel-2:rgb(255 255 255 / .06);
+  --stroke:rgb(255 255 255 / .09);
+  --stroke-2:rgb(255 255 255 / .17);
+  --grid:rgb(255 255 255 / .04);
+  --ink:#EDF1F8;
+  --muted:#99A2B8;
+  --dim:#6A7288;
+  --a1:#4D7CFE;
+  --a2:#8B5CF6;
+  --a-tint:rgb(77 124 254 / .13);
+  --a-glow:rgb(77 124 254 / .34);
+  --a2-glow:rgb(139 92 246 / .26);
+  --ok:#3ECF8E;
+  --glass:rgb(11 13 21 / .66);
+  --nav-bg:rgb(255 255 255 / .9);
+  --nav-brd:rgb(12 22 48 / .12);
+  --nav-ink:#0A0F1E;
+  --nav-muted:#4A5468;
+  --nav-hover:rgb(12 22 48 / .07);
+  --brand:#31B5F2;
+  --hub-core:rgb(255 255 255 / .14);
+  --hub-edge:rgb(49 181 242 / .05);
+  --hub-ring:rgb(125 208 250 / .95);
+  --hub-ring-0:rgb(125 208 250 / 0);
+  --hub-halo:rgb(49 181 242 / .38);
+  --hub-inner:rgb(160 220 255 / .34);
+  --hub-bloom:rgb(150 218 255 / .5);
+  --trunk:rgb(208 240 255 / .95);
+  --glass-brd:rgb(255 255 255 / .1);
+  --sheen:rgb(255 255 255 / .22);
+  --shadow:0 1px 2px rgb(0 0 0 / .4), 0 12px 32px -14px rgb(0 0 0 / .7);
+  --shadow-lg:0 2px 6px rgb(0 0 0 / .45), 0 28px 60px -26px rgb(0 0 0 / .85);
+  --a1-0:rgb(77 124 254 / 0);
+  --a2-0:rgb(139 92 246 / 0);
+  --stroke-0:rgb(255 255 255 / 0);
 }
 
 /* ==========================================================
@@ -160,7 +173,6 @@ section{padding-block:var(--sec);position:relative;scroll-margin-top:24px}
   font-size:.72rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
   color:var(--muted);
 }
-.eyebrow::before{content:"";width:5px;height:5px;border-radius:50%;background:linear-gradient(135deg,var(--a1),var(--a2))}
 .sec-head{max-width:44rem;margin-bottom:clamp(30px,3.6vw,52px)}
 .sec-head h2{margin-top:15px}
 .sec-head p{margin-top:15px;color:var(--muted);font-size:var(--fs-lead)}
@@ -214,10 +226,10 @@ section{padding-block:var(--sec);position:relative;scroll-margin-top:24px}
   display:flex;align-items:center;gap:clamp(4px,1vw,14px);
   height:74px;padding:0 11px 0 13px;max-width:100%;
   border-radius:22px;
-  background:var(--glass);
+  background:var(--nav-bg);
   -webkit-backdrop-filter:blur(22px) saturate(180%);
   backdrop-filter:blur(22px) saturate(180%);
-  border:1px solid var(--glass-brd);
+  border:1px solid var(--nav-brd);
   box-shadow:var(--shadow-lg), inset 0 1px 0 rgb(255 255 255 / .07);
 }
 /* gradient hairline ring, drawn in the border box only */
@@ -274,7 +286,7 @@ section{padding-block:var(--sec);position:relative;scroll-margin-top:24px}
   padding:11px clamp(10px,1.1vw,16px);border-radius:12px;white-space:nowrap;
   transition:color .18s var(--ease),background .18s var(--ease);
 }
-.docknav > a:not(.btn):hover,.docknav__trigger:hover{color:var(--ink);background:var(--panel-2)}
+.docknav > a:not(.btn):hover,.docknav__trigger:hover{color:var(--nav-ink);background:var(--nav-hover)}
 
 /* ── services mega menu, opening upward out of the dock ── */
 .hasmenu{position:relative}
@@ -286,7 +298,7 @@ section{padding-block:var(--sec);position:relative;scroll-margin-top:24px}
   transition:color .18s var(--ease),background .18s var(--ease);
 }
 .docknav__trigger .icon{width:14px;height:14px;transform:rotate(180deg);transition:transform .22s var(--ease)}
-.docknav__trigger[aria-expanded="true"]{color:var(--ink);background:var(--panel-2)}
+.docknav__trigger[aria-expanded="true"]{color:var(--nav-ink);background:var(--nav-hover)}
 .docknav__trigger[aria-expanded="true"] .icon{transform:rotate(0deg)}
 
 .submenu{
@@ -343,6 +355,13 @@ section{padding-block:var(--sec);position:relative;scroll-margin-top:24px}
 }
 .iconbtn:hover{color:var(--ink);border-color:var(--stroke-2);background:var(--panel-2)}
 
+/* everything riding inside the pill takes the inverted palette */
+.dock__pill .docknav > a:not(.btn),
+.dock__pill .docknav__trigger,
+.dock__pill .iconbtn{color:var(--nav-muted)}
+.dock__pill .iconbtn{border-color:var(--nav-brd)}
+.dock__pill .iconbtn:hover{color:var(--nav-ink);border-color:var(--nav-brd);background:var(--nav-hover)}
+
 /* the mega menu doubles as the mobile menu: the flat links collapse into
    it rather than disappearing, which is what used to leave phones with no
    navigation at all below 900px */
@@ -360,10 +379,10 @@ section{padding-block:var(--sec);position:relative;scroll-margin-top:24px}
     order:2;margin-inline:0;
     width:44px;height:44px;min-height:0;padding:0;gap:0;
     display:grid;place-items:center;font-size:0;
-    border:1px solid var(--stroke);border-radius:13px;
-    background:transparent;color:var(--muted);box-shadow:none;
+    border:1px solid var(--nav-brd);border-radius:13px;
+    background:transparent;color:var(--nav-muted);box-shadow:none;
   }
-  .btn--dock:hover{color:var(--ink);border-color:var(--stroke-2);background:var(--panel-2);transform:none;box-shadow:none}
+  .btn--dock:hover{color:var(--nav-ink);border-color:var(--nav-brd);background:var(--nav-hover);transform:none;box-shadow:none}
   /* clipped, not display:none — the link still needs an accessible name */
   .btn--dock .cta-long,.btn--dock .cta-short{
     position:absolute;width:1px;height:1px;overflow:hidden;
@@ -379,8 +398,8 @@ section{padding-block:var(--sec);position:relative;scroll-margin-top:24px}
     position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
     width:48px;height:48px;border-radius:15px;display:grid;place-items:center;
     padding:0;isolation:isolate;
-    background:var(--panel-2);
-    border:1px solid var(--glass-brd);
+    background:var(--nav-hover);
+    border:1px solid var(--nav-brd);
   }
   .dock__mark .marklogo{height:26px;width:auto}
 
@@ -389,11 +408,11 @@ section{padding-block:var(--sec);position:relative;scroll-margin-top:24px}
   .nav-grid{display:block}
   .docknav__trigger{
     width:44px;height:44px;padding:0;display:grid;place-items:center;
-    border:1px solid var(--stroke);border-radius:13px;background:transparent;
+    border:1px solid var(--nav-brd);border-radius:13px;background:transparent;
   }
   .docknav__trigger .icon{width:20px;height:20px}
-  .docknav__trigger[aria-expanded="true"]{border-color:var(--stroke-2);background:var(--panel-2)}
-  .docknav__burger[aria-expanded="true"]{border-color:var(--stroke-2);background:var(--panel-2);color:var(--ink)}
+  .docknav__trigger[aria-expanded="true"]{border-color:var(--nav-brd);background:var(--nav-hover);color:var(--nav-ink)}
+  .docknav__burger[aria-expanded="true"]{border-color:var(--nav-brd);background:var(--nav-hover);color:var(--nav-ink)}
 
   /* both panels open as a sheet above the dock */
   .submenu{
@@ -421,10 +440,10 @@ section{padding-block:var(--sec);position:relative;scroll-margin-top:24px}
 }
 /* the page is dark unless explicitly stamped light, so the sun is the
    default offer and the moon appears only in the light theme */
-.ico-moon{display:none}
-.ico-sun{display:block}
-:root[data-theme="light"] .ico-moon{display:block}
-:root[data-theme="light"] .ico-sun{display:none}
+.ico-sun{display:none}
+.ico-moon{display:block}
+:root[data-theme="dark"] .ico-sun{display:block}
+:root[data-theme="dark"] .ico-moon{display:none}
 
 /* ==========================================================
    motion
@@ -1089,6 +1108,70 @@ section{padding-block:var(--sec);position:relative;scroll-margin-top:24px}
 .pkg__foot .btn{width:100%}
 
 /* ==========================================================
+   product shot — a full-width band between the stack and why-us
+   ========================================================== */
+/* No frame and no border: the screenshot's own chrome already matches the
+   page, so a mask dissolves its edges into the background instead of
+   ending the image on a hard line. */
+.dashband{padding-block:0;position:relative}
+.dashshot{
+  max-width:1100px;margin-inline:auto;
+  aspect-ratio:2543 / 1317;
+  /* a single 2x file gets downscaled 2:1 on a standard display, and that
+     downscale is what reads as blur. image-set ships both so each screen
+     renders the dashboard 1:1. The plain url() is the pre-image-set fallback. */
+  background-image:url("dashboard-light.webp");
+  background-image:-webkit-image-set(url("dashboard-light.webp") 1x,url("dashboard-light@2x.webp") 2x);
+  background-image:image-set(url("dashboard-light.webp") 1x,url("dashboard-light@2x.webp") 2x);
+  background-size:cover;
+  background-position:top center;
+  background-repeat:no-repeat;
+  /* just enough to take the hard edge off — a wide fade reads as blur */
+  -webkit-mask-image:
+    linear-gradient(180deg,transparent 0,#000 1.5%,#000 90%,transparent 100%),
+    linear-gradient(90deg,transparent 0,#000 2%,#000 98%,transparent 100%);
+  -webkit-mask-composite:source-in;
+  mask-image:
+    linear-gradient(180deg,transparent 0,#000 1.5%,#000 90%,transparent 100%),
+    linear-gradient(90deg,transparent 0,#000 2%,#000 98%,transparent 100%);
+  mask-composite:intersect;
+}
+:root[data-theme="dark"] .dashshot{
+  background-image:url("dashboard-dark.webp");
+  background-image:-webkit-image-set(url("dashboard-dark.webp") 1x,url("dashboard-dark@2x.webp") 2x);
+  background-image:image-set(url("dashboard-dark.webp") 1x,url("dashboard-dark@2x.webp") 2x);
+}
+
+/* ==========================================================
+   floating WhatsApp button
+   ========================================================== */
+/* The dock is fixed at the bottom too, and between roughly 900 and 1100px
+   the pill grows wide enough to reach the right gutter. Rather than guess
+   a safe corner, this sits above the dock at every width, tracking the
+   dock's own offset and height. */
+.wafab{
+  position:fixed;z-index:80;right:var(--gutter);
+  bottom:calc(clamp(14px,2.2vh,24px) + 74px + 14px);
+  width:54px;height:54px;border-radius:50%;
+  display:grid;place-items:center;
+  background:#25D366;color:#fff;
+  box-shadow:0 10px 26px -8px rgb(37 211 102 / .55),0 2px 8px rgb(0 0 0 / .3);
+  transition:transform .2s var(--ease),box-shadow .2s var(--ease);
+}
+.wafab:hover{
+  transform:translateY(-2px);
+  box-shadow:0 16px 32px -10px rgb(37 211 102 / .65),0 2px 8px rgb(0 0 0 / .35);
+}
+.wafab:active{transform:translateY(0)}
+.wafab__mark{width:29px;height:29px;fill:currentColor;stroke:none}
+@media (max-width:900px){
+  /* the pill is 68px tall below this breakpoint */
+  .wafab{bottom:calc(clamp(14px,2.2vh,24px) + 68px + 14px);width:50px;height:50px}
+  .wafab__mark{width:27px;height:27px}
+}
+@media (prefers-reduced-motion:reduce){.wafab{transition:none}.wafab:hover{transform:none}}
+
+/* ==========================================================
    prose — long-form policy and legal pages
    ========================================================== */
 .prose{max-width:72ch}
@@ -1416,25 +1499,24 @@ details.q .a p + p{margin-top:.8em}
 .logo__text b{font-size:1.05rem;font-weight:700;letter-spacing:.015em}
 .logo__text span{font-family:"IBM Plex Mono",monospace;font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 footer.site{border-top:1px solid var(--stroke);background:var(--bg-elev);position:relative;z-index:2}
-footer.site .wrap{padding-block:clamp(46px,5vw,72px) 26px}
+footer.site .wrap{padding-block:clamp(34px,3.4vw,50px) 20px}
 /* a lit seam where the page meets the footer, so the slab has an edge */
 footer.site::before{
   content:"";position:absolute;top:-1px;left:0;right:0;height:1px;pointer-events:none;
   background:linear-gradient(90deg,var(--stroke-0),var(--a-glow),var(--stroke-0));
 }
 
-/* band 1 — brand and how to reach us */
-.foot__head{
-  display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);
-  gap:clamp(30px,4vw,68px);align-items:start;
-  padding-bottom:clamp(32px,3.6vw,46px);
+/* one band: the brand and its contact details beside the link columns */
+.foot__main{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2.55fr);
+  gap:clamp(28px,3.6vw,60px);align-items:start;
 }
-@media (max-width:860px){.foot__head{grid-template-columns:1fr;gap:32px}}
-.foot__brand p{margin-top:18px;font-size:var(--fs-sm);color:var(--muted);max-width:42ch}
-.foot__contact{display:grid}
+@media (max-width:980px){.foot__main{grid-template-columns:1fr;gap:34px}}
+.foot__brand p{margin-top:14px;font-size:var(--fs-sm);color:var(--muted);max-width:46ch}
+.foot__contact{display:grid;margin-top:18px}
 .foot__contact > div{
-  display:grid;grid-template-columns:82px minmax(0,1fr);gap:16px;align-items:baseline;
-  padding:12px 0;border-bottom:1px solid var(--stroke);
+  display:grid;grid-template-columns:74px minmax(0,1fr);gap:12px;align-items:baseline;
+  padding:7px 0;border-bottom:1px solid var(--stroke);
 }
 .foot__contact > div:first-child{padding-top:0}
 .foot__contact > div:last-child{border-bottom:0;padding-bottom:0}
@@ -1449,11 +1531,10 @@ footer.site::before{
 /* band 2 — the link rail. the columns are deliberately uneven, so vertical
    rules carry them and the short ones stop reading as unfinished */
 .foot__nav{
-  display:grid;grid-template-columns:repeat(5,minmax(0,1fr));
-  border-top:1px solid var(--stroke);padding-top:clamp(28px,3vw,40px);
+  display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0 clamp(14px,1.4vw,22px);
 }
-.foot__col h4{font-size:1rem;font-weight:600;letter-spacing:-.012em;color:var(--ink);margin-bottom:20px}
-.foot__col ul{display:grid;gap:13px;font-size:var(--fs-sm)}
+.foot__col h4{font-size:.95rem;font-weight:600;letter-spacing:-.012em;color:var(--ink);margin-bottom:14px}
+.foot__col ul{display:grid;gap:9px;font-size:var(--fs-sm)}
 .foot__col a{color:var(--muted);transition:color .2s var(--ease)}
 .foot__col a:hover{color:var(--ink)}
 @media (max-width:900px){.foot__nav{grid-template-columns:repeat(3,minmax(0,1fr));gap:34px clamp(20px,3vw,34px)}}
@@ -1461,15 +1542,15 @@ footer.site::before{
 
 /* band 3 — legal */
 .legal{
-  margin-top:clamp(34px,3.8vw,50px);padding-top:26px;border-top:1px solid var(--stroke);
-  display:grid;gap:20px;font-size:var(--fs-xs);color:var(--dim);
+  margin-top:clamp(30px,3.2vw,44px);padding-top:22px;border-top:1px solid var(--stroke);
+  display:grid;gap:14px;font-size:var(--fs-xs);color:var(--dim);
 }
-.legal__note{max-width:86ch;line-height:1.62}
+.legal__note{max-width:none;line-height:1.55}
 .legal__note a{color:var(--muted);text-decoration:underline;text-underline-offset:2px;text-decoration-color:var(--stroke-2)}
 .legal__note a:hover{color:var(--ink);text-decoration-color:currentColor}
 .legal__bar{
-  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px 24px;
-  padding-top:22px;border-top:1px solid var(--stroke);
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px 24px;
+  padding-top:16px;border-top:1px solid var(--stroke);
 }
 .legal__links{display:flex;flex-wrap:wrap;gap:8px 20px}
 .legal__links a{color:var(--muted);transition:color .2s var(--ease)}

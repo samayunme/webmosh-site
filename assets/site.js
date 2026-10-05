@@ -10,15 +10,16 @@
     var saved = localStorage.getItem("wm-theme");
     if (saved === "dark" || saved === "light") root.setAttribute("data-theme", saved);
   } catch (e) {}
-  /* dark is the default: the system preference is deliberately ignored */
+  /* light is the default: dark only ever comes from the toggle, so the
+     system preference is deliberately ignored */
   var meta = el("themeColor");
   var paint = function (mode) {
-    if (meta) meta.setAttribute("content", mode === "light" ? "#FAFBFE" : "#07080D");
+    if (meta) meta.setAttribute("content", mode === "dark" ? "#07080D" : "#FAFBFE");
   };
-  paint(root.getAttribute("data-theme") || "dark");
+  paint(root.getAttribute("data-theme") || "light");
   el("themeBtn").addEventListener("click", function () {
-    var cur = root.getAttribute("data-theme") || "dark";
-    var next = cur === "dark" ? "light" : "dark";
+    var cur = root.getAttribute("data-theme") || "light";
+    var next = cur === "light" ? "dark" : "light";
     root.setAttribute("data-theme", next);
     paint(next);
     try { localStorage.setItem("wm-theme", next); } catch (e) {}

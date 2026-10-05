@@ -2,3 +2,7 @@
 .build/
 node_modules/
 *.log
+
+# local upload bundles and the visible copy of .htaccess
+*.zip
+htaccess.txt

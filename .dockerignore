@@ -4,3 +4,6 @@
 README.md
 *.md
 .build
+*.zip
+htaccess.txt
+Archive.zip

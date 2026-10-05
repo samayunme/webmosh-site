@@ -55,7 +55,10 @@
              rimAlpha: 0.5,  fill: "rgba(226,234,250,0.5)", marker: "20,60,180" }
   };
   var root = document.documentElement;
-  function theme() { return root.getAttribute("data-theme") === "light" ? THEME.light : THEME.dark; }
+  /* light is the page default and sets no attribute, so dark has to be the
+     explicit case here — testing for "light" painted the dark palette on
+     every fresh load */
+  function theme() { return root.getAttribute("data-theme") === "dark" ? THEME.dark : THEME.light; }
 
   var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
