@@ -4,3 +4,7 @@
 README.md
 *.md
 .build
+*.zip
+htaccess.txt
+Archive.zip
+tools-stamp-assets.py
