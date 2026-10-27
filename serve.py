@@ -28,6 +28,10 @@ class TryFilesHandler(SimpleHTTPRequestHandler):
         with_html = local + ".html"
         if os.path.exists(with_html):
             return with_html
+        # /sitemap serves sitemap.xml, matching the rule in .htaccess
+        with_xml = local + ".xml"
+        if os.path.exists(with_xml):
+            return with_xml
         # a miss is a miss — nginx ends its try_files chain with =404, and
         # send_error below turns this sentinel into the styled 404 page
         return os.path.join(ROOT, "__404__")

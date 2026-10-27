@@ -24,6 +24,11 @@ DirectoryIndex index.html
   RewriteCond %{THE_REQUEST} \s/+[^?\s]*\.html[\s?] [NC]
   RewriteRule ^(.+)\.html$ /$1 [R=301,L,NE]
 
+  # /sitemap serves the XML sitemap. It keeps the .xml internally so the
+  # Content-Type stays application/xml, and /sitemap.xml still works for
+  # anything already submitted to Search Console.
+  RewriteRule ^sitemap/?$ /sitemap.xml [L]
+
   # serve /page.html when the visitor asked for /page
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://webmosh.com/sitemap.xml
+Sitemap: https://webmosh.com/sitemap
