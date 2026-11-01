@@ -233,7 +233,7 @@ section{padding-block:var(--sec);position:relative;scroll-margin-top:24px}
   box-shadow:var(--shadow-lg), inset 0 1px 0 rgb(255 255 255 / .07);
 }
 /* gradient hairline ring, drawn in the border box only */
-/* ── travelling border beam ──────────────────────────────
+/* ── travelling border beam ─────────────────────────
    A lit arc runs around the border box. @property is what makes the
    angle interpolate; without it the gradient still renders, held still.
    Zero-alpha stops are accent-coloured, not `transparent`, which would
@@ -1622,3 +1622,75 @@ footer.site::before{
 .legal__top:hover{color:var(--ink)}
 .legal__top .icon{width:14px;height:14px;transform:rotate(180deg);transition:transform .2s var(--ease)}
 .legal__top:hover .icon{transform:rotate(180deg) translateY(2px)}
+
+/* ==========================================================
+   audit fixes — November 2026
+
+   Appended rather than edited in place: every rule here overrides
+   something above by order or specificity, so the diff that introduced
+   them is this block and nothing else. Fold them into their own sections
+   whenever the file is next tidied.
+   ========================================================== */
+
+/* ── reveals must not be able to swallow the page ──────────────────
+   .rise above starts at opacity:0 and waits for site.js to add .in. A
+   script that 404s after a bad deploy, or throws anywhere in the single
+   IIFE, therefore left most of every page blank — with no error a
+   visitor could see and nothing for them to do about it.
+
+   Visible is now the default. site.js sets reveal-enabled on <html> once
+   its observer is actually wired, and only then is anything hidden
+   waiting to be revealed. No JavaScript means a readable page with no
+   animation, which is the correct way for this to fail.
+
+   The transition and --d delay from the original rule still apply: this
+   only overrides opacity and transform. */
+.rise{opacity:1;transform:none}
+html.reveal-enabled .rise:not(.in){opacity:0;transform:translateY(16px)}
+
+/* ── contrast ────────────────────────────────────────────
+   --dim carries placeholder text, the mono eyebrow labels and the spec
+   list keys. It measured about 3.7:1 on the light theme and 4.2:1 on the
+   dark one, against the 4.5:1 needed for body-size text. One shade in
+   each direction clears it and keeps the three-step ink/muted/dim
+   hierarchy intact.
+
+   The accent gradient is deliberately untouched. White type on
+   #4D7CFE → #8B5CF6 measures roughly 3.7-4.2:1 in dark, and every fix
+   moves the brand: darken the gradient, or put dark type on the primary
+   buttons. That is a design decision, not a quiet patch. */
+:root{--dim:#646D82}
+:root[data-theme="dark"]{--dim:#7C8599}
+
+/* Form controls drew their border from --stroke, about 1.2:1 against the
+   card behind them, so the edge of an input was close to invisible and
+   the field read as a flat block of background. UI boundaries need 3:1.
+   Scoped to controls, so every other hairline on the site keeps exactly
+   the colour it was drawn with. */
+:root{--control-border:#8A93A6}
+:root[data-theme="dark"]{--control-border:#5D6679}
+.field input,.field select,.field textarea{border-color:var(--control-border)}
+
+/* :focus set outline:none and leaned on a 3px --a-tint halo measuring
+   about 1.1:1 against the card, so a keyboard user could genuinely lose
+   their place in the form. :focus-visible restores a real ring. Pointer
+   focus still gets the original treatment, so clicking looks unchanged. */
+.field input:focus-visible,
+.field select:focus-visible,
+.field textarea:focus-visible{
+  outline:2px solid var(--a1);outline-offset:2px;
+  border-color:var(--a1);box-shadow:none;
+}
+
+/* ── reduced motion ───────────────────────────────────────
+   The marquee, the float cards, the border beams, the connector pulse
+   and the scroll reveals all stop under prefers-reduced-motion. Two
+   things did not: the toolwall's two drifting rows, and the beam around
+   the mobile dock mark, which the existing reduce block omits. */
+@media (prefers-reduced-motion:reduce){
+  .toolrow,.toolrow--a,.toolrow--b{animation:none}
+  .dock__mark::after{animation:none}
+}
+/* the marquee pauses on hover, which a keyboard cannot do */
+.marquee:focus-within .marquee__track,
+.toolwall:focus-within .toolrow{animation-play-state:paused}
