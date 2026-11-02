@@ -1,145 +1,109 @@
 # WEBMOSH
 
-Marketing, optimization, UK &amp; US company formation, business taxes, business website &amp; hosting — all in one place you can trust.
+Marketing, optimization, UK &amp; US company formation, business taxes, business website &amp; hosting, all in one place you can trust.
 
-Single-page marketing site. One self-contained `index.html`: no build step, no framework, no dependencies. The only external request the page makes is to Google Fonts.
-
----
-
-## Deploy on Coolify
-
-1. **New Resource → Public/Private Repository**, pick this repo, branch `main`.
-2. **Build Pack: `Dockerfile`** (the `Dockerfile` in the repo root is all it needs).
-3. **Port: `80`**.
-4. Add your domain under **Domains**, e.g. `https://webmosh.com`, and let Coolify issue the Let's Encrypt certificate.
-5. Deploy. Every push to `main` redeploys if you leave auto-deploy on.
-
-The container is `nginx:1.27-alpine` serving the static files, with gzip, long-lived caching for assets, `no-cache` on the HTML so a deploy is visible immediately, and a set of security headers (`nginx.conf`).
-
-> Coolify's **Static** build pack also works if you prefer it — set the base directory to `/` and the publish directory to `/`. The Dockerfile route is here because it pins the nginx config, the caching rules and the headers, so local and production behave identically.
-
-### Run it locally
-
-```bash
-# with Docker, exactly as it runs in production
-docker build -t webmosh . && docker run --rm -p 8080:80 webmosh
-# → http://localhost:8080
-
-# or just open the file, since it has no build step
-open index.html
-```
+Static multi-page site: plain HTML, one shared stylesheet and one shared script. No build step, no framework, no dependencies. The only third-party request is Google Fonts.
 
 ---
 
-## Before it goes live
+## Hosting (cPanel / Apache)
 
-These are placeholders in `index.html` — search for each string and replace it:
+Production runs on cPanel. Upload the repo contents to `public_html`. `.htaccess` is the real server config:
 
-| What | Current placeholder | Where |
-|---|---|---|
-| Email | `hello@webmosh.com` | contact section, footer, form handler, JSON-LD |
-| WhatsApp | `+00 0000 000000` and `https://wa.me/` | contact section, footer |
-| Office hours | `Mon–Fri, 09:00–18:00 GMT` | contact section |
-| Uptime claim | `99.9%` | commitments band |
-| Domain | `https://webmosh.com` | `robots.txt`, `sitemap.xml` |
-| Brand mark | `assets/webmosh-logo.png` (real) | hero lockup |
+- **Extensionless URLs**: `/about` serves `about.html`, `/services/seo` serves `services/seo.html`. Links in the HTML are written without `.html` on purpose.
+- Caching, compression and security headers.
 
-### The hero globe
-
-The hero art is a WebGL globe (`assets/globe.js`) drawn by
-[cobe](https://github.com/shuding/cobe), vendored into `assets/cobe.js` — MIT,
-no dependencies, 13KB. It is vendored rather than loaded from a CDN because the
-CSP allows scripts from `'self'` only and the page makes no third-party
-requests.
-
-It marks London and Wilmington, Delaware, recolours itself when the theme
-toggles, stops rendering when scrolled out of view, and does not spin under
-`prefers-reduced-motion`.
-
-### The brand mark
-
-`assets/webmosh-logo.png` is your logo with the black ground keyed out and the artwork trimmed to its bounding box (587×480, transparent), so it sits on both the dark and light themes without a black square around it. The source PNG was 2048×2048 on solid black. Brand colour is `#31B5F2`.
-
-The dock and footer still use a gradient `W` glyph rather than this mark — see the note at the end of this section.
-
-Favicons are generated from that same mark: `favicon.ico` plus transparent PNGs at 16/32/192/512, and a 180px `apple-touch-icon` on a `#07080D` ground — iOS composites home-screen icons onto white, so that one cannot be transparent. To regenerate after a logo change, rerun the Pillow snippet in the commit that added them.
-
-### The brand marquee
-
-The "We are working on" strip loops Payoneer, Wise, React, Next.js, PayPal, Stripe and WordPress left to right, monochrome, pausing on hover and static under `prefers-reduced-motion`.
-
-The marks are [Simple Icons](https://simpleicons.org) artwork (CC0), inlined into the SVG sprite in `index.html` rather than loaded from a CDN, so the page makes no third-party request and the CSP stays closed. The trademarks themselves still belong to their owners — this is the usual "tools we work with" use, so keep the strip factual and only list platforms you genuinely build on.
-
-To change the line-up: fetch a mark with `curl -s https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/<slug>.svg`, add its path as a `<symbol id="b-<slug>">` in the sprite, then add one `<li class="logoitem">` to **each of the four** `marquee__group` lists — they must stay identical or the loop will visibly jump.
-
-**The card tiles are deliberately generic.** The "Global business banking" card and the payment card use neutral glyphs rather than the Stripe, Wise, Mercury or Revolut logos. Swap in real brand assets only if you are comfortable doing so — reproducing a company's logo can imply a partnership or endorsement you do not have, and most of those brands publish trademark guidelines covering exactly this use. The `$4,500 from Acme Inc.` line is an illustrative mock-up, in the same way the reference design uses one.
-
-**The contact form has no backend yet.** It validates in the browser, then hands the enquiry to the visitor's mail client via `mailto:`. To make it a real form, point it at a handler — Formspree, Coolify-hosted service, or your own endpoint — and replace the `window.location.href = "mailto:…"` block in the script at the bottom of `index.html`.
-
-## What's in the page
-
-Floating glass dock (site navigation, anchored bottom centre, with a Services mega menu opening upward) · hero with framed portrait and status cards · brand marquee · six vendor-gap problems · six services in a bento grid · stack diagram (tool wall, hub and what each stage produces) · five-step process · package comparison matrix with a US/UK switch · FAQ · CTA panel · contact form · footer.
-
-Dark-first enterprise system: `#07080D` ground, a blue-to-violet `#4D7CFE` → `#8B5CF6` accent, translucent panels over an aurora wash and a masked grid, and an inline SVG icon sprite (no icon-font dependency). The light theme is a full counterpart, not an inversion.
-
-Interaction details: a pulse runs down the stack connector on a 3.4s loop — trunk first, then outward to all four cards together, always downward; navigation is a glass pill fixed to the bottom of the viewport with a backdrop blur; a lit arc travels around the border of the dock, the CTA panel, the enquiry form and the four stage cards, which run out of phase with each other; below 900px it collapses to the mark, the call to action and the theme switch; cards carry a pointer-tracked spotlight (pointer devices only, and skipped entirely under `prefers-reduced-motion`); a fine SVG noise layer keeps large flat areas from banding.
-
-The page always opens dark — the system colour-scheme preference is deliberately ignored — with a toggle to light whose choice is saved to `localStorage`, keyboard focus states, a skip link, `prefers-reduced-motion` support, and `ProfessionalService` JSON-LD for search engines.
-
-## Structure
-
-```
-index.html             homepage
-about.html             /about
-contact.html           /contact
-assets/site.css        the whole design system, shared by every page
-assets/site.js         theme, menus, reveals, form — shared by every page
-assets/                logo, favicons, hero placeholder
-Dockerfile             nginx:alpine image Coolify builds
-nginx.conf             caching, gzip, extensionless URLs, single-page fallback
-security-headers.conf  CSP and hardening headers, included by every location
-robots.txt             update the sitemap URL when the domain is final
-sitemap.xml            add each new page here
-```
+`Dockerfile`, `nginx.conf` and `security-headers.conf` are kept as an alternative container setup (nginx with the same rewrite rules). They are not used on cPanel.
 
 ### Previewing locally
 
-Asset paths are **relative** (`assets/site.css`, not `/assets/site.css`) so the
-pages render correctly when opened straight from disk. Root-absolute asset
-paths resolve to your filesystem root under `file://` and the page loads with
-no styling at all.
-
-Navigation links are **relative and carry the extension** (`about.html`,
-`index.html#contact`). That resolves everywhere — opened straight from disk,
-from any static server, and from nginx — so double-clicking `index.html` gives
-you a site you can actually click through.
-
-Each page still declares a `<link rel="canonical">` pointing at its clean URL
-(`/`, `/about`), and nginx serves both spellings, so search engines index one
-address per page even though the links carry `.html`.
-
-`serve.py` is there for checking the clean URLs behave as they will in
-production:
+Because links are extensionless, double-clicking `index.html` gives you the styled homepage but internal links will 404 from disk. Use the bundled server, which mirrors the rewrite rules:
 
 ```bash
 python3 serve.py                # then open http://localhost:8000
 ```
 
-It mirrors the `try_files` chain in `nginx.conf` — `$uri`, `$uri.html`, `$uri/`,
-then `/index.html`. Note that `python3 -m http.server` does **not**: it returns
-files verbatim, so `/about` 404s there.
+`python3 -m http.server` does **not** resolve `/about` to `about.html`, so use `serve.py`.
 
-A page in a subfolder (`services/seo.html`) must use `../assets/…` — relative
-paths resolve against the page's directory.
+Asset paths are relative (`assets/site.css`), and pages in `services/` use `../assets/...`.
 
-### Adding a page
+---
 
-`nginx.conf` resolves `$uri.html`, so `about.html` serves at `/about` and
-`services/seo.html` would serve at `/services/seo` — no redirect, no folder
-per page. To add one: copy `about.html`, change the `<title>`, description and
-`<main>`, mark the current item in the dock with `aria-current="page"`, add the
-file to the `COPY` line in the `Dockerfile`, and add the URL to `sitemap.xml`.
+## Pages
 
-The head, icon sprite, dock and footer are duplicated per page — a static site
-has no includes. Keep them in step, or move to a generator if the page count
-grows. The CSS and JS are shared, so design changes are made once.
+```
+index.html                       homepage (packages, FAQ, enquiry form)
+about.html                       /about
+contact.html                     /contact (enquiry form at #enquiry)
+services/wordpress-development   /services/wordpress-development
+services/custom-website          /services/custom-website
+services/web-applications        /services/web-applications
+services/us-llc                  /services/us-llc
+services/uk-ltd                  /services/uk-ltd
+services/marketing               /services/marketing
+services/seo                     /services/seo
+services/tax-return              /services/tax-return
+services/bookkeeping             /services/bookkeeping
+terms.html, privacy-policy.html, refund-policy.html
+404.html
+assets/site.css                  the whole design system
+assets/site.js                   theme, menus, reveals, enquiry form
+assets/globe.js, assets/cobe.js  hero globe (cobe, MIT, vendored)
+robots.txt, sitemap.xml
+```
+
+### Calls to action
+
+- Sales buttons on service pages ("Get a quote", "Get started", "Request an audit") go to `/contact#enquiry`.
+- Homepage CTAs scroll to the on-page `#contact` form.
+- "Let's Start" in the dock and every **Login** link open the app at `https://app.webmosh.com`.
+
+---
+
+## Still to do before launch
+
+| Item | What's needed | Where |
+|---|---|---|
+| Enquiry form backend | Set `ENDPOINT` in `assets/site.js` (Formspree, Web3Forms or your own handler). Until then the form falls back to opening the visitor's mail client. | `assets/site.js` |
+| Social share image | Upload `assets/og/webmosh-og.png` (1200x630), then add `og:image`, `og:url` and Twitter card tags to each page's `<head>`. | every page |
+| Legal placeholders | Fill every `<i class="todo">` (company number, payment terms, arbitration provider and seat, governing law). Get the dispute and governing-law sections reviewed by an adviser. | `terms.html`, `privacy-policy.html`, `refund-policy.html` |
+| WordPress pricing | E-commerce ($250) is priced below Premium ($299) while offering more. Confirm that is intended. | `services/wordpress-development.html` |
+
+---
+
+## Design notes
+
+### The hero globe
+
+A WebGL globe (`assets/globe.js`) drawn by [cobe](https://github.com/shuding/cobe), vendored into `assets/cobe.js` (MIT, 13KB) so the CSP can stay `'self'` only. It marks London and Delaware, recolours on theme toggle, pauses off-screen, and does not spin under `prefers-reduced-motion`.
+
+### The brand mark
+
+`assets/webmosh-logo.png` is the logo with the black ground keyed out and trimmed (587x480, transparent), so it works on both themes. Brand colour is `#31B5F2`. Favicons are generated from the same mark; the 180px `apple-touch-icon` sits on `#07080D` because iOS composites onto white.
+
+### The platforms marquee
+
+The "Platforms we work with" strip loops Payoneer, Wise, React, Next.js, PayPal, Stripe and WordPress. Marks are [Simple Icons](https://simpleicons.org) (CC0) inlined into the SVG sprite. Only list platforms you genuinely work with.
+
+To change the line-up: add the mark as a `<symbol id="b-<slug>">` in the sprite, then add one `<li class="logoitem">` to **each of the four** `marquee__group` lists. They must stay identical or the loop visibly jumps.
+
+### The SVG sprite
+
+The icon sprite is duplicated in every page (a static site has no includes). If you edit a brand path, edit it identically on every page. A changed digit is invisible in review but makes files drift apart.
+
+### Theme and accessibility
+
+The site opens dark (the system preference is deliberately ignored), with a light toggle saved to `localStorage`. Keyboard focus states, a skip link, `prefers-reduced-motion` support, `aria-current="page"` on the current nav item, and `ProfessionalService` / `Service` JSON-LD.
+
+---
+
+## Adding a page
+
+1. Copy the closest existing page (`about.html` for a root page, any `services/*.html` for a service).
+2. Change `<title>`, `meta description`, `og:title`, `og:description`, `canonical` and `<main>`.
+3. Mark the current nav item with `aria-current="page"`.
+4. Link to it without `.html` (e.g. `services/new-thing`).
+5. Add the clean URL to `sitemap.xml`.
+6. If you use the Docker setup, add the file to the `COPY` line in the `Dockerfile`.
+
+The head, sprite, dock and footer are duplicated per page. Keep them in step. CSS and JS are shared, so design changes are made once.

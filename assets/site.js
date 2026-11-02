@@ -13,11 +13,15 @@
   /* light is the default: dark only ever comes from the toggle, so the
      system preference is deliberately ignored */
   var meta = el("themeColor");
+  var themeBtn = el("themeBtn");
   var paint = function (mode) {
     if (meta) meta.setAttribute("content", mode === "dark" ? "#07080D" : "#FAFBFE");
+    /* the button is a toggle, so it should say which theme is on rather
+       than only what pressing it does */
+    if (themeBtn) themeBtn.setAttribute("aria-pressed", mode === "dark" ? "true" : "false");
   };
   paint(root.getAttribute("data-theme") || "light");
-  el("themeBtn").addEventListener("click", function () {
+  if (themeBtn) themeBtn.addEventListener("click", function () {
     var cur = root.getAttribute("data-theme") || "light";
     var next = cur === "light" ? "dark" : "light";
     root.setAttribute("data-theme", next);
@@ -26,6 +30,10 @@
   });
 
   /* ── reveal on scroll ────────────────────────────────── */
+  /* .rise is visible by default in the stylesheet; it is only hidden once
+     this class says the reveal is actually running, so a script that
+     never loads leaves the page readable instead of blank */
+  root.classList.add("reveal-enabled");
   all(".rise", function (e) {
     var d = e.getAttribute("data-d");
     if (d) e.style.setProperty("--d", d + "ms");
@@ -52,41 +60,131 @@
   }
 
   /* ── enquiry form ──────────────────────────────────────
-     No backend yet: validate here, then hand the enquiry to
-     the mail client so nothing a founder types is dropped. */
+     Enquiries are sent through Web3Forms (https://web3forms.com), which
+     emails each submission to the address the access key was created for.
+     The key is designed to be public, so it is safe in this file.
+
+     To switch it on: create a free key at web3forms.com using
+     info@webmosh.com, paste it into WEB3FORMS_KEY below, and deploy.
+     The CSP in .htaccess already allows https://api.web3forms.com.
+
+     While the key is empty the form falls back to the mail client. That
+     fallback is a last resort: it only works for a visitor who has a mail
+     client and then presses send in it, and it leaves no record at all. */
+  var WEB3FORMS_KEY = "fa812a80-2daa-4b0b-940f-8962871e1fca";
+  var ENDPOINT = WEB3FORMS_KEY ? "https://api.web3forms.com/submit" : "";
+  var CONTACT_EMAIL = "info@webmosh.com";
+
   var form = el("lead"), note = el("fnote");
-  var field = function (n) { return form.elements.namedItem(n); };
-  if (form) form.addEventListener("submit", function (ev) {
-    ev.preventDefault();
-    var name = field("name").value.trim();
-    var email = field("email").value.trim();
-    if (!name) {
+
+  if (form) {
+    var field = function (n) { return form.elements.namedItem(n); };
+
+    var say = function (msg) {
+      if (!note) return;
       note.hidden = false;
-      note.textContent = "Add your name so we know who we are replying to.";
-      field("name").focus();
-      return;
-    }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
-      note.hidden = false;
-      note.textContent = "That email address looks incomplete — check it and send again.";
-      field("email").focus();
-      return;
-    }
-    var body = [
-      "Name: " + name,
-      "Email: " + email,
-      "Jurisdiction: " + field("jurisdiction").value,
-      "Stage: " + field("stage").value,
-      "Services: " + field("services").value,
-      "",
-      field("message").value.trim()
-    ].join("\n");
-    note.hidden = false;
-    note.textContent = "Opening your email app — send the message and we will reply within one business day.";
-    window.location.href = "mailto:hello@webmosh.com"
-      + "?subject=" + encodeURIComponent("New enquiry — " + name)
-      + "&body=" + encodeURIComponent(body);
-  });
+      note.textContent = msg;
+    };
+    /* the error is announced live by #fnote's role="status", but a visitor
+       who tabs back to the field hears nothing unless the field points at
+       it, so mark the field invalid and describe it by that same note */
+    var flag = function (n, msg) {
+      var f = field(n);
+      if (f) {
+        f.setAttribute("aria-invalid", "true");
+        if (note) f.setAttribute("aria-describedby", "fnote");
+      }
+      say(msg);
+      if (f) f.focus();
+    };
+    var unflag = function (n) {
+      var f = field(n);
+      if (!f) return;
+      f.removeAttribute("aria-invalid");
+      f.removeAttribute("aria-describedby");
+    };
+
+    ["name", "email"].forEach(function (n) {
+      var f = field(n);
+      if (f) f.addEventListener("input", function () { unflag(n); });
+    });
+
+    form.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      unflag("name");
+      unflag("email");
+
+      var name = field("name").value.trim();
+      var email = field("email").value.trim();
+      if (!name) {
+        flag("name", "Add your name so we know who we are replying to.");
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+        flag("email", "That email address looks incomplete, check it and send again.");
+        return;
+      }
+
+      /* a field a person never sees and never fills: anything in it is a
+         bot. Answer as though it worked and send nothing. */
+      var trap = field("website");
+      if (trap && trap.value) {
+        form.reset();
+        say("Thank you, we will reply within one business day.");
+        return;
+      }
+
+      var body = [
+        "Name: " + name,
+        "Email: " + email,
+        "Jurisdiction: " + field("jurisdiction").value,
+        "Stage: " + field("stage").value,
+        "Services: " + field("services").value,
+        "",
+        field("message").value.trim()
+      ].join("\n");
+
+      if (!ENDPOINT) {
+        say("Opening your email app. Send the message and we will reply within one business day.");
+        window.location.href = "mailto:" + CONTACT_EMAIL
+          + "?subject=" + encodeURIComponent("New enquiry: " + name)
+          + "&body=" + encodeURIComponent(body);
+        return;
+      }
+
+      var btn = form.querySelector('[type="submit"]');
+      if (btn) btn.disabled = true;
+      say("Sending…");
+
+      /* FormData carries every field, so adding a question to the markup
+         needs no change here. Web3Forms reads access_key, subject and
+         from_name, and uses the email field as the reply-to address. */
+      var data = new FormData(form);
+      data.append("access_key", WEB3FORMS_KEY);
+      data.append("subject", "New enquiry: " + name);
+      data.append("from_name", "webmosh.com");
+      data.append("page", window.location.pathname);
+
+      fetch(ENDPOINT, {
+        method: "POST",
+        headers: { "Accept": "application/json" },
+        body: data
+      }).then(function (res) {
+        return res.json()["catch"](function () { return {}; }).then(function (j) {
+          if (!res.ok || j.success === false) throw new Error("HTTP " + res.status);
+        });
+      }).then(function () {
+        /* only clear the form once it is actually away */
+        form.reset();
+        say("Received. We will reply within one business day.");
+      })["catch"](function () {
+        /* everything typed is still in the form, so a retry costs nothing */
+        say("That did not send. Please try again, or email " + CONTACT_EMAIL + " directly.");
+      }).then(function () {
+        if (btn) btn.disabled = false;
+      });
+    });
+  }
 
   /* pointer spotlight: cards light up where the cursor is */
   if (!reduce && window.matchMedia("(hover: hover)").matches) {
@@ -143,7 +241,12 @@
       });
       wrap.addEventListener("pointerleave", function () {
         if (!hoverDrives()) return;
-        shutTimer = setTimeout(function () { api.open(false); }, 160);
+        /* a panel must not be pulled out from under the keyboard: if focus
+           is still inside it, leave it open */
+        shutTimer = setTimeout(function () {
+          if (wrap.contains(document.activeElement)) return;
+          api.open(false);
+        }, 160);
       });
     }
     menus.push(api);
@@ -196,5 +299,6 @@
     });
   });
 
-  el("yr").textContent = new Date().getFullYear();
+  var yr = el("yr");
+  if (yr) yr.textContent = new Date().getFullYear();
 })();

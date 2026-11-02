@@ -7,7 +7,11 @@
 FROM alpine:3.20 AS site
 WORKDIR /site
 COPY . .
-RUN rm -rf Dockerfile nginx.conf security-headers.conf serve.py .dockerignore .git .github
+# .htaccess is the cPanel deployment's config and nginx has no dotfile deny
+# rule, so leaving it here published our rewrite, header and cache rules at
+# /.htaccess. The rest is repo tooling that should never be served.
+RUN rm -rf Dockerfile nginx.conf security-headers.conf serve.py .dockerignore .git .github \
+           .htaccess tools-stamp-assets.py README.md
 
 FROM nginx:1.27-alpine
 
