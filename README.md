@@ -2,7 +2,7 @@
 
 Marketing, optimization, UK &amp; US company formation, business taxes, business website &amp; hosting, all in one place you can trust.
 
-Static multi-page site: plain HTML, one shared stylesheet and one shared script. No build step, no framework, no dependencies. The only third-party request is Google Fonts.
+Static multi-page site: plain HTML, one shared stylesheet and one shared script. No build step, no framework, no dependencies. The only third-party requests are Google Fonts and the Web3Forms API (enquiry form).
 
 ---
 
@@ -11,7 +11,7 @@ Static multi-page site: plain HTML, one shared stylesheet and one shared script.
 Production runs on cPanel. Upload the repo contents to `public_html`. `.htaccess` is the real server config:
 
 - **Extensionless URLs**: `/about` serves `about.html`, `/services/seo` serves `services/seo.html`. Links in the HTML are written without `.html` on purpose.
-- Caching, compression and security headers.
+- Caching, compression and security headers (the CSP allows `connect-src https://api.web3forms.com` for the form).
 
 `Dockerfile`, `nginx.conf` and `security-headers.conf` are kept as an alternative container setup (nginx with the same rewrite rules). They are not used on cPanel.
 
@@ -35,6 +35,7 @@ Asset paths are relative (`assets/site.css`), and pages in `services/` use `../a
 index.html                       homepage (packages, FAQ, enquiry form)
 about.html                       /about
 contact.html                     /contact (enquiry form at #enquiry)
+free-invoice-generator.html      /free-invoice-generator (free tool landing page)
 services/wordpress-development   /services/wordpress-development
 services/custom-website          /services/custom-website
 services/web-applications        /services/web-applications
@@ -47,7 +48,7 @@ services/bookkeeping             /services/bookkeeping
 terms.html, privacy-policy.html, refund-policy.html
 404.html
 assets/site.css                  the whole design system
-assets/site.js                   theme, menus, reveals, enquiry form
+assets/site.js                   theme, menus, reveals, enquiry form, footer tool link, invoice buttons
 assets/globe.js, assets/cobe.js  hero globe (cobe, MIT, vendored)
 robots.txt, sitemap.xml
 ```
@@ -58,13 +59,24 @@ robots.txt, sitemap.xml
 - Homepage CTAs scroll to the on-page `#contact` form.
 - "Let's Start" in the dock and every **Login** link open the app at `https://app.webmosh.com`.
 
+### Enquiry form
+
+Both forms (homepage `#contact`, `/contact#enquiry`) post to Web3Forms. The access key lives in `assets/site.js`. Submissions arrive at the inbox registered with that key; check spam the first time.
+
+### Free Invoice Generator
+
+`/free-invoice-generator` explains the free tool and walks through making an invoice step by step. The **Make A Free Invoice** buttons (`a[data-go]`) show a spinner, then open `https://app.webmosh.com/invoice-generator`. Ctrl/Cmd-click still opens a new tab, and the button resets if the visitor comes back with the Back button. The spinner styles are in the page's own `<style>` block.
+
+The **Free Invoice Generator** link in the footer's Company column is added by `assets/site.js` on every page (it is placed above Login, with `../` on service pages), so the footer HTML did not have to be edited in 16 files. The invoice page itself has the link hard-coded with `aria-current="page"`. If you later hard-code it in every footer, the script skips pages that already have it.
+
+If the app's fields change (new currencies, themes or sections), update the steps on this page to match.
+
 ---
 
 ## Still to do before launch
 
 | Item | What's needed | Where |
 |---|---|---|
-| Enquiry form backend | Set `ENDPOINT` in `assets/site.js` (Formspree, Web3Forms or your own handler). Until then the form falls back to opening the visitor's mail client. | `assets/site.js` |
 | Social share image | Upload `assets/og/webmosh-og.png` (1200x630), then add `og:image`, `og:url` and Twitter card tags to each page's `<head>`. | every page |
 | Legal placeholders | Fill every `<i class="todo">` (company number, payment terms, arbitration provider and seat, governing law). Get the dispute and governing-law sections reviewed by an adviser. | `terms.html`, `privacy-policy.html`, `refund-policy.html` |
 | WordPress pricing | E-commerce ($250) is priced below Premium ($299) while offering more. Confirm that is intended. | `services/wordpress-development.html` |
@@ -93,7 +105,7 @@ The icon sprite is duplicated in every page (a static site has no includes). If 
 
 ### Theme and accessibility
 
-The site opens dark (the system preference is deliberately ignored), with a light toggle saved to `localStorage`. Keyboard focus states, a skip link, `prefers-reduced-motion` support, `aria-current="page"` on the current nav item, and `ProfessionalService` / `Service` JSON-LD.
+The site opens dark (the system preference is deliberately ignored), with a light toggle saved to `localStorage`. Keyboard focus states, a skip link, `prefers-reduced-motion` support, `aria-current="page"` on the current nav item, and `ProfessionalService` / `Service` / `WebApplication` JSON-LD.
 
 ---
 
@@ -104,6 +116,7 @@ The site opens dark (the system preference is deliberately ignored), with a ligh
 3. Mark the current nav item with `aria-current="page"`.
 4. Link to it without `.html` (e.g. `services/new-thing`).
 5. Add the clean URL to `sitemap.xml`.
-6. If you use the Docker setup, add the file to the `COPY` line in the `Dockerfile`.
+
+The Dockerfile copies the whole repo, so new pages need no Docker change.
 
 The head, sprite, dock and footer are duplicated per page. Keep them in step. CSS and JS are shared, so design changes are made once.
