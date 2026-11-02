@@ -71,7 +71,7 @@
      While the key is empty the form falls back to the mail client. That
      fallback is a last resort: it only works for a visitor who has a mail
      client and then presses send in it, and it leaves no record at all. */
-  var WEB3FORMS_KEY = "";
+  var WEB3FORMS_KEY = "fa812a80-2daa-4b0b-940f-8962871e1fca";
   var ENDPOINT = WEB3FORMS_KEY ? "https://api.web3forms.com/submit" : "";
   var CONTACT_EMAIL = "info@webmosh.com";
 
