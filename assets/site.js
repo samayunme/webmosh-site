@@ -49,6 +49,16 @@
     list.insertBefore(li, list.lastElementChild);
   });
 
+  /* ── package buttons ───────────────────────────────────────
+     Every "Get started" under a formation package table (.pt) opens the
+     app, where the order is placed. The markup still points at the
+     enquiry form, which is where a visitor lands if this never runs. */
+  all(".pt tfoot a.btn", function (a) {
+    a.setAttribute("href", "https://app.webmosh.com");
+    a.setAttribute("target", "_blank");
+    a.setAttribute("rel", "noopener");
+  });
+
   /* ── reveal on scroll ────────────────────────────────── */
   /* .rise is visible by default in the stylesheet; it is only hidden once
      this class says the reveal is actually running, so a script that
