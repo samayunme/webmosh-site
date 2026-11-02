@@ -29,6 +29,26 @@
     try { localStorage.setItem("wm-theme", next); } catch (e) {}
   });
 
+  /* ── footer: free invoice generator ───────────────────
+     The footer is duplicated in every page, so instead of hand-editing
+     every copy the Company column gets this link here, just above Login.
+     The path is taken from the About link so it resolves from /services/
+     too. A page that already has the link in its markup is left alone. */
+  all(".foot__col", function (col) {
+    var h = col.querySelector("h4");
+    var list = col.querySelector("ul");
+    if (!h || !list || h.textContent.trim() !== "Company") return;
+    if (list.querySelector('a[href$="free-invoice-generator"]')) return;
+    var about = list.querySelector('a[href$="about"]');
+    var base = about ? about.getAttribute("href").replace(/about$/, "") : "";
+    var li = document.createElement("li");
+    var a = document.createElement("a");
+    a.setAttribute("href", base + "free-invoice-generator");
+    a.textContent = "Free Invoice Generator";
+    li.appendChild(a);
+    list.insertBefore(li, list.lastElementChild);
+  });
+
   /* ── reveal on scroll ────────────────────────────────── */
   /* .rise is visible by default in the stylesheet; it is only hidden once
      this class says the reveal is actually running, so a script that
@@ -185,6 +205,32 @@
       });
     });
   }
+
+  /* ── loading redirect buttons ─────────────────────────
+     <a data-go="Label"> shows a spinner, then follows its href. A plain
+     link underneath, so it still works with JavaScript off, and a
+     modified click (new tab, new window) is left to the browser. */
+  var resetGo = function (a) {
+    a.classList.remove("is-loading");
+    a.removeAttribute("aria-busy");
+    var label = a.querySelector(".go-label");
+    if (label && a.getAttribute("data-go")) label.textContent = a.getAttribute("data-go");
+  };
+  all("[data-go]", function (a) {
+    a.addEventListener("click", function (ev) {
+      if (ev.defaultPrevented || ev.button !== 0 || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return;
+      ev.preventDefault();
+      if (a.classList.contains("is-loading")) return;
+      a.classList.add("is-loading");
+      a.setAttribute("aria-busy", "true");
+      var label = a.querySelector(".go-label");
+      if (label) label.textContent = "Opening the generator…";
+      setTimeout(function () { window.location.href = a.href; }, reduce ? 150 : 650);
+    });
+  });
+  /* coming back with the browser's Back button can restore the page from
+     cache with the spinner still running, so clear it */
+  window.addEventListener("pageshow", function () { all("[data-go]", resetGo); });
 
   /* pointer spotlight: cards light up where the cursor is */
   if (!reduce && window.matchMedia("(hover: hover)").matches) {
