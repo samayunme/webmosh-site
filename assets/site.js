@@ -60,15 +60,19 @@
   }
 
   /* ── enquiry form ──────────────────────────────────────
-     Set ENDPOINT to a handler that accepts a POST — your own on the
-     Coolify box, or a Web3Forms / Formspree URL — and the form becomes a
-     real submission with its own sending, success and error states.
+     Enquiries are sent through Web3Forms (https://web3forms.com), which
+     emails each submission to the address the access key was created for.
+     The key is designed to be public, so it is safe in this file.
 
-     While ENDPOINT is empty the form falls back to the mail client, as it
-     did before. That fallback is a last resort, not the plan: it only
-     works for a visitor who has a mail client and then presses send in
-     it, and it leaves us no record of the enquiry at all. */
-  var ENDPOINT = "";
+     To switch it on: create a free key at web3forms.com using
+     info@webmosh.com, paste it into WEB3FORMS_KEY below, and deploy.
+     The CSP in .htaccess already allows https://api.web3forms.com.
+
+     While the key is empty the form falls back to the mail client. That
+     fallback is a last resort: it only works for a visitor who has a mail
+     client and then presses send in it, and it leaves no record at all. */
+  var WEB3FORMS_KEY = "";
+  var ENDPOINT = WEB3FORMS_KEY ? "https://api.web3forms.com/submit" : "";
   var CONTACT_EMAIL = "info@webmosh.com";
 
   var form = el("lead"), note = el("fnote");
@@ -117,7 +121,7 @@
         return;
       }
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
-        flag("email", "That email address looks incomplete — check it and send again.");
+        flag("email", "That email address looks incomplete, check it and send again.");
         return;
       }
 
@@ -126,7 +130,7 @@
       var trap = field("website");
       if (trap && trap.value) {
         form.reset();
-        say("Thank you — we will reply within one business day.");
+        say("Thank you, we will reply within one business day.");
         return;
       }
 
@@ -141,9 +145,9 @@
       ].join("\n");
 
       if (!ENDPOINT) {
-        say("Opening your email app — send the message and we will reply within one business day.");
+        say("Opening your email app. Send the message and we will reply within one business day.");
         window.location.href = "mailto:" + CONTACT_EMAIL
-          + "?subject=" + encodeURIComponent("New enquiry — " + name)
+          + "?subject=" + encodeURIComponent("New enquiry: " + name)
           + "&body=" + encodeURIComponent(body);
         return;
       }
@@ -153,13 +157,23 @@
       say("Sending…");
 
       /* FormData carries every field, so adding a question to the markup
-         needs no change here */
+         needs no change here. Web3Forms reads access_key, subject and
+         from_name, and uses the email field as the reply-to address. */
+      var data = new FormData(form);
+      data.append("access_key", WEB3FORMS_KEY);
+      data.append("subject", "New enquiry: " + name);
+      data.append("from_name", "webmosh.com");
+      data.append("page", window.location.pathname);
+
       fetch(ENDPOINT, {
         method: "POST",
         headers: { "Accept": "application/json" },
-        body: new FormData(form)
+        body: data
       }).then(function (res) {
-        if (!res.ok) throw new Error("HTTP " + res.status);
+        return res.json()["catch"](function () { return {}; }).then(function (j) {
+          if (!res.ok || j.success === false) throw new Error("HTTP " + res.status);
+        });
+      }).then(function () {
         /* only clear the form once it is actually away */
         form.reset();
         say("Received. We will reply within one business day.");
