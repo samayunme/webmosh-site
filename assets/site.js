@@ -7,11 +7,33 @@
   /* ── Google Analytics (GA4) ─────────────────────────────────────
      The homepage carries Google's tag in its <head>, because Search
      Console and GA's own checker read the raw HTML. Every other page gets
-     the same tag from here, so it is not pasted into seventeen files. */
+     the same tag from here, so it is not pasted into seventeen files.
+
+     Consent Mode: analytics cookies start switched off for visitors in
+     the UK, the EEA and Switzerland (Google works out the region from the
+     IP address) and on everywhere else. A choice the visitor has made,
+     saved in localStorage as "wm-consent", overrides either default. Ad
+     storage is always off because the site runs no ads. The homepage
+     <head> repeats these defaults, since they must come before the tag. */
   var GA_ID = "G-8ZX1TGBV08";
+  var CONSENT_KEY = "wm-consent";
+  var CONSENT_REGIONS = ["GB","AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR","HU","IE","IT","LV","LT","LU","MT","NL","PL","PT","RO","SK","SI","ES","SE","IS","LI","NO","CH"];
+  var readConsent = function () {
+    try {
+      var v = localStorage.getItem(CONSENT_KEY);
+      return v === "granted" || v === "denied" ? v : "";
+    } catch (e) { return ""; }
+  };
   if (typeof window.gtag !== "function") {
     window.dataLayer = window.dataLayer || [];
     window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("consent", "default", {
+      ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied",
+      analytics_storage: "granted"
+    });
+    window.gtag("consent", "default", { analytics_storage: "denied", region: CONSENT_REGIONS });
+    var choice = readConsent();
+    if (choice) window.gtag("consent", "update", { analytics_storage: choice });
     window.gtag("js", new Date());
     window.gtag("config", GA_ID);
     var ga = document.createElement("script");
@@ -63,6 +85,74 @@
     a.textContent = "Free Invoice Generator";
     li.appendChild(a);
     list.insertBefore(li, list.lastElementChild);
+  });
+
+  /* ── cookie banner ───────────────────────────────────────────────
+     Shown until the visitor chooses, but only where consent is needed.
+     A European time zone is the signal, and it errs safe both ways: an EU
+     visitor whose clock says otherwise never sees the banner but stays
+     opted out, because Google's regional default above is "denied", and
+     anyone else who sees it can simply say no. Every footer also gets a
+     "Cookie settings" link so a choice can be changed later. The styles
+     live here rather than in site.css so the banner ships as one piece. */
+  var inEurope = (function () {
+    try {
+      var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+      return /^(Europe\/|Atlantic\/(Reykjavik|Canary|Madeira|Azores|Faroe)$|Arctic\/)/.test(tz);
+    } catch (e) { return false; }
+  })();
+  var cookiebar = null;
+  var dropAnalyticsCookies = function () {
+    var host = location.hostname.replace(/^www\./, "");
+    document.cookie.split(";").forEach(function (c) {
+      var n = c.split("=")[0].trim();
+      if (!/^_ga/.test(n)) return;
+      ["", "; domain=" + host, "; domain=." + host].forEach(function (d) {
+        document.cookie = n + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/" + d;
+      });
+    });
+  };
+  var setConsent = function (v) {
+    try { localStorage.setItem(CONSENT_KEY, v); } catch (e) {}
+    if (typeof window.gtag === "function") window.gtag("consent", "update", { analytics_storage: v });
+    if (v === "denied") dropAnalyticsCookies();
+    if (cookiebar) cookiebar.hidden = true;
+  };
+  var buildCookiebar = function () {
+    if (cookiebar) return cookiebar;
+    var css = document.createElement("style");
+    css.textContent = ".cookiebar{position:fixed;z-index:95;left:var(--gutter);bottom:calc(clamp(14px,2.2vh,24px) + 74px + 14px);max-width:400px;padding:16px 18px;border-radius:var(--r-lg);background:var(--bg-elev);color:var(--ink);border:1px solid var(--stroke);box-shadow:var(--shadow-lg);font-size:var(--fs-xs);line-height:1.55}.cookiebar[hidden]{display:none}.cookiebar p{margin:0;color:var(--muted)}.cookiebar b{color:var(--ink)}.cookiebar a{color:var(--a1);font-weight:600}.cookiebar__btns{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}@media (max-width:900px){.cookiebar{right:var(--gutter);max-width:none;bottom:calc(clamp(14px,2.2vh,24px) + 68px + 14px)}}";
+    document.head.appendChild(css);
+    cookiebar = document.createElement("div");
+    cookiebar.className = "cookiebar";
+    cookiebar.setAttribute("role", "region");
+    cookiebar.setAttribute("aria-label", "Cookie choice");
+    cookiebar.hidden = true;
+    cookiebar.innerHTML = '<p><b>Analytics cookies?</b> We use Google Analytics to see which pages are useful. No ads, and we never sell your data. <a href="">Privacy Policy</a></p>'
+      + '<div class="cookiebar__btns"><button type="button" class="btn btn--outline btn--sm" data-consent="denied">No thanks</button>'
+      + '<button type="button" class="btn btn--primary btn--sm" data-consent="granted">Accept</button></div>';
+    var policy = document.querySelector('a[href$="privacy-policy"]');
+    cookiebar.querySelector("a").setAttribute("href",
+      (policy ? policy.getAttribute("href") : "/privacy-policy") + "#cookies-and-similar-technologies");
+    Array.prototype.forEach.call(cookiebar.querySelectorAll("[data-consent]"), function (b) {
+      b.addEventListener("click", function () { setConsent(b.getAttribute("data-consent")); });
+    });
+    document.body.appendChild(cookiebar);
+    return cookiebar;
+  };
+  if (inEurope && !readConsent()) buildCookiebar().hidden = false;
+  all(".legal__links", function (links) {
+    if (links.querySelector("[data-cookie-settings]")) return;
+    var a = document.createElement("a");
+    a.setAttribute("href", "#");
+    a.setAttribute("data-cookie-settings", "");
+    a.textContent = "Cookie settings";
+    a.addEventListener("click", function (ev) {
+      ev.preventDefault();
+      buildCookiebar().hidden = false;
+      cookiebar.querySelector("button").focus();
+    });
+    links.appendChild(a);
   });
 
   /* ── package buttons ───────────────────────────────────────
