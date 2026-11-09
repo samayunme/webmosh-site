@@ -4,6 +4,22 @@
   var all = function (sel, fn) { Array.prototype.forEach.call(document.querySelectorAll(sel), fn); };
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* ── Google Analytics (GA4) ─────────────────────────────────────
+     The homepage carries Google's tag in its <head>, because Search
+     Console and GA's own checker read the raw HTML. Every other page gets
+     the same tag from here, so it is not pasted into seventeen files. */
+  var GA_ID = "G-8ZX1TGBV08";
+  if (typeof window.gtag !== "function") {
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    window.gtag("config", GA_ID);
+    var ga = document.createElement("script");
+    ga.async = true;
+    ga.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_ID;
+    document.head.appendChild(ga);
+  }
+
   /* ── theme ───────────────────────────────────────────── */
   var root = document.documentElement;
   try {

@@ -45,9 +45,10 @@ ErrorDocument 404 /404.html
   Header always set X-Frame-Options "SAMEORIGIN"
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
-  # Google Fonts is the only external origin pages load from; the enquiry
-  # form posts to Web3Forms, so that one origin is allowed for connect-src.
-  Header always set Content-Security-Policy "default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://api.web3forms.com; base-uri 'self'; frame-ancestors 'self'"
+  # External origins: Google Fonts, Google Analytics (gtag.js loads from
+  # googletagmanager.com and reports to google-analytics.com), and the
+  # enquiry form, which posts to Web3Forms.
+  Header always set Content-Security-Policy "default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://api.web3forms.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; base-uri 'self'; frame-ancestors 'self'"
 
   # the pages change on every deploy and must never be served stale
   <FilesMatch "\.(html|css|js)$">
